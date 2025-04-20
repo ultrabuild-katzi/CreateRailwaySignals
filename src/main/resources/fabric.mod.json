@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "createrailwaysignal",
+  "version": "${version}",
+  "name": "CreateRailwaySignal",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/createrailwaysignal/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "de.jannik.createrailwaysignal.client.CreaterailwaysignalClient"
+    ],
+    "main": [
+      "de.jannik.createrailwaysignal.Createrailwaysignal"
+    ]
+  },
+  "mixins": [
+    "createrailwaysignal.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}",
+    "create": "${create_fabric_version}",
+    "grenzzeichen": "1.0.0"
+  },
+  "accessWidener" : "create_railway_signal.accesswidener",
+  "custom": {
+    "loom:injected_interfaces": {
+      "com/simibubi/create/content/trains/entity/Train": ["de/jannik/createrailwaysignal/graph/SpeedSignalProvider"]
+    }
+  }
+}

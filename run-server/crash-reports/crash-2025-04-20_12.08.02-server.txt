@@ -1,0 +1,223 @@
+---- Minecraft Crash Report ----
+// Uh... Did I do that?
+
+Time: 2025-04-20 12:08:02
+Description: Ticking block entity
+
+java.lang.NullPointerException: Cannot invoke "com.simibubi.create.content.trains.GlobalRailwayManager.getGraph(net.minecraft.world.WorldAccess, com.simibubi.create.content.trains.graph.TrackNodeLocation)" because the return value of "com.simibubi.create.content.trains.GlobalRailwayManager.sided(net.minecraft.world.WorldAccess)" is null
+	at knot//de.jannik.createrailwaysignal.graph.SpeedSignalBoundary.notifyTrains(SpeedSignalBoundary.java:58)
+	at knot//de.jannik.createrailwaysignal.graph.SpeedSignalBoundary.setSpeedLimitKilometersPerHour(SpeedSignalBoundary.java:86)
+	at knot//de.jannik.createrailwaysignal.graph.SpeedSignalBoundary.blockEntityAdded(SpeedSignalBoundary.java:41)
+	at knot//com.simibubi.create.content.trains.track.TrackTargetingBehaviour.createEdgePoint(TrackTargetingBehaviour.java:228)
+	at knot//com.simibubi.create.content.trains.track.TrackTargetingBehaviour.tick(TrackTargetingBehaviour.java:141)
+	at java.base/java.util.HashMap$Values.forEach(HashMap.java:1065)
+	at knot//com.simibubi.create.foundation.blockEntity.SmartBlockEntity.forEachBehaviour(SmartBlockEntity.java:177)
+	at knot//com.simibubi.create.foundation.blockEntity.SmartBlockEntity.tick(SmartBlockEntity.java:80)
+	at knot//com.simibubi.create.foundation.blockEntity.SmartBlockEntityTicker.tick(SmartBlockEntityTicker.java:15)
+	at knot//net.minecraft.world.chunk.WorldChunk$DirectBlockEntityTickInvoker.tick(WorldChunk.java:662)
+	at knot//net.minecraft.world.chunk.WorldChunk$WrappedBlockEntityTickInvoker.tick(WorldChunk.java:716)
+	at knot//net.minecraft.world.World.tickBlockEntities(World.java:470)
+	at knot//net.minecraft.server.world.ServerWorld.tick(ServerWorld.java:390)
+	at knot//net.minecraft.server.MinecraftServer.tickWorlds(MinecraftServer.java:897)
+	at knot//net.minecraft.server.dedicated.MinecraftDedicatedServer.tickWorlds(MinecraftDedicatedServer.java:283)
+	at knot//net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:824)
+	at knot//net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:671)
+	at knot//net.minecraft.server.MinecraftServer.method_29739(MinecraftServer.java:265)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Thread: Server thread
+Stacktrace:
+	at knot//de.jannik.createrailwaysignal.graph.SpeedSignalBoundary.notifyTrains(SpeedSignalBoundary.java:58)
+	at knot//de.jannik.createrailwaysignal.graph.SpeedSignalBoundary.setSpeedLimitKilometersPerHour(SpeedSignalBoundary.java:86)
+	at knot//de.jannik.createrailwaysignal.graph.SpeedSignalBoundary.blockEntityAdded(SpeedSignalBoundary.java:41)
+	at knot//com.simibubi.create.content.trains.track.TrackTargetingBehaviour.createEdgePoint(TrackTargetingBehaviour.java:228)
+	at knot//com.simibubi.create.content.trains.track.TrackTargetingBehaviour.tick(TrackTargetingBehaviour.java:141)
+	at java.base/java.util.HashMap$Values.forEach(HashMap.java:1065)
+	at knot//com.simibubi.create.foundation.blockEntity.SmartBlockEntity.forEachBehaviour(SmartBlockEntity.java:177)
+	at knot//com.simibubi.create.foundation.blockEntity.SmartBlockEntity.tick(SmartBlockEntity.java:80)
+	at knot//com.simibubi.create.foundation.blockEntity.SmartBlockEntityTicker.tick(SmartBlockEntityTicker.java:15)
+	at knot//net.minecraft.world.chunk.WorldChunk$DirectBlockEntityTickInvoker.tick(WorldChunk.java:662)
+	at knot//net.minecraft.world.chunk.WorldChunk$WrappedBlockEntityTickInvoker.tick(WorldChunk.java:716)
+	at knot//net.minecraft.world.World.tickBlockEntities(World.java:470)
+	at knot//net.minecraft.server.world.ServerWorld.tick(ServerWorld.java:390)
+
+-- Block entity being ticked --
+Details:
+	Name: createrailwaysignal:track_limit // de.jannik.createrailwaysignal.block.TrackLimitBlockEntity
+	Block: Block{createrailwaysignal:track_limit}[speed_limit=0]
+	Block location: World: (43,70,69), Section: (at 11,6,5 in 2,4,4; chunk contains blocks 32,-64,64 to 47,319,79), Region: (0,0; contains chunks 0,0 to 31,31, blocks 0,-64,0 to 511,319,511)
+	Block: Block{createrailwaysignal:track_limit}[speed_limit=0]
+	Block location: World: (43,70,69), Section: (at 11,6,5 in 2,4,4; chunk contains blocks 32,-64,64 to 47,319,79), Region: (0,0; contains chunks 0,0 to 31,31, blocks 0,-64,0 to 511,319,511)
+Stacktrace:
+	at knot//net.minecraft.world.chunk.WorldChunk$DirectBlockEntityTickInvoker.tick(WorldChunk.java:662)
+	at knot//net.minecraft.world.chunk.WorldChunk$WrappedBlockEntityTickInvoker.tick(WorldChunk.java:716)
+	at knot//net.minecraft.world.World.tickBlockEntities(World.java:470)
+	at knot//net.minecraft.server.world.ServerWorld.tick(ServerWorld.java:390)
+	at knot//net.minecraft.server.MinecraftServer.tickWorlds(MinecraftServer.java:897)
+	at knot//net.minecraft.server.dedicated.MinecraftDedicatedServer.tickWorlds(MinecraftDedicatedServer.java:283)
+	at knot//net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:824)
+	at knot//net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:671)
+	at knot//net.minecraft.server.MinecraftServer.method_29739(MinecraftServer.java:265)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+
+-- Affected level --
+Details:
+	All players: 0 total; []
+	Chunk stats: 2209
+	Level dimension: minecraft:overworld
+	Level spawn location: World: (0,75,0), Section: (at 0,11,0 in 0,4,0; chunk contains blocks 0,-64,0 to 15,319,15), Region: (0,0; contains chunks 0,0 to 31,31, blocks 0,-64,0 to 511,319,511)
+	Level time: 2308 game time, 2308 day time
+	Level name: world
+	Level game mode: Game mode: survival (ID 0). Hardcore: false. Cheats: false
+	Level weather: Rain time: 116334 (now: false), thunder time: 69324 (now: false)
+	Known server brands: fabric
+	Removed feature flags: 
+	Level was modded: true
+	Level storage version: 0x04ABD - Anvil
+Stacktrace:
+	at knot//net.minecraft.server.MinecraftServer.tickWorlds(MinecraftServer.java:897)
+	at knot//net.minecraft.server.dedicated.MinecraftDedicatedServer.tickWorlds(MinecraftDedicatedServer.java:283)
+	at knot//net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:824)
+	at knot//net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:671)
+	at knot//net.minecraft.server.MinecraftServer.method_29739(MinecraftServer.java:265)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+
+-- System Details --
+Details:
+	Minecraft Version: 1.20.1
+	Minecraft Version ID: 1.20.1
+	Operating System: Windows 11 (amd64) version 10.0
+	Java Version: 17.0.14, Amazon.com Inc.
+	Java VM Version: OpenJDK 64-Bit Server VM (mixed mode, sharing), Amazon.com Inc.
+	Memory: 1504729088 bytes (1435 MiB) / 3246391296 bytes (3096 MiB) up to 8355053568 bytes (7968 MiB)
+	CPUs: 16
+	Processor Vendor: AuthenticAMD
+	Processor Name: AMD Ryzen 7 7700X 8-Core Processor             
+	Identifier: AuthenticAMD Family 25 Model 97 Stepping 2
+	Microarchitecture: Zen 3
+	Frequency (GHz): 4.49
+	Number of physical packages: 1
+	Number of physical CPUs: 8
+	Number of logical CPUs: 16
+	Graphics card #0 name: Meta Virtual Monitor
+	Graphics card #0 vendor: Meta Inc.
+	Graphics card #0 VRAM (MB): 0.00
+	Graphics card #0 deviceId: unknown
+	Graphics card #0 versionInfo: DriverVersion=17.12.55.198
+	Graphics card #1 name: AMD Radeon RX 6700 XT
+	Graphics card #1 vendor: Advanced Micro Devices, Inc. (0x1002)
+	Graphics card #1 VRAM (MB): 4095.00
+	Graphics card #1 deviceId: 0x73df
+	Graphics card #1 versionInfo: DriverVersion=32.0.13031.3015
+	Graphics card #2 name: AMD Radeon(TM) Graphics
+	Graphics card #2 vendor: Advanced Micro Devices, Inc. (0x1002)
+	Graphics card #2 VRAM (MB): 512.00
+	Graphics card #2 deviceId: 0x164e
+	Graphics card #2 versionInfo: DriverVersion=32.0.13031.3015
+	Memory slot #0 capacity (MB): 16384.00
+	Memory slot #0 clockSpeed (GHz): 4.80
+	Memory slot #0 type: Unknown
+	Memory slot #1 capacity (MB): 16384.00
+	Memory slot #1 clockSpeed (GHz): 4.80
+	Memory slot #1 type: Unknown
+	Virtual memory max (MB): 50293.83
+	Virtual memory used (MB): 34223.61
+	Swap memory total (MB): 18432.00
+	Swap memory used (MB): 208.34
+	JVM Flags: 0 total; 
+	Fabric Mods: 
+		architectury: Architectury 9.2.14
+		cloth-config: Cloth Config v11 11.1.118
+			cloth-basic-math: cloth-basic-math 0.6.1
+		create: Create 0.5.1-j-build.1631+mc1.20.1
+		createrailwaysignal: CreateRailwaySignal 1.0
+		dripstone_fluid_lib: Dripstone Fluid Lib 3.0.2
+		fabric-api: Fabric API 0.92.5+1.20.1
+		fabric-api-base: Fabric API Base 0.4.32+1802ada577
+		fabric-api-lookup-api-v1: Fabric API Lookup API (v1) 1.6.37+1802ada577
+		fabric-biome-api-v1: Fabric Biome API (v1) 13.0.14+1802ada577
+		fabric-block-api-v1: Fabric Block API (v1) 1.0.12+1802ada577
+		fabric-block-view-api-v2: Fabric BlockView API (v2) 1.0.3+924f046a77
+		fabric-command-api-v1: Fabric Command API (v1) 1.2.35+f71b366f77
+		fabric-command-api-v2: Fabric Command API (v2) 2.2.14+1802ada577
+		fabric-commands-v0: Fabric Commands (v0) 0.2.52+df3654b377
+		fabric-containers-v0: Fabric Containers (v0) 0.1.66+df3654b377
+		fabric-content-registries-v0: Fabric Content Registries (v0) 4.0.13+1802ada577
+		fabric-convention-tags-v1: Fabric Convention Tags 1.5.6+1802ada577
+		fabric-crash-report-info-v1: Fabric Crash Report Info (v1) 0.2.20+1802ada577
+		fabric-data-attachment-api-v1: Fabric Data Attachment API (v1) 1.0.2+de0fd6d177
+		fabric-data-generation-api-v1: Fabric Data Generation API (v1) 12.3.6+1802ada577
+		fabric-dimensions-v1: Fabric Dimensions API (v1) 2.1.55+1802ada577
+		fabric-entity-events-v1: Fabric Entity Events (v1) 1.6.1+1c78457f77
+		fabric-events-interaction-v0: Fabric Events Interaction (v0) 0.6.4+13a40c6677
+		fabric-events-lifecycle-v0: Fabric Events Lifecycle (v0) 0.2.64+df3654b377
+		fabric-game-rule-api-v1: Fabric Game Rule API (v1) 1.0.41+1802ada577
+		fabric-gametest-api-v1: Fabric Game Test API (v1) 1.2.15+1802ada577
+		fabric-item-api-v1: Fabric Item API (v1) 2.1.29+1802ada577
+		fabric-item-group-api-v1: Fabric Item Group API (v1) 4.0.14+1802ada577
+		fabric-lifecycle-events-v1: Fabric Lifecycle Events (v1) 2.2.23+1802ada577
+		fabric-loot-api-v2: Fabric Loot API (v2) 1.2.3+1802ada577
+		fabric-loot-tables-v1: Fabric Loot Tables (v1) 1.1.47+9e7660c677
+		fabric-message-api-v1: Fabric Message API (v1) 5.1.10+1802ada577
+		fabric-mining-level-api-v1: Fabric Mining Level API (v1) 2.1.52+1802ada577
+		fabric-networking-api-v1: Fabric Networking API (v1) 1.3.13+13a40c6677
+		fabric-networking-v0: Fabric Networking (v0) 0.3.53+df3654b377
+		fabric-object-builder-api-v1: Fabric Object Builder API (v1) 11.1.5+e35120df77
+		fabric-particles-v1: Fabric Particles (v1) 1.1.3+1802ada577
+		fabric-recipe-api-v1: Fabric Recipe API (v1) 1.0.23+1802ada577
+		fabric-registry-sync-v0: Fabric Registry Sync (v0) 2.3.5+1802ada577
+		fabric-rendering-data-attachment-v1: Fabric Rendering Data Attachment (v1) 0.3.39+92a0d36777
+		fabric-rendering-fluids-v1: Fabric Rendering Fluids (v1) 3.0.29+1802ada577
+		fabric-resource-conditions-api-v1: Fabric Resource Conditions API (v1) 2.3.9+1802ada577
+		fabric-resource-loader-v0: Fabric Resource Loader (v0) 0.11.12+fb82e9d777
+		fabric-screen-handler-api-v1: Fabric Screen Handler API (v1) 1.3.32+1802ada577
+		fabric-transfer-api-v1: Fabric Transfer API (v1) 3.3.6+8dd72ea377
+		fabric-transitive-access-wideners-v1: Fabric Transitive Access Wideners (v1) 4.3.2+1802ada577
+		fabricloader: Fabric Loader 0.16.10
+		forgeconfigapiport: Forge Config API Port 8.0.0
+		geckolib: GeckoLib 4 4.7.1.2
+			com_eliotlash_mclib_mclib: mclib 20
+		grenzzeichen: Grenzzeichen 1.0.0
+		java: OpenJDK 64-Bit Server VM 17
+		milk: Milk Lib 1.2.60
+		minecraft: Minecraft 1.20.1
+		mixinextras: MixinExtras 0.4.1
+		porting_lib_accessors: Porting Lib Accessors 2.3.8+1.20.1
+		porting_lib_attributes: Porting Lib Attributes 2.3.8+1.20.1
+		porting_lib_base: Porting Lib Base 2.3.8+1.20.1
+		porting_lib_brewing: Porting Lib Brewing 2.3.8+1.20.1
+		porting_lib_client_events: Porting Lib Client Events 2.3.8+1.20.1
+		porting_lib_common: Porting Lib Common 2.3.8+1.20.1
+		porting_lib_config: Porting Lib Config 2.3.8+1.20.1
+		porting_lib_core: Porting Lib Core 2.3.8+1.20.1
+		porting_lib_data: Porting Lib Data 2.1.1090+1.20
+		porting_lib_entity: Porting Lib Entity 2.3.8+1.20.1
+		porting_lib_extensions: Porting Lib Extensions 2.3.8+1.20.1
+		porting_lib_fluids: Porting Lib Fluids 2.3.8+1.20.1
+		porting_lib_gui_utils: Porting Lib Gui Utils 2.3.8+1.20.1
+		porting_lib_lazy_registration: Porting Lib Lazy Register 2.3.8+1.20.1
+		porting_lib_mixin_extensions: Porting Lib Mixin Extensions 2.3.8+1.20.1
+		porting_lib_model_generators: Porting Lib Model Generators 2.1.1090+1.20
+		porting_lib_model_loader: Porting Lib Model Loader 2.3.8+1.20.1
+		porting_lib_model_materials: Porting Lib Model Materials 2.1.1090+1.20
+		porting_lib_models: Porting Lib Models 2.3.8+1.20.1
+		porting_lib_networking: Porting Lib Networking 2.3.8+1.20.1
+		porting_lib_obj_loader: Porting Lib Obj Loader 2.3.8+1.20.1
+		porting_lib_tags: Porting Lib Tags 3.0
+		porting_lib_tool_actions: Porting Lib Tool Actions 2.3.8+1.20.1
+		porting_lib_transfer: Porting Lib Transfer 2.3.8+1.20.1
+		porting_lib_utility: Porting Lib Utility 2.3.8+1.20.1
+		reach-entity-attributes: Reach Entity Attributes 2.4.0
+		registrate-fabric: Registrate for Fabric 1.3.79-MC1.20.1
+	Server Running: true
+	Player Count: 0 / 20; []
+	Data Packs: vanilla, fabric
+	Enabled Feature Flags: minecraft:vanilla
+	World Generation: Stable
+	Is Modded: Definitely; Server brand changed to 'fabric'
+	Type: Dedicated Server (map_server.txt)

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=west": {
+      "model": "createrailwaysignal:block/light_signal_speed",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "createrailwaysignal:block/light_signal_speed"
+    },
+    "facing=north": {
+      "model": "createrailwaysignal:block/light_signal_speed",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "createrailwaysignal:block/light_signal_speed",
+      "y": 270
+    }
+  }
+}
