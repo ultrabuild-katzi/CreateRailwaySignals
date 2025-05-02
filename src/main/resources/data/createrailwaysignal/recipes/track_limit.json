@@ -1,0 +1,23 @@
+{
+    "type": "create:mixing",
+    "ingredients": [
+        {
+            "item": "minecraft:spruce_slab"
+        },
+        {
+            "item": "minecraft:iron_block"
+        },
+        {
+            "item": "create:industrial_iron_block"
+        },
+        {
+            "item": "grenzzeichen:microcontroler"
+        }
+    ],
+    "results": [
+        {
+            "count": 1,
+            "item": "createrailwaysignal:track_limit"
+        }
+    ]
+}

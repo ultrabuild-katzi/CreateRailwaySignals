@@ -30,7 +30,7 @@ public class NavigationMixin {
         } else {
 
             double throttle = speedLimit.calculateSpeedLimit();
-            System.out.println("Throttle: " + throttle);
+            //System.out.println("Throttle: " + throttle);
             return Math.min(train.throttle, throttle);
 
         }

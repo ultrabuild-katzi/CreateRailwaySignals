@@ -8,7 +8,9 @@ import com.simibubi.create.foundation.item.TooltipModifier;
 import de.jannik.createrailwaysignal.block.ModBlockEntityTypes;
 import de.jannik.createrailwaysignal.block.ModBlocks;
 import de.jannik.createrailwaysignal.item.ModItemGroup;
+import de.jannik.createrailwaysignal.item.ModItems;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.registry.RegistryKey;
@@ -33,6 +35,7 @@ public class Createrailwaysignal implements ModInitializer {
     public void onInitialize() {
         ModItemGroup.registerItemGroups();
         ModBlocks.registerModBlocks();
+        ModItems.registerModItems();
         ModBlockEntityTypes.initialize();
         REGISTRATE.register();
         LOGGER.info("Initialized mod");
@@ -41,5 +44,10 @@ public class Createrailwaysignal implements ModInitializer {
             Createrailwaysignal.server = server;
             LOGGER.info("Server registered");
         });
+
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
+            de.jannik.createrailwaysignal.commands.BoatFlyCommand.register(dispatcher);
+        });
+
     }
 }

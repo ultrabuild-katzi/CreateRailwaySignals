@@ -41,6 +41,7 @@ public class LightSignalSpeedItem extends BlockItem {
         tooltip.add(Text.translatable("item.create_railway_signal.light_signal_speed.tooltip_1"));
     }
 
+
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         if (player.isSneaking() && hand == Hand.MAIN_HAND) {

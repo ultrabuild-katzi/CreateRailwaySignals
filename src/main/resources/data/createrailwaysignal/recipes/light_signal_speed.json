@@ -1,0 +1,107 @@
+{
+    "type": "create:sequenced_assembly",
+    "ingredient": {
+        "tag": "createrailwaysignal:black"
+    },
+    "loops": 1,
+    "results": [
+        {
+            "item": "createrailwaysignal:light_signal_speed"
+        }
+    ],
+    "sequence": [
+        {
+            "type": "create:deploying",
+            "ingredients": [
+                {
+                    "item": "createrailwaysignal:incomplete_light_signal_speed"
+                },
+                [
+                    {
+                        "tag": "createrailwaysignal:light_gray"
+                    }
+                ]
+            ],
+            "results": [
+                {
+                    "item": "createrailwaysignal:incomplete_light_signal_speed"
+                }
+            ]
+        },
+        {
+            "type": "create:deploying",
+            "ingredients": [
+                {
+                    "item": "createrailwaysignal:incomplete_light_signal_speed"
+                },
+                [
+                    {
+                        "tag": "createrailwaysignal:gray"
+                    }
+                ]
+            ],
+            "results": [
+                {
+                    "item": "createrailwaysignal:incomplete_light_signal_speed"
+                }
+            ]
+        },
+        {
+            "type": "create:deploying",
+            "ingredients": [
+                {
+                    "item": "createrailwaysignal:incomplete_light_signal_speed"
+                },
+                [
+                    {
+                        "tag": "createrailwaysignal:micro_controller"
+                    }
+                ]
+            ],
+            "results": [
+                {
+                    "item": "createrailwaysignal:incomplete_light_signal_speed"
+                }
+            ]
+        },
+        {
+            "type": "create:deploying",
+            "ingredients": [
+                {
+                    "item": "createrailwaysignal:incomplete_light_signal_speed"
+                },
+                [
+                    {
+                        "tag": "createrailwaysignal:empfaenger"
+                    }
+                ]
+            ],
+            "results": [
+                {
+                    "item": "createrailwaysignal:incomplete_light_signal_speed"
+                }
+            ]
+        },
+        {
+            "type": "create:deploying",
+            "ingredients": [
+                {
+                    "item": "createrailwaysignal:incomplete_light_signal_speed"
+                },
+                [
+                    {
+                        "tag": "createrailwaysignal:black2"
+                    }
+                ]
+            ],
+            "results": [
+                {
+                    "item": "createrailwaysignal:incomplete_light_signal_speed"
+                }
+            ]
+        }
+    ],
+    "transitionalItem": {
+        "item": "createrailwaysignal:incomplete_light_signal_speed"
+    }
+}

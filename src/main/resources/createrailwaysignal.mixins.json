@@ -4,6 +4,7 @@
   "package": "de.jannik.createrailwaysignal.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "AbstractBoatMixin",
     "NavigationMixin",
     "TrainMixin"
   ],

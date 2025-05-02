@@ -20,6 +20,8 @@ public class ModItemGroup {
                         entries.add(ModBlocks.TRACK_LIMIT); // cognitive loser
                         entries.add(ModBlocks.LIGHT_SIGNAL_SPEED); // cognitive loser
 
+                        entries.add(ModItems.INCOMPLETE_LIGHT_SIGNAL_SPEED); // cognitive loser
+
                     }).build());
 
     public static void registerItemGroups() {

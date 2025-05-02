@@ -14,7 +14,6 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
-import java.util.Objects;
 
 public class TrackLimitBlockEntity extends SmartBlockEntity implements ITransformableBlockEntity {
     public TrackTargetingBehaviour<SpeedSignalBoundary> edgePoint;
@@ -46,9 +45,23 @@ public class TrackLimitBlockEntity extends SmartBlockEntity implements ITransfor
     }
 
     public void updateSpeed(int value) {
-        if(this.edgePoint.getEdgePoint() == null)
-            this.edgePoint.createEdgePoint();
-
-        this.edgePoint.getEdgePoint().setSpeedLimitKilometersPerHour(value);
+    if (this.edgePoint == null) {
+        throw new IllegalStateException("Track targeting behaviour not initialized");
     }
+
+    if (this.edgePoint.getEdgePoint() == null) {
+        // Log position information for debugging
+        BlockPos pos = this.getPos();
+        System.out.println("Attempting to create edge point at: " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ());
+        
+        this.edgePoint.createEdgePoint();
+        
+        if (this.edgePoint.getEdgePoint() == null) {
+            throw new IllegalStateException("Edge point creation failed at " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() 
+                + " - Ensure block is placed adjacent to a valid track");
+        }
+    }
+
+    this.edgePoint.getEdgePoint().setSpeedLimitKilometersPerHour(value);
+}
 }
