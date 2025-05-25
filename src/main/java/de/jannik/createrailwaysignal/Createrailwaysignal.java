@@ -1,5 +1,6 @@
 package de.jannik.createrailwaysignal;
 
+
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.simibubi.create.foundation.item.ItemDescription;
 import com.simibubi.create.foundation.item.KineticStats;
@@ -7,8 +8,8 @@ import com.simibubi.create.foundation.item.TooltipHelper;
 import com.simibubi.create.foundation.item.TooltipModifier;
 import de.jannik.createrailwaysignal.block.ModBlockEntityTypes;
 import de.jannik.createrailwaysignal.block.ModBlocks;
-import de.jannik.createrailwaysignal.item.ModItemGroup;
 import de.jannik.createrailwaysignal.item.ModItems;
+import de.raphicraft.grenzzeichen.item.ModItemGroups;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
@@ -22,18 +23,23 @@ public class Createrailwaysignal implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("createrailwaysignal");
     public static final String MOD_ID = "createrailwaysignal";
 
-    public static final CreateRegistrate REGISTRATE = CreateRegistrate.create(Createrailwaysignal.MOD_ID)
+    public static final CreateRegistrate REGISTRATE = CreateRegistrate.create(MOD_ID)
             .defaultCreativeTab((RegistryKey<ItemGroup>) null)
             .setTooltipModifierFactory(item ->
                     new ItemDescription.Modifier(item, TooltipHelper.Palette.STANDARD_CREATE)
                             .andThen(TooltipModifier.mapNull(KineticStats.create(item)))
             );
 
+    // Remove the manual block and block entity declarations
+    // public static final Block WHISTLE_BLOCK = ...
+    // public static final BlockEntityType<WhistleBlockEntity> WHISTLE_BLOCK_ENTITY = ...
+
     public static MinecraftServer server;
 
     @Override
     public void onInitialize() {
-        ModItemGroup.registerItemGroups();
+        // Register everything using REGISTRATE before calling register()
+        ModItemGroups.registerItemGroups();
         ModBlocks.registerModBlocks();
         ModItems.registerModItems();
         ModBlockEntityTypes.initialize();
@@ -48,6 +54,5 @@ public class Createrailwaysignal implements ModInitializer {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             de.jannik.createrailwaysignal.commands.BoatFlyCommand.register(dispatcher);
         });
-
     }
 }

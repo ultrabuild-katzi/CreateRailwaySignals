@@ -1,7 +1,6 @@
 package de.jannik.createrailwaysignal.graph;
 
 import com.simibubi.create.Create;
-import com.simibubi.create.content.trains.graph.DimensionPalette;
 import com.simibubi.create.content.trains.graph.TrackEdge;
 import com.simibubi.create.content.trains.graph.TrackGraph;
 import com.simibubi.create.content.trains.signal.SignalPropagator;
@@ -10,20 +9,9 @@ import com.simibubi.create.infrastructure.config.AllConfigs;
 import de.jannik.createrailwaysignal.Createrailwaysignal;
 import de.jannik.createrailwaysignal.block.TrackLimitBlock;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.ServerTask;
-import net.minecraft.server.dedicated.DedicatedPlayerManager;
-import net.minecraft.server.dedicated.DedicatedServer;
-import net.minecraft.server.dedicated.MinecraftDedicatedServer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.thread.ThreadExecutor;
 import net.minecraft.world.World;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 public class SpeedSignalBoundary extends SingleBlockEntityEdgePoint {
 

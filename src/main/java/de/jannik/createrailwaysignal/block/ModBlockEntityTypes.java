@@ -1,15 +1,11 @@
 package de.jannik.createrailwaysignal.block;
 
-import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import de.jannik.createrailwaysignal.Createrailwaysignal;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.util.Identifier;
+
+import static de.jannik.createrailwaysignal.Createrailwaysignal.REGISTRATE;
 
 public class ModBlockEntityTypes {
-
     public static final BlockEntityEntry<TrackLimitBlockEntity> TRACK_LIMIT = Createrailwaysignal.REGISTRATE
             .blockEntity("track_limit", TrackLimitBlockEntity::new)
 //            .renderer(() -> SignalRenderer::new)
@@ -20,9 +16,13 @@ public class ModBlockEntityTypes {
             .renderer(() -> LightSignalSpeedBlockRenderer::new)
             .validBlocks(ModBlocks.LIGHT_SIGNAL_SPEED)
             .register();
+    public static final BlockEntityEntry<WhistleBlockEntity> WHISTLE_BLOCK = Createrailwaysignal.REGISTRATE
+            .blockEntity("whistle_block", WhistleBlockEntity::new)
+            .validBlocks(ModBlocks.WHISTLE_BLOCK)
+            .register();
+
 
     public static void initialize() {
         Createrailwaysignal.LOGGER.info("Registered Block Entity Types");
     }
 }
-

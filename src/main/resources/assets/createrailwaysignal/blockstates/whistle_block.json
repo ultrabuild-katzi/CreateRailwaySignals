@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "createrailwaysignal:block/whistle_block"
+    }
+  }
+}

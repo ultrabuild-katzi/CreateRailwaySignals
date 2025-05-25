@@ -34,6 +34,9 @@ public class TrackLimitBlock extends Block implements IBE<TrackLimitBlockEntity>
             return ActionResult.PASS;
         }
 
+        if(world.isClient)
+            return ActionResult.SUCCESS;
+
         int value = state.get(SPEED_LIMIT) + (player.isSneaking() ? -1 : 1);
         if(value > MAX_SPEED)
             value = MIN_SPEED;
@@ -44,7 +47,7 @@ public class TrackLimitBlock extends Block implements IBE<TrackLimitBlockEntity>
         world.setBlockState(pos, state.with(SPEED_LIMIT, value));
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if(blockEntity instanceof TrackLimitBlockEntity trackLimitBlockEntity) {
-            trackLimitBlockEntity.updateSpeed(value * 10);
+            trackLimitBlockEntity.updateSpeed(player, value * 10);
         }
 
         return ActionResult.SUCCESS;

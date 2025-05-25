@@ -3,6 +3,7 @@ plugins {
     id 'maven-publish'
 }
 
+
 version = project.mod_version
 group = project.maven_group
 
@@ -18,8 +19,8 @@ loom {
 repositories {
     maven { url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1" }
     maven { // Ponder, Flywheel//
-        name "createmod maven"
-        url "https://maven.createmod.net/"
+        name= "createmod maven"
+        url= "https://maven.createmod.net/"
     }
 
     maven { name = "Curseforge Maven"; description = "Forge Config API Port"; url = "https://cursemaven.com/" }
@@ -64,7 +65,7 @@ processResources {
     inputs.property "version", project.version
     inputs.property "minecraft_version", project.minecraft_version
     inputs.property "loader_version", project.loader_version
-    filteringCharset "UTF-8"
+    filteringCharset= "UTF-8"
 
     filesMatching("fabric.mod.json") {
         expand "version": project.version,
@@ -94,13 +95,11 @@ tasks.named("runClient") {
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
     if (JavaVersion.current() < javaVersion) {
-        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+        toolchain.languageVersion= JavaLanguageVersion.of(targetJavaVersion)
     }
-    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-    // if it is present.
-    // If you remove this line, sources will not be generated.
     withSourcesJar()
 }
+
 
 jar {
     from("LICENSE") {
