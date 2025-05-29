@@ -1,13 +1,16 @@
 package de.jannik.createrailwaysignal.mixin;
 
+import com.simibubi.create.content.trains.entity.Carriage;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
 import de.jannik.createrailwaysignal.graph.SpeedSignalBoundary;
 import de.jannik.createrailwaysignal.graph.SpeedSignalProvider;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = Train.class, remap = false)
@@ -29,6 +32,12 @@ public abstract class TrainMixin implements SpeedSignalProvider {
             return returnvalue.test(distance, couple);
         });
     }
+
+    @Inject(method = "collideWithOtherTrains", at = @At("HEAD"), cancellable = true)
+    public void collideWithOtherTrains(World level, Carriage carriage, CallbackInfo ci) {
+        ci.cancel();
+    }
+
 
     @Override
     public SpeedSignalBoundary createRailwaySignal$$speedSignal() {
