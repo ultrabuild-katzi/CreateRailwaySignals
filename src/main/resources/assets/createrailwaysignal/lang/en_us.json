@@ -1,8 +1,12 @@
 {
   "block.createrailwaysignal.track_limit": "Speed limiter",
   "block.createrailwaysignal.light_signal_speed": "Speed sign",
+  "block.createrailwaysignal.whistle_block": "Whistle Block",
+
 
   "itemgroup.createrailwaysignal": "Better Railways",
+
+
   "item.create_railway_signal.light_signal_speed.tooltip_1": "can show how fast the train is going",
   "item.create_railway_signal.track_limit.tooltip_1": "can set the train speed by right clicking",
   "item.create_railway_signal.track_limit.tooltip_2": "tip: you can dye that!"

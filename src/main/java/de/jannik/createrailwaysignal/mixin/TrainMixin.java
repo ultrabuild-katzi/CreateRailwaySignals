@@ -5,6 +5,7 @@ import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
 import de.jannik.createrailwaysignal.graph.SpeedSignalBoundary;
 import de.jannik.createrailwaysignal.graph.SpeedSignalProvider;
+import de.jannik.createrailwaysignal.graph.WhistleBlockBoundary;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -26,6 +27,12 @@ public abstract class TrainMixin implements SpeedSignalProvider {
             if (couple.getFirst() instanceof SpeedSignalBoundary speedSignalBoundary) {
                 this.createRailwaySignal$$speedSignal = speedSignalBoundary;
                 System.out.println("Change speed limit to " + speedSignalBoundary.getSpeedLimitKilometersPerHour() + " km/h");
+                return false;
+            }
+
+            if (couple.getFirst() instanceof WhistleBlockBoundary whistleBlockBoundary) {
+                whistleBlockBoundary.playSound((Train)((Object) this));
+
                 return false;
             }
 

@@ -1,0 +1,23 @@
+{
+  "traditional": {
+    "sounds": [
+      "createrailwaysignal:aldi1",
+      "createrailwaysignal:aldi2"
+    ]
+  },
+
+  "electric": {
+    "sounds": [
+      "createrailwaysignal:rewe1",
+      "createrailwaysignal:rewe2"
+    ]
+  },
+
+  "modern": {
+    "sounds": [
+      "createrailwaysignal:kaufland1",
+      "createrailwaysignal:kaufland2"
+    ]
+  }
+
+}

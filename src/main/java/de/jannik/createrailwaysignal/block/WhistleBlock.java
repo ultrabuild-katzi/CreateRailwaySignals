@@ -1,26 +1,28 @@
 package de.jannik.createrailwaysignal.block;
 
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
+import com.simibubi.create.content.trains.entity.CarriageContraption;
 import com.simibubi.create.foundation.block.IBE;
-import de.jannik.createrailwaysignal.item.LightSignalSpeedItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.packet.s2c.play.PlaySoundFromEntityS2CPacket;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.util.math.Direction;
+
+import javax.swing.text.html.parser.Entity;
+import java.util.Set;
 
 
 public class WhistleBlock extends Block implements IBE<WhistleBlockEntity>, IWrenchable {
-
     public WhistleBlock(Settings settings) {
         super(settings);
     }
-
 
 
     @Override
@@ -37,4 +39,7 @@ public class WhistleBlock extends Block implements IBE<WhistleBlockEntity>, IWre
     public BlockEntityType<? extends WhistleBlockEntity> getBlockEntityType() {
         return ModBlockEntityTypes.WHISTLE_BLOCK.get();
     }
+
+
 }
+
