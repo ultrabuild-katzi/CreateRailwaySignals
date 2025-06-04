@@ -9,15 +9,11 @@ import com.simibubi.create.infrastructure.config.AllConfigs;
 import de.jannik.createrailwaysignal.Createrailwaysignal;
 import de.jannik.createrailwaysignal.block.TrackLimitBlock;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.ServerTask;
 import net.minecraft.world.World;
 
 public class SpeedSignalBoundary extends SingleBlockEntityEdgePoint {
 
     private int speedLimitKilometersPerHour = 0; // km/h
-    private World world;
-    private BlockEntity blockEntity;
 
     public SpeedSignalBoundary() {
     }
@@ -29,19 +25,13 @@ public class SpeedSignalBoundary extends SingleBlockEntityEdgePoint {
             Createrailwaysignal.LOGGER.error("World ist null in blockEntityAdded");
             return;
         }
-        this.setSpeedLimitKilometersPerHour(blockEntity.getWorld().getBlockState(blockEntity.getPos()).get(TrackLimitBlock.SPEED_LIMIT) * 10);
-        this.world = blockEntity.getWorld();
-        this.blockEntity = blockEntity;
+        int speedLimitKilometersPerHour = blockEntity.getWorld().getBlockState(blockEntity.getPos()).get(TrackLimitBlock.SPEED_LIMIT) * 10;
+        this.setSpeedLimitKilometersPerHour(blockEntity.getWorld(), speedLimitKilometersPerHour);
     }
 
     @Override
     public void tick(TrackGraph graph, boolean preTrains) {
         super.tick(graph, preTrains);
-        if(this.blockEntity == null) {
-            MinecraftServer server = Createrailwaysignal.server;
-            server.send(new ServerTask(server.getTicks(), this::removeFromAllGraphs));
-            Createrailwaysignal.LOGGER.warn("Detected broken speed signal, scheduled removal from all graphs");
-        }
     }
 
     private void notifyTrains(World world) {
@@ -81,8 +71,8 @@ public class SpeedSignalBoundary extends SingleBlockEntityEdgePoint {
         return speedLimitKilometersPerHour;
     }
 
-    public void setSpeedLimitKilometersPerHour(int speedLimitKilometersPerHour) {
+    public void setSpeedLimitKilometersPerHour(World world, int speedLimitKilometersPerHour) {
         this.speedLimitKilometersPerHour = speedLimitKilometersPerHour;
-        notifyTrains(this.world);
+        this.notifyTrains(world);
     }
 }

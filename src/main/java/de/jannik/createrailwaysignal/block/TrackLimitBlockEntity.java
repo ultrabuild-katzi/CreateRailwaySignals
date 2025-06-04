@@ -55,6 +55,6 @@ public class TrackLimitBlockEntity extends SmartBlockEntity implements ITransfor
             return;
         }
 
-        this.edgePoint.getEdgePoint().setSpeedLimitKilometersPerHour(value);
+        this.edgePoint.getEdgePoint().setSpeedLimitKilometersPerHour(player.getWorld(), value);
     }
 }
