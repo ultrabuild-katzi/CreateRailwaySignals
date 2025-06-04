@@ -23,14 +23,9 @@ public abstract class TrainMixin implements SpeedSignalProvider {
     @Unique
     public boolean createRailwaySignal$$encounteredWhiteBlock = false;
 
-
     @Inject(
             method = "tick",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lcom/simibubi/create/content/trains/entity/Carriage;travel(Lnet/minecraft/world/World;Lcom/simibubi/create/content/trains/graph/TrackGraph;DLcom/simibubi/create/content/trains/entity/TravellingPoint;Lcom/simibubi/create/content/trains/entity/TravellingPoint;I)D",
-                    shift = At.Shift.AFTER
-            )
+            at = @At("TAIL")
     )
     public void tick(World level, CallbackInfo ci) {
         if(createRailwaySignal$$encounteredWhiteBlock) {
