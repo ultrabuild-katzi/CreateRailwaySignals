@@ -20,9 +20,28 @@ public abstract class TrainMixin implements SpeedSignalProvider {
     @Unique
     public SpeedSignalBoundary createRailwaySignal$$speedSignal;
 
+    @Unique
+    public boolean createRailwaySignal$$encounteredWhiteBlock = false;
+
+
+    @Inject(
+            method = "tick",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lcom/simibubi/create/content/trains/entity/Carriage;travel(Lnet/minecraft/world/World;Lcom/simibubi/create/content/trains/graph/TrackGraph;DLcom/simibubi/create/content/trains/entity/TravellingPoint;Lcom/simibubi/create/content/trains/entity/TravellingPoint;I)D",
+                    shift = At.Shift.AFTER
+            )
+    )
+    public void tick(World level, CallbackInfo ci) {
+        if(createRailwaySignal$$encounteredWhiteBlock) {
+            WhistleBlockBoundary.playSound(level, (Train) ((Object) this));
+            this.createRailwaySignal$$encounteredWhiteBlock = false;
+        }
+    }
+
     @Inject(method = "frontSignalListener", at = @At("RETURN"), cancellable = true)
     public void frontSignalListener(CallbackInfoReturnable<TravellingPoint.IEdgePointListener> cir) {
-        var returnvalue = cir.getReturnValue();
+        var returnValue = cir.getReturnValue();
         cir.setReturnValue((distance, couple) -> {
             if (couple.getFirst() instanceof SpeedSignalBoundary speedSignalBoundary) {
                 this.createRailwaySignal$$speedSignal = speedSignalBoundary;
@@ -30,13 +49,12 @@ public abstract class TrainMixin implements SpeedSignalProvider {
                 return false;
             }
 
-            if (couple.getFirst() instanceof WhistleBlockBoundary whistleBlockBoundary) {
-                whistleBlockBoundary.playSound((Train)((Object) this));
-
+            if (couple.getFirst() instanceof WhistleBlockBoundary) {
+                this.createRailwaySignal$$encounteredWhiteBlock = true;
                 return false;
             }
 
-            return returnvalue.test(distance, couple);
+            return returnValue.test(distance, couple);
         });
     }
 
