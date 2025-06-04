@@ -1,6 +1,7 @@
 package de.jannik.createrailwaysignal.graph;
 
 import com.simibubi.create.Create;
+import com.simibubi.create.content.trains.graph.DimensionPalette;
 import com.simibubi.create.content.trains.graph.TrackEdge;
 import com.simibubi.create.content.trains.graph.TrackGraph;
 import com.simibubi.create.content.trains.signal.SignalPropagator;
@@ -9,11 +10,13 @@ import com.simibubi.create.infrastructure.config.AllConfigs;
 import de.jannik.createrailwaysignal.Createrailwaysignal;
 import de.jannik.createrailwaysignal.block.TrackLimitBlock;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
 
 public class SpeedSignalBoundary extends SingleBlockEntityEdgePoint {
 
     private int speedLimitKilometersPerHour = 0; // km/h
+    private boolean migration = false;
 
     public SpeedSignalBoundary() {
     }
@@ -32,6 +35,22 @@ public class SpeedSignalBoundary extends SingleBlockEntityEdgePoint {
     @Override
     public void tick(TrackGraph graph, boolean preTrains) {
         super.tick(graph, preTrains);
+    }
+
+    @Override
+    public void read(NbtCompound nbt, boolean migration, DimensionPalette dimensions) {
+        super.read(nbt, migration, dimensions);
+        if(!nbt.contains("speedLimitKilometersPerHour")) {
+            this.migration = true;
+        }
+        this.speedLimitKilometersPerHour = nbt.getInt("speedLimitKilometersPerHour");
+
+    }
+
+    @Override
+    public void write(NbtCompound nbt, DimensionPalette dimensions) {
+        super.write(nbt, dimensions);
+        nbt.putInt("speedLimitKilometersPerHour", this.speedLimitKilometersPerHour);
     }
 
     private void notifyTrains(World world) {
@@ -72,7 +91,14 @@ public class SpeedSignalBoundary extends SingleBlockEntityEdgePoint {
     }
 
     public void setSpeedLimitKilometersPerHour(World world, int speedLimitKilometersPerHour) {
+        if(this.speedLimitKilometersPerHour == speedLimitKilometersPerHour)
+            return;
+
         this.speedLimitKilometersPerHour = speedLimitKilometersPerHour;
         this.notifyTrains(world);
+    }
+
+    public boolean migration() {
+        return this.migration;
     }
 }

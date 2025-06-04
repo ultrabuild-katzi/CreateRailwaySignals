@@ -41,6 +41,14 @@ public class TrackLimitBlockEntity extends SmartBlockEntity implements ITransfor
     }
 
     @Override
+    public void tick() {
+        super.tick();
+        SpeedSignalBoundary boundary = this.edgePoint.getEdgePoint();
+        if(boundary != null && boundary.migration())
+            boundary.setSpeedLimitKilometersPerHour(this.world, this.getCachedState().get(TrackLimitBlock.SPEED_LIMIT) * 10);
+    }
+
+    @Override
     protected void removeBehaviour(BehaviourType<?> type) {
         super.removeBehaviour(type);
     }
