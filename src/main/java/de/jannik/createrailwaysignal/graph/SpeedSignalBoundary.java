@@ -86,6 +86,7 @@ public class SpeedSignalBoundary extends SingleBlockEntityEdgePoint {
         return this.speedLimitKilometersPerHour == 0;
     }
 
+
     public int getSpeedLimitKilometersPerHour() {
         return speedLimitKilometersPerHour;
     }

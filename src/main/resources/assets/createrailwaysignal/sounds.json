@@ -18,6 +18,13 @@
       "createrailwaysignal:kaufland1",
       "createrailwaysignal:kaufland2"
     ]
+  },
+
+  "random_sounds": {
+    "sounds": [
+      "createrailwaysignal:i_tried",
+      "createrailwaysignal:in_the_end"
+    ]
   }
 
 }

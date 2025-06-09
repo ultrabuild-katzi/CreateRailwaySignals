@@ -11,10 +11,11 @@ import de.jannik.createrailwaysignal.Createrailwaysignal;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 
 public class WhistleBlockBoundary extends SingleBlockEntityEdgePoint {
 
-    public static void playSound(World world, Train train) {
+    public static void playSound(World world, @NotNull Train train) {
         String icon = train.icon.getId().getPath();
         SoundEvent soundEvent = switch(icon) {
             case "traditional" ->  Createrailwaysignal.TRADITIONAL_SOUND_EVENT;
