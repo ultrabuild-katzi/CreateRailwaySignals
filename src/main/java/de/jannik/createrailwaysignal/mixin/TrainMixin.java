@@ -3,9 +3,11 @@ package de.jannik.createrailwaysignal.mixin;
 import com.simibubi.create.content.trains.entity.Carriage;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
+import de.jannik.createrailwaysignal.block.TrackLimitBlock;
 import de.jannik.createrailwaysignal.graph.SpeedSignalBoundary;
 import de.jannik.createrailwaysignal.graph.SpeedSignalProvider;
 import de.jannik.createrailwaysignal.graph.WhistleBlockBoundary;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -40,7 +42,10 @@ public abstract class TrainMixin implements SpeedSignalProvider {
         cir.setReturnValue((distance, couple) -> {
             if (couple.getFirst() instanceof SpeedSignalBoundary speedSignalBoundary) {
                 this.createRailwaySignal$$speedSignal = speedSignalBoundary;
-                System.out.println("Change speed limit to " + speedSignalBoundary.getSpeedLimitKilometersPerHour() + " km/h");
+                System.out.println("Change speed limit to " + speedSignalBoundary.getSpeedLimitKilometersPerHour() + " km/h at:" +
+                        " x= " + createRailwaySignal$$speedSignal().getBlockEntityPos().getX() +
+                        " y= " + createRailwaySignal$$speedSignal().getBlockEntityPos().getY() +
+                        " z= " + createRailwaySignal$$speedSignal().getBlockEntityPos().getZ());
                 return false;
             }
 
