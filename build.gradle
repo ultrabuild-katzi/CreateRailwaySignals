@@ -32,6 +32,16 @@ repositories {
             includeGroup("com.jozufozu.flywheel")
         }
     }
+
+    maven {
+        name = "TerraformersMC"
+        url = "https://maven.terraformersmc.com/"
+    }
+    maven {
+        name = "Ladysnake Libs"
+        url = 'https://maven.ladysnake.org/releases'
+    }
+
     maven {
         name = "Fuzs Mod Resources"
         url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
@@ -40,6 +50,8 @@ repositories {
     maven { url = "https://mvn.devos.one/releases/" } // Porting Lib
 
     maven { name = "JamiesWhiteShirt Maven"; description = "Reach Entity Attributes"; url = "https://maven.jamieswhiteshirt.com/libs-release" }
+
+
     maven { name = "Jitpack maven"; description = "Mixin Extras & Fabric ASM"; url = "https://jitpack.io/" } //NOTE: LEAVE THIS AS LAST
 }
 
@@ -56,8 +68,9 @@ dependencies {
 
     modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.2.1")
 
-   modImplementation(files("lib/grenzzeichen-1.0.0.jar"))
+    modImplementation "dev.emi:trinkets:${trinkets_version}"
 
+    modImplementation(files("lib/grenzzeichen-1.0.0.jar"))
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 }
 

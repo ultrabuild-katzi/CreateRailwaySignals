@@ -23,6 +23,7 @@ public class ModItemGroup {
                     .icon(() -> new ItemStack(ModBlocks.TRACK_LIMIT)).entries((displayContext, entries) -> {
 
                         entries.add(ModItems.INCOMPLETE_LIGHT_SIGNAL_SPEED); // cognitive loser
+                        entries.add(ModItems.GUEST_ID); // cognitive loser
 
                     }).build());
 

@@ -1,15 +1,23 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "#O",
-    "O#"
-  ],
-  "key": {
-    "#": "minecraft:black_concrete",
-    "O": "minecraft:purple_concrete"
-  },
-  "result": {
-    "id": "createrailwaysignal:whistle_block",
-    "count": 1
-  }
+    "type": "create:mixing",
+    "ingredients": [
+        {
+            "item": "minecraft:spruce_slab"
+        },
+        {
+            "item": "minecraft:iron_block"
+        },
+        {
+            "item": "create:industrial_iron_block"
+        },
+        {
+            "item": "create:steam_whistle"
+        }
+    ],
+    "results": [
+        {
+            "count": 1,
+            "item": "createrailwaysignal:whistle_block"
+        }
+    ]
 }
