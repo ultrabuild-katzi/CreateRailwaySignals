@@ -4,6 +4,11 @@
   "block.createrailwaysignal.whistle_block": "Whistle Block",
 
 
+  "item.createrailwaysignal.visitor_id": "Visitor ID",
+  "item.createrailwaysignal.worker_id": "Worker ID",
+  "item.createrailwaysignal.supervisor_id": "Supervisor ID",
+
+
   "itemgroup.createrailwaysignal": "Better Railways",
 
 

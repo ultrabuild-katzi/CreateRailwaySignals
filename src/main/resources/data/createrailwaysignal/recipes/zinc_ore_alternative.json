@@ -1,0 +1,33 @@
+{
+  "type": "create:mixing",
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "item": "create:zinc_ore"
+    },
+    {
+      "item": "minecraft:cobblestone"
+    },
+    {
+      "tag": "c:zinc_nuggets"
+    },
+    {
+      "tag": "c:zinc_nuggets"
+    },
+    {
+      "tag": "c:zinc_nuggets"
+    },
+
+    {
+      "amount": 20250,
+      "fluid": "minecraft:water",
+      "nbt": {}
+    }
+  ],
+  "results": [
+    {
+      "count": 2,
+      "item": "create:zinc_ore"
+    }
+  ]
+}

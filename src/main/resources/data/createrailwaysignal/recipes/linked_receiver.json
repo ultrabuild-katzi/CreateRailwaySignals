@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#R#",
+        "RVR",
+        "#R#"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:iron_nugget"
+        },
+        "R": {
+            "item": "minecraft:redstone"
+        },
+        "V": {
+            "item": "minecraft:redstone_torch"
+        }
+    },
+    "result": {
+        "item": "redstonelinks:linked_receiver",
+        "count": 1
+    }
+}

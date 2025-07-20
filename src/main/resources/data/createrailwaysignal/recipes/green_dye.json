@@ -1,0 +1,17 @@
+{
+    "type": "create:mixing",
+    "ingredients": [
+        {
+            "item": "minecraft:yellow_dye"
+        },
+        {
+            "item": "minecraft:blue_dye"
+        }
+    ],
+    "results": [
+        {
+            "count": 1,
+            "item": "minecraft:green_dye"
+        }
+    ]
+}

@@ -1,0 +1,33 @@
+{
+  "type": "create:mixing",
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "item": "minecraft:gold_ore"
+    },
+    {
+      "item": "minecraft:cobblestone"
+    },
+    {
+      "tag": "c:gold_nuggets"
+    },
+    {
+      "tag": "c:gold_nuggets"
+    },
+    {
+      "tag": "c:gold_nuggets"
+    },
+
+    {
+      "amount": 20250,
+      "fluid": "minecraft:water",
+      "nbt": {}
+    }
+  ],
+  "results": [
+    {
+      "count": 2,
+      "item": "minecraft:gold_ore"
+    }
+  ]
+}

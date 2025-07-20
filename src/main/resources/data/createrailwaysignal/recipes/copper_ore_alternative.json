@@ -1,0 +1,33 @@
+{
+  "type": "create:mixing",
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "item": "minecraft:copper_ore"
+    },
+    {
+      "item": "minecraft:cobblestone"
+    },
+    {
+      "tag": "c:copper_nuggets"
+    },
+    {
+      "tag": "c:copper_nuggets"
+    },
+    {
+      "tag": "c:copper_nuggets"
+    },
+
+    {
+      "amount": 20250,
+      "fluid": "minecraft:water",
+      "nbt": {}
+    }
+  ],
+  "results": [
+    {
+      "count": 2,
+      "item": "minecraft:copper_ore"
+    }
+  ]
+}

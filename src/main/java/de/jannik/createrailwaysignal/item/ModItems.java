@@ -12,8 +12,14 @@ public class ModItems {
     public static final Item INCOMPLETE_LIGHT_SIGNAL_SPEED = registerItem(
             "incomplete_light_signal_speed", new SequencedAssemblyItem(new Item.Settings()));
 
-    public static final Item GUEST_ID = registerItem(
-            "guest_id", new Item(new Item.Settings()));
+    public static final Item VISITOR_ID = registerItem(
+            "visitor_id", new GuestIdItem(new Item.Settings()));
+
+    public static final Item SUPERVISOR_ID = registerItem(
+            "supervisor_id", new Item(new Item.Settings()));
+
+    public static final Item WORKER_ID = registerItem(
+            "worker_id", new Item(new Item.Settings()));
 
 
 
