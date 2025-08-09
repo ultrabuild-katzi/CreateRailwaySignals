@@ -21,6 +21,6 @@ public class TrackLimitItem extends TrackTargetingBlockItem {
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         super.appendTooltip(stack, world, tooltip, context);
         tooltip.add(Text.translatable("item.create_railway_signal.track_limit.tooltip_1"));
-        tooltip.add(Text.translatable("item.create_railway_signal.track_limit.tooltip_2"));
+
     }
 }

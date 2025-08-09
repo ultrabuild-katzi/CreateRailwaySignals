@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "createrailwaysignal:worker_id"
+        }
+    ],
+    "result": {
+        "item": "createrailwaysignal:worker_id",
+        "count": 1
+    }
+}

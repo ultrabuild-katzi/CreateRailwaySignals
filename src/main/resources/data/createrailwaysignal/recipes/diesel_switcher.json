@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "createdieselgenerators:large_diesel_engine"
+        }
+    ],
+    "result": {
+        "item": "createrailwaysignal:fake_engine",
+        "count": 1
+    }
+}

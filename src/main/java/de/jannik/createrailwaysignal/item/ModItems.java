@@ -3,7 +3,6 @@ package de.jannik.createrailwaysignal.item;
 import com.simibubi.create.content.processing.sequenced.SequencedAssemblyItem;
 import de.jannik.createrailwaysignal.Createrailwaysignal;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
@@ -13,13 +12,13 @@ public class ModItems {
             "incomplete_light_signal_speed", new SequencedAssemblyItem(new Item.Settings()));
 
     public static final Item VISITOR_ID = registerItem(
-            "visitor_id", new GuestIdItem(new Item.Settings()));
+            "visitor_id", new IDItem(new Item.Settings()));
 
     public static final Item SUPERVISOR_ID = registerItem(
-            "supervisor_id", new Item(new Item.Settings()));
+            "supervisor_id", new IDItem(new Item.Settings()));
 
     public static final Item WORKER_ID = registerItem(
-            "worker_id", new Item(new Item.Settings()));
+            "worker_id", new IDItem(new Item.Settings()));
 
 
 

@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "create_high_pressure:graphite_powder"
+        }
+    ],
+    "result": {
+        "item": "pantographsandwires:coal_coke",
+        "count": 1
+    }
+}

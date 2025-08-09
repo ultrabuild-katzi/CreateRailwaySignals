@@ -43,12 +43,6 @@ public class Createrailwaysignal implements ModInitializer {
     public static final Identifier MODERN_SOUND_ID = Identifier.of(MOD_ID, "modern");
     public static SoundEvent MODERN_SOUND_EVENT = SoundEvent.of(MODERN_SOUND_ID);
 
-
-
-    // Remove the manual block and block entity declarations
-    // public static final Block WHISTLE_BLOCK = ...
-    // public static final BlockEntityType<WhistleBlockEntity> WHISTLE_BLOCK_ENTITY = ...
-
     public static MinecraftServer server;
 
     @Override

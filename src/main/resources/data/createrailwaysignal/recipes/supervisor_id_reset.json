@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "createrailwaysignal:supervisor_id"
+        }
+    ],
+    "result": {
+        "item": "createrailwaysignal:supervisor_id",
+        "count": 1
+    }
+}

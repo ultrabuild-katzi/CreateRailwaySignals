@@ -3,7 +3,8 @@
   "values": [
     "createrailwaysignal:whistle_block",
     "createrailwaysignal:track_limit",
-    "createrailwaysignal:light_signal_speed"
+    "createrailwaysignal:light_signal_speed",
+    "createrailwaysignal:fake_engine"
 
   ]
 }

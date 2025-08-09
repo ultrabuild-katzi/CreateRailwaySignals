@@ -39,6 +39,7 @@ public class LightSignalSpeedItem extends BlockItem {
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         super.appendTooltip(stack, world, tooltip, context);
         tooltip.add(Text.translatable("item.create_railway_signal.light_signal_speed.tooltip_1"));
+        tooltip.add(Text.translatable("item.create_railway_signal.light_signal_speed.tooltip_2"));
     }
 
 

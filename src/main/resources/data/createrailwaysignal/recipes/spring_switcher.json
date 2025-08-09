@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "pantographsandwires:iron_rod_bundle"
+        }
+    ],
+    "result": {
+        "item": "pantographsandwires:iron_spring",
+        "count": 1
+    }
+}

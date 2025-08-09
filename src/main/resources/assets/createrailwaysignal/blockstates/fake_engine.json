@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "createdieselgenerators:block/modular_diesel_engine/block",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "createdieselgenerators:block/modular_diesel_engine/block",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "createdieselgenerators:block/modular_diesel_engine/block",
+      "y": 90
+    },
+    "facing=east": {
+      "model": "createdieselgenerators:block/modular_diesel_engine/block",
+      "y": 90
+    }
+  }
+}
