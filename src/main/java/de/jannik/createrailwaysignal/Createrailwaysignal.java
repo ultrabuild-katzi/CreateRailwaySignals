@@ -8,6 +8,7 @@ import com.simibubi.create.foundation.item.TooltipHelper;
 import com.simibubi.create.foundation.item.TooltipModifier;
 import de.jannik.createrailwaysignal.block.ModBlockEntityTypes;
 import de.jannik.createrailwaysignal.block.ModBlocks;
+import de.jannik.createrailwaysignal.commands.CreaterailwayCommands;
 import de.jannik.createrailwaysignal.item.ModItemGroup;
 import de.jannik.createrailwaysignal.item.ModItems;
 import net.fabricmc.api.ModInitializer;
@@ -51,6 +52,7 @@ public class Createrailwaysignal implements ModInitializer {
         ModBlocks.registerModBlocks();
         ModItems.registerModItems();
         ModBlockEntityTypes.initialize();
+        CreaterailwayCommands.register();
         LOGGER.info("Initialized mod");
         REGISTRATE.register();
 

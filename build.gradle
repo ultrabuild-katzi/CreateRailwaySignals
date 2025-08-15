@@ -70,7 +70,7 @@ dependencies {
 
     modImplementation "dev.emi:trinkets:${trinkets_version}"
 
-    modImplementation(files("lib/grenzzeichen-1.0.0.jar"))
+//    modImplementation(files("lib/grenzzeichen-1.0.1.jar"))
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 }
 

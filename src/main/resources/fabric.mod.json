@@ -24,8 +24,7 @@
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
     "minecraft": "${minecraft_version}",
-    "create": "${create_fabric_version}",
-    "grenzzeichen": "1.0.0"
+    "create": "${create_fabric_version}"
   },
   "accessWidener" : "create_railway_signal.accesswidener",
   "custom": {
