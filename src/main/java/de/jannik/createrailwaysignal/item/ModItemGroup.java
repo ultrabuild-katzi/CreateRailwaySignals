@@ -2,6 +2,7 @@ package de.jannik.createrailwaysignal.item;
 
 import de.jannik.createrailwaysignal.Createrailwaysignal;
 import de.jannik.createrailwaysignal.block.ModBlocks;
+import de.jannik.createrailwaysignal.block.kilometer.ModKilometerContent;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -22,10 +23,12 @@ public class ModItemGroup {
             FabricItemGroup.builder().displayName(Text.translatable("itemgroup.createrailwaysignal"))
                     .icon(() -> new ItemStack(ModBlocks.TRACK_LIMIT)).entries((displayContext, entries) -> {
 
-                        entries.add(ModItems.INCOMPLETE_LIGHT_SIGNAL_SPEED); // cognitive loser
-                        entries.add(ModItems.VISITOR_ID); // cognitive loser
-                        entries.add(ModItems.WORKER_ID); // cognitive loser
-                        entries.add(ModItems.SUPERVISOR_ID); // cognitive loser
+                        entries.add(ModItems.INCOMPLETE_LIGHT_SIGNAL_SPEED);
+                        entries.add(ModItems.VISITOR_ID);
+                        entries.add(ModItems.WORKER_ID);
+                        entries.add(ModItems.SUPERVISOR_ID);
+
+                        entries.add(ModKilometerContent.KILOMETER_MARKER.asItem());
 
                     }).build());
 

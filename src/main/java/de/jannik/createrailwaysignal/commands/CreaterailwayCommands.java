@@ -49,18 +49,18 @@ public final class CreaterailwayCommands {
                                 ctx.getSource().sendFeedback(() -> Text.literal(
                                         """
                                         Use:
-                                          /createrailwaysignal showspeedblock [status|on|off|toggle]
-                                          /createrailwaysignal showwhistleblock [status|on|off|toggle]
+                                          /createrailwaysignal debugspeedblock [status|on|off|toggle]
+                                          /createrailwaysignal debugwhistleblock [status|on|off|toggle]
                                         """), false);
                                 return 1;
                             })
-                            .then(buildToggleBranch("showspeedblock", SHOW_SPEED_BLOCK))
-                            .then(buildToggleBranch("showwhistleblock", SHOW_WHISTLE_BLOCK))
+                            .then(buildToggleBranch("debugspeedblock", SHOW_SPEED_BLOCK))
+                            .then(buildToggleBranch("debugwhistleblock", SHOW_WHISTLE_BLOCK))
             );
 
             // Optional top-level aliases (handy + avoids root issues)
-            dispatcher.register(buildToggleBranch("showspeedblock", SHOW_SPEED_BLOCK));
-            dispatcher.register(buildToggleBranch("showwhistleblock", SHOW_WHISTLE_BLOCK));
+            dispatcher.register(buildToggleBranch("debugspeedblock", SHOW_SPEED_BLOCK));
+            dispatcher.register(buildToggleBranch("debugwhistleblock", SHOW_WHISTLE_BLOCK));
         });
     }
 
@@ -117,8 +117,8 @@ public final class CreaterailwayCommands {
 
     private static String prettyName(String literal) {
         return switch (literal) {
-            case "showspeedblock" -> "Speed block location display";
-            case "showwhistleblock" -> "Whistle block log display";
+            case "debugspeedblock" -> "Speed block location display";
+            case "debugwhistleblock" -> "Whistle block log display";
             default -> literal;
         };
     }

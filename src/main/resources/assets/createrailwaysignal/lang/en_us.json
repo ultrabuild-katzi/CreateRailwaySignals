@@ -3,7 +3,7 @@
   "block.createrailwaysignal.light_signal_speed": "Speed sign",
   "block.createrailwaysignal.whistle_block": "Whistle Block",
   "block.createrailwaysignal.fake_engine": "Fake Engine",
-
+  "block.createrailwaysignal.kilometer_marker": "Kilometer Marker",
 
   "item.createrailwaysignal.visitor_id": "Visitor ID",
   "item.createrailwaysignal.worker_id": "Worker ID",
@@ -11,12 +11,11 @@
 
   "item.createrailwaysignal.visitor_id.tooltip": "Shift-right-click to sign",
 
-
-
   "itemgroup.createrailwaysignal": "Better Railways",
-
 
   "item.create_railway_signal.light_signal_speed.tooltip_1": "can show how fast the train is going",
   "item.create_railway_signal.light_signal_speed.tooltip_2": "tip: you can dye that!",
-  "item.create_railway_signal.track_limit.tooltip_1": "can set the train speed by right clicking"
+  "item.create_railway_signal.track_limit.tooltip_1": "can set the train speed by right clicking",
+
+  "item.createrailwaysignal.incomplete_light_signal_speed": "Incomplete Speed Sign"
 }

@@ -8,6 +8,7 @@ import com.simibubi.create.foundation.item.TooltipHelper;
 import com.simibubi.create.foundation.item.TooltipModifier;
 import de.jannik.createrailwaysignal.block.ModBlockEntityTypes;
 import de.jannik.createrailwaysignal.block.ModBlocks;
+import de.jannik.createrailwaysignal.block.kilometer.ModKilometerContent;
 import de.jannik.createrailwaysignal.commands.CreaterailwayCommands;
 import de.jannik.createrailwaysignal.item.ModItemGroup;
 import de.jannik.createrailwaysignal.item.ModItems;
@@ -53,6 +54,8 @@ public class Createrailwaysignal implements ModInitializer {
         ModItems.registerModItems();
         ModBlockEntityTypes.initialize();
         CreaterailwayCommands.register();
+        ModItems.registerModItems();
+        ModKilometerContent.registerAll();
         LOGGER.info("Initialized mod");
         REGISTRATE.register();
 

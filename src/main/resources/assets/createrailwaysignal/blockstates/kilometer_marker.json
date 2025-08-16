@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "createrailwaysignal:block/kilometer_marker" },
+    "facing=south": { "model": "createrailwaysignal:block/kilometer_marker", "y": 180 },
+    "facing=west":  { "model": "createrailwaysignal:block/kilometer_marker", "y": 270 },
+    "facing=east":  { "model": "createrailwaysignal:block/kilometer_marker", "y": 90 }
+  }
+}
