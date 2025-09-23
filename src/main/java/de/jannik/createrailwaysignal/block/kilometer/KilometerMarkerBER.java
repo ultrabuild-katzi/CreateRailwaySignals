@@ -38,7 +38,13 @@ public class KilometerMarkerBER implements BlockEntityRenderer<KilometerMarkerBl
 
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180));
 
-        matrices.scale(TEXT_SCALE, -TEXT_SCALE, 1.0f);
+
+        if (be.getKilometer() <= 99) {
+            matrices.scale(TEXT_SCALE , -TEXT_SCALE, 1.0f);
+        }
+        else {
+            matrices.scale(TEXT_SCALE / 1.25f, -TEXT_SCALE / 1.25f, 1.0f);
+        }
 
         matrices.translate(0, 0, Z_OFFSET);
 

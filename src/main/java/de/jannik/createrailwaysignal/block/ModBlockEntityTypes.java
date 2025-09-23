@@ -13,20 +13,23 @@ import net.minecraft.util.Identifier;
 import static de.jannik.createrailwaysignal.Createrailwaysignal.REGISTRATE;
 
 public class ModBlockEntityTypes {
+
     public static final BlockEntityEntry<TrackLimitBlockEntity> TRACK_LIMIT = Createrailwaysignal.REGISTRATE
             .blockEntity("track_limit", TrackLimitBlockEntity::new)
-//            .renderer(() -> SignalRenderer::new)
             .validBlocks(ModBlocks.TRACK_LIMIT)
             .register();
+
     public static final BlockEntityEntry<LightSignalSpeedBlockEntity> LIGHT_SIGNAL_SPEED = Createrailwaysignal.REGISTRATE
             .blockEntity("light_signal_speed", LightSignalSpeedBlockEntity::new)
             .renderer(() -> LightSignalSpeedBlockRenderer::new)
             .validBlocks(ModBlocks.LIGHT_SIGNAL_SPEED)
             .register();
+
     public static final BlockEntityEntry<WhistleBlockEntity> WHISTLE_BLOCK = Createrailwaysignal.REGISTRATE
             .blockEntity("whistle_block", WhistleBlockEntity::new)
             .validBlocks(ModBlocks.WHISTLE_BLOCK)
             .register();
+
 
     public static final BlockEntityType<FakeEngineEntity> FAKE_ENGINE_ENTITY = Registry.register(
             Registries.BLOCK_ENTITY_TYPE,
@@ -34,11 +37,13 @@ public class ModBlockEntityTypes {
             FabricBlockEntityTypeBuilder.create(FakeEngineEntity::new, ModBlocks.FAKE_ENGINE).build()
     );
 
-
     public static void initialize() {
-        FluidStorage.SIDED.registerForBlockEntity((machine, direction) ->
-                        machine.fluidStorage
-                , FAKE_ENGINE_ENTITY);
+        Createrailwaysignal.LOGGER.info("Registered Block Entity Types");
+        FluidStorage.SIDED.registerForBlockEntity(
+
+                (machine, direction) -> machine.fluidStorage,
+                FAKE_ENGINE_ENTITY
+        );
         Createrailwaysignal.LOGGER.info("Registered Block Entity Types");
     }
 }

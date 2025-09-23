@@ -8,7 +8,6 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class ModItems {
-    // existing items
     public static final Item INCOMPLETE_LIGHT_SIGNAL_SPEED = registerItem(
             "incomplete_light_signal_speed", new SequencedAssemblyItem(new Item.Settings()));
 
@@ -23,6 +22,10 @@ public class ModItems {
 
 
 
+    public static void register() {
+        Createrailwaysignal.LOGGER.info("Registered ModItems");
+    }
+
     private static <T extends Item> T registerItem(String name, T item) {
         return Registry.register(Registries.ITEM, Identifier.of(Createrailwaysignal.MOD_ID, name), item);
     }
@@ -30,4 +33,5 @@ public class ModItems {
     public static void registerModItems() {
         Createrailwaysignal.LOGGER.info("Registering Mod Items for " + Createrailwaysignal.MOD_ID);
     }
+
 }

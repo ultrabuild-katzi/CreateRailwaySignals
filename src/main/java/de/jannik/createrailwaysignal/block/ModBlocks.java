@@ -17,6 +17,8 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
+import static de.jannik.createrailwaysignal.Createrailwaysignal.REGISTRATE;
+
 
 import static com.simibubi.create.foundation.data.ModelGen.customItemModel;
 import static de.jannik.createrailwaysignal.Createrailwaysignal.MOD_ID;
@@ -25,8 +27,6 @@ public class ModBlocks {
 
     public static final Block FAKE_ENGINE = registerBlock("fake_engine",
             new FakeEngineBlock(FabricBlockSettings.copyOf(Blocks.STONE).sounds(BlockSoundGroup.ANVIL).nonOpaque()));
-
-    
 
 
     public static final BlockEntry<WhistleBlock> WHISTLE_BLOCK = Createrailwaysignal.REGISTRATE.block("whistle_block", WhistleBlock::new)
@@ -37,8 +37,6 @@ public class ModBlocks {
             .item(WhistleBlockItem::new)
             .transform(customItemModel())
             .register();
-
-
     public static final BlockEntry<TrackLimitBlock> TRACK_LIMIT = Createrailwaysignal.REGISTRATE.block("track_limit", TrackLimitBlock::new)
             .initialProperties(SharedProperties::softMetal)
             .properties(p -> p.mapColor(MapColor.SPRUCE_BROWN)
@@ -47,8 +45,6 @@ public class ModBlocks {
             .item(TrackLimitItem::new)
             .transform(customItemModel())
             .register();
-
-
     public static BlockEntry<LightSignalSpeedBlock> LIGHT_SIGNAL_SPEED;
 
     public static void registerModBlocks() {
@@ -57,9 +53,10 @@ public class ModBlocks {
                 .item(LightSignalSpeedItem::new)
                 .transform(customItemModel())
                 .register();
+    }
 
-
-        Createrailwaysignal.LOGGER.info("Registering ModBlocks for " + MOD_ID);
+    public static void register() {
+        Createrailwaysignal.LOGGER.info("Registering Mod Blocks for " + MOD_ID);
     }
 
     private static Block registerBlock(String name, Block block) {

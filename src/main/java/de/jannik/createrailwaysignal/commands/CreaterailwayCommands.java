@@ -1,24 +1,40 @@
 package de.jannik.createrailwaysignal.commands;
 
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import de.jannik.createrailwaysignal.block.kilometer.KilometerMarkerBlock;
+import de.jannik.createrailwaysignal.block.kilometer.KilometerMarkerHelper;
+import de.jannik.createrailwaysignal.debug.KMDbg;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
+import net.minecraft.block.BlockState;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameRules;
+import net.minecraft.server.world.ServerWorld;
+
+import static net.minecraft.server.command.CommandManager.argument;
+import static net.minecraft.server.command.CommandManager.literal;
 
 /**
  * Root command:
- *   /createrailwaysignal showspeedblock [status|on|off|toggle]
- *   /createrailwaysignal showwhistleblock [status|on|off|toggle]
+ *   /createrailwaysignal debugspeedblock [status|on|off|toggle]
+ *   /createrailwaysignal debugwhistleblock [status|on|off|toggle]
+ *   /createrailwaysignal kmdebug [on|off|toggle]
+ *   /createrailwaysignal kmdump
  *
- * Aliases (optional, same behavior):
- *   /showspeedblock  [status|on|off|toggle]
- *   /showwhistleblock[status|on|off|toggle]
+ * Aliases:
+ *   /debugspeedblock  [status|on|off|toggle]
+ *   /debugwhistleblock[status|on|off|toggle]
+ *   /kmdebug [on|off|toggle]
+ *   /kmdump
  *
- * Gamerules (persist per world):
+ * Gamerules:
  *   /gamerule showSpeedBlock true|false
  *   /gamerule showWhistleBlock true|false
  */
@@ -42,7 +58,7 @@ public final class CreaterailwayCommands {
 
     public static void register() {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-            // Root command with helpful default executor
+            // Root command
             dispatcher.register(
                     CommandManager.literal("createrailwaysignal")
                             .executes(ctx -> {
@@ -51,16 +67,24 @@ public final class CreaterailwayCommands {
                                         Use:
                                           /createrailwaysignal debugspeedblock [status|on|off|toggle]
                                           /createrailwaysignal debugwhistleblock [status|on|off|toggle]
+                                          /createrailwaysignal kmdebug [on|off|toggle]
+                                          /createrailwaysignal kmdump
                                         """), false);
                                 return 1;
                             })
                             .then(buildToggleBranch("debugspeedblock", SHOW_SPEED_BLOCK))
                             .then(buildToggleBranch("debugwhistleblock", SHOW_WHISTLE_BLOCK))
+                            .then(buildKmDebugNode())   // NEW
+                            .then(buildKmDumpNode())    // NEW
             );
 
-            // Optional top-level aliases (handy + avoids root issues)
+            // Existing aliases
             dispatcher.register(buildToggleBranch("debugspeedblock", SHOW_SPEED_BLOCK));
             dispatcher.register(buildToggleBranch("debugwhistleblock", SHOW_WHISTLE_BLOCK));
+
+            // NEW aliases
+            dispatcher.register(buildKmDebugNode());
+            dispatcher.register(buildKmDumpNode());
         });
     }
 
@@ -110,7 +134,7 @@ public final class CreaterailwayCommands {
                     var rule = rules.get(key);
                     boolean newVal = !rule.get();
                     rule.set(newVal, src.getServer());
-                    src.sendFeedback(() -> Text.literal(pretyToggleName(literal, newVal)), false);
+                    src.sendFeedback(() -> Text.literal(prettyToggleName(literal, newVal)), false);
                     return 1;
                 }));
     }
@@ -123,7 +147,64 @@ public final class CreaterailwayCommands {
         };
     }
 
-    private static String pretyToggleName(String literal, boolean on) {
+    private static String prettyToggleName(String literal, boolean on) {
         return prettyName(literal) + ": " + (on ? "ON" : "OFF");
+    }
+
+    /* ===================== NEW: KM debug toggle ===================== */
+
+    private static LiteralArgumentBuilder<ServerCommandSource> buildKmDebugNode() {
+        return literal("kmdebug")
+                .then(argument("mode", StringArgumentType.word())
+                        .suggests((c, b) -> {
+                            b.suggest("on"); b.suggest("off"); b.suggest("toggle");
+                            return b.buildFuture();
+                        })
+                        .executes(ctx -> {
+                            String mode = StringArgumentType.getString(ctx, "mode").toLowerCase();
+                            switch (mode) {
+                                case "on" -> KMDbg.set(true);
+                                case "off" -> KMDbg.set(false);
+                                case "toggle" -> KMDbg.set(!KMDbg.on());
+                                default -> {
+                                    ctx.getSource().sendError(Text.literal("Usage: /kmdebug <on|off|toggle>"));
+                                    return 0;
+                                }
+                            }
+                            ctx.getSource().sendFeedback(() -> Text.literal("KM debug: " + (KMDbg.on() ? "ON" : "OFF")), false);
+                            return 1;
+                        })
+                )
+                .executes(ctx -> {
+                    // no-arg: toggle
+                    KMDbg.set(!KMDbg.on());
+                    ctx.getSource().sendFeedback(() -> Text.literal("KM debug: " + (KMDbg.on() ? "ON" : "OFF")), false);
+                    return 1;
+                });
+    }
+
+    /* ===================== NEW: KM dump ===================== */
+
+    private static LiteralArgumentBuilder<ServerCommandSource> buildKmDumpNode() {
+        return literal("kmdump")
+                .executes(ctx -> {
+                    ServerPlayerEntity player = ctx.getSource().getPlayer();
+                    if (player == null) {
+                        ctx.getSource().sendError(Text.literal("Players only."));
+                        return 0;
+                    }
+
+                    // Raycast to the block the player is looking at
+                    BlockHitResult hit = (BlockHitResult) player.raycast(8.0D, 0.0F, false);
+                    BlockPos pos = hit.getBlockPos();
+                    ServerWorld world = ctx.getSource().getWorld();
+                    BlockState state = world.getBlockState(pos);
+
+                    if (!(state.getBlock() instanceof KilometerMarkerBlock)) {
+                        ctx.getSource().sendError(Text.literal("Look at a Kilometer Marker to use /kmdump."));
+                        return 0;
+                    }
+                    return 0;
+                });
     }
 }

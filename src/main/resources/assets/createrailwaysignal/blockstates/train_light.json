@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "front=true,facing=north": { "model": "createrailwaysignal:block/train_light_front" },
+    "front=true,facing=south": { "model": "createrailwaysignal:block/train_light_front", "y": 180 },
+    "front=true,facing=west":  { "model": "createrailwaysignal:block/train_light_front", "y": 270 },
+    "front=true,facing=east":  { "model": "createrailwaysignal:block/train_light_front", "y": 90 },
+
+    "front=false,facing=north": { "model": "createrailwaysignal:block/train_light_back" },
+    "front=false,facing=south": { "model": "createrailwaysignal:block/train_light_back", "y": 180 },
+    "front=false,facing=west":  { "model": "createrailwaysignal:block/train_light_back", "y": 270 },
+    "front=false,facing=east":  { "model": "createrailwaysignal:block/train_light_back", "y": 90 }
+  }
+}

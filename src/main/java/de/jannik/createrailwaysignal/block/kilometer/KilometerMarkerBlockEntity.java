@@ -18,26 +18,15 @@ public class KilometerMarkerBlockEntity extends BlockEntity {
         super(ModKilometerContent.KILOMETER_MARKER_BE, pos, state);
     }
 
-    public int getKilometer() {
-        return kilometer;
-    }
-    public int getMeters() {
-        return meters;
-    }
+    public int getKilometer() { return kilometer; }
+    public int getMeters() { return meters; }
 
-    public void setKilometer(int km) {
-        this.kilometer = Math.max(0, km);
-        markDirty();
-        sync();
-    }
-
+    public void setKilometer(int km) { this.kilometer = Math.max(0, km); markDirty(); }
     public void setMeters(int m) {
-        this.meters = Math.floorMod(m, 1000);
+        this.meters = ((m % 1000) + 1000) % 1000;
         markDirty();
-        sync();
     }
 
-    // ---- Persist to NBT ----
     @Override
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
@@ -48,11 +37,10 @@ public class KilometerMarkerBlockEntity extends BlockEntity {
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
-        this.kilometer = nbt.getInt("km");
-        this.meters = nbt.getInt("m");
+        kilometer = nbt.getInt("km");
+        meters = nbt.getInt("m");
     }
 
-    // ---- Networking: send updates to client ----
     @Nullable
     @Override
     public Packet<ClientPlayPacketListener> toUpdatePacket() {

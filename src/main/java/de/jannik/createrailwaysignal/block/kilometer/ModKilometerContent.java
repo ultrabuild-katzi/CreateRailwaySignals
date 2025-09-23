@@ -14,13 +14,22 @@ import net.minecraft.util.Identifier;
 import static de.jannik.createrailwaysignal.Createrailwaysignal.MOD_ID;
 
 public class ModKilometerContent {
-    public static final Block KILOMETER_MARKER = new KilometerMarkerBlock(
-            FabricBlockSettings.create().mapColor(MapColor.IRON_GRAY).strength(1.0f, 4.0f).nonOpaque());
 
+    public static Block KILOMETER_MARKER;
     public static BlockEntityType<KilometerMarkerBlockEntity> KILOMETER_MARKER_BE;
 
-    public static void registerAll() {
-        Registry.register(Registries.BLOCK, new Identifier(MOD_ID, "kilometer_marker"), KILOMETER_MARKER);
+    public static void register() {
+        KILOMETER_MARKER = Registry.register(
+                Registries.BLOCK,
+                new Identifier(MOD_ID, "kilometer_marker"),
+                new KilometerMarkerBlock(FabricBlockSettings
+                        .create()
+                        .mapColor(MapColor.IRON_GRAY)
+                        .strength(2.0f, 6.0f)
+                        .nonOpaque()
+                )
+        );
+
         Registry.register(Registries.ITEM,  new Identifier(MOD_ID, "kilometer_marker"),
                 new BlockItem(KILOMETER_MARKER, new Item.Settings()));
 

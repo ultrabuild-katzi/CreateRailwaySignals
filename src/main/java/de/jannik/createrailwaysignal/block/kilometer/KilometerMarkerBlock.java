@@ -13,6 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
@@ -24,26 +25,29 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 public class KilometerMarkerBlock extends BlockWithEntity implements IWrenchable {
     public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
+    public static final BooleanProperty CONNECTED = BooleanProperty.of("connected");
 
-
-    private static final VoxelShape SHAPE_NORTH = VoxelShapes.cuboid(1/16.0, 0.0,       15/16.0,   15/16.0, 1.0,    1.0);
-    private static final VoxelShape SHAPE_SOUTH = VoxelShapes.cuboid(1/16.0, 0.0,       0.0,       15/16.0, 1.0,    1/16.0);
-    private static final VoxelShape SHAPE_WEST  = VoxelShapes.cuboid(15/16.0, 0.0,      1/16.0,    1.0,     1.0,    15/16.0);
-    private static final VoxelShape SHAPE_EAST  = VoxelShapes.cuboid(0.0,     0.0,      1/16.0,    1/16.0,  1.0,    15/16.0);
-
+    // thin post along the back side
+    private static final VoxelShape SHAPE_NORTH = VoxelShapes.cuboid(1/16.0, 0.0,       0.0,       15/16.0, 1.0, 1/16.0);
+    private static final VoxelShape SHAPE_SOUTH = VoxelShapes.cuboid(1/16.0, 0.0,       15/16.0,   15/16.0, 1.0, 1.0);
+    private static final VoxelShape SHAPE_WEST  = VoxelShapes.cuboid(0.0,     0.0,      1/16.0,    1/16.0,  1.0, 15/16.0);
+    private static final VoxelShape SHAPE_EAST  = VoxelShapes.cuboid(15/16.0, 0.0,      1/16.0,    1.0,     1.0, 15/16.0);
 
     public KilometerMarkerBlock(Settings settings) {
         super(settings);
-        setDefaultState(getStateManager().getDefaultState().with(FACING, Direction.NORTH));
+        setDefaultState(getStateManager().getDefaultState()
+                .with(FACING, Direction.NORTH)
+                .with(CONNECTED, false));
     }
 
     @Override
     protected void appendProperties(StateManager.Builder<net.minecraft.block.Block, BlockState> builder) {
-        builder.add(FACING);
+        builder.add(FACING, CONNECTED);
     }
 
     @Nullable
@@ -54,95 +58,111 @@ public class KilometerMarkerBlock extends BlockWithEntity implements IWrenchable
 
     @Override
     public BlockRenderType getRenderType(BlockState state) {
-        // BER-only rendering (your numbers renderer draws the text; plate comes from BER or model as you choose)
         return BlockRenderType.MODEL;
     }
 
-    @Nullable
+    /* ---------------- Placement (simple 90°) ----------------
+       - If placed ON a connectable lattice: facing = clickedFace, connected = true
+       - Else: facing = playerFacing.opposite, connected = behind-scan
+    --------------------------------------------------------- */
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
+        World world = ctx.getWorld();
+        BlockPos placePos = ctx.getBlockPos();
+
+        Direction facing = ctx.getHorizontalPlayerFacing().getOpposite();
+        boolean connected = false;
+
+        // Block we clicked to place against
+        Direction clickedFace = ctx.getSide();
+        BlockPos clickedPos = placePos.offset(clickedFace.getOpposite());
+        BlockState clickedState = world.getBlockState(clickedPos);
+
+        if (KilometerMarkerHelper.isConnectable(clickedState)) {
+            // 180° preference you requested earlier: front == clickedFace (back hugs the lattice)
+            facing = clickedFace;
+            connected = true; // definitely touching it
+        } else {
+            // not clicked on a connectable → keep default facing, probe behind
+            connected = KilometerMarkerHelper.hasConnectableBehind(world, placePos,
+                    getDefaultState().with(FACING, facing));
+        }
+
+        return getDefaultState().with(FACING, facing).with(CONNECTED, connected);
     }
 
-    // ===== Outline / Collision / Raycast shapes (rotate with FACING) =====
+    /* -------- Neighbor updates: do nothing (no auto-rotation) -------- */
+    @Override
+    public BlockState getStateForNeighborUpdate(BlockState state, Direction dir, BlockState neighborState,
+                                                WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+        return state; // keep it simple and stable
+    }
+
+    /* ---------------- Shapes ---------------- */
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return shapeFor(state.get(FACING));
     }
-
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        // If you want it walk-through, return VoxelShapes.empty(); (keep outline/raycast for clicks)
         return shapeFor(state.get(FACING));
     }
-
     @Override
     public VoxelShape getRaycastShape(BlockState state, BlockView world, BlockPos pos) {
         return shapeFor(state.get(FACING));
     }
-
     private static VoxelShape shapeFor(Direction dir) {
         return switch (dir) {
-            case SOUTH -> SHAPE_SOUTH;
-            case WEST  -> SHAPE_WEST;
-            case EAST  -> SHAPE_EAST;
-            default    -> SHAPE_NORTH; // NORTH
+            case SOUTH -> SHAPE_NORTH;
+            case NORTH -> SHAPE_SOUTH;
+            case EAST  -> SHAPE_WEST;
+            case WEST  -> SHAPE_EAST;
+            default    -> SHAPE_NORTH;
         };
     }
 
-    // =========================
-    // Hand (= PLUS) interactions
-    // =========================
+    /* ---------------- Interactions (unchanged controls) ----------------
+       Right-click           -> KM +1
+       Shift + Right-click   -> M  +100
+       Wrench Right-click    -> KM -1
+       Wrench + Shift        -> M  -100 (wrap 0..900)
+    --------------------------------------------------------------------- */
+
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos,
                               PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (world.isClient) return ActionResult.SUCCESS;
-
-        BlockEntity be = world.getBlockEntity(pos);
-        if (!(be instanceof KilometerMarkerBlockEntity marker)) return ActionResult.PASS;
-
-        boolean shift = player.isSneaking();
         Item held = player.getStackInHand(hand).getItem();
+        if (held instanceof WrenchItem) return ActionResult.PASS; // let Create handle wrench hooks
 
-        // Only handle empty-hand here; Create's wrench goes to IWrenchable below
-        if (player.getStackInHand(hand).isEmpty()) {
-            if (shift) {
-                marker.setMeters((marker.getMeters() + 100) % 1000);   // m +100 (wrap)
-                player.sendMessage(Text.literal("Meters: " + marker.getMeters()), true);
-            } else {
-                marker.setKilometer(marker.getKilometer() + 1);        // km +1
-                player.sendMessage(Text.literal("Kilometer: " + marker.getKilometer()), true);
-            }
-            marker.sync();
-            return ActionResult.CONSUME;
+        if (world.isClient) return ActionResult.SUCCESS;
+        if (!(world.getBlockEntity(pos) instanceof KilometerMarkerBlockEntity be)) return ActionResult.PASS;
+
+        if (player.isSneaking()) {
+            int m = be.getMeters();
+            m = ((m + 100) % 1000 + 1000) % 1000;
+            be.setMeters(m);
+            player.sendMessage(Text.literal("Meters: " + String.format("%03d", be.getMeters())));
+        } else {
+            int km = be.getKilometer();
+            be.setKilometer(Math.max(0, km + 1));
+            player.sendMessage(Text.literal("Kilometer: " + be.getKilometer()));
         }
-
-        if (held instanceof WrenchItem) {
-            // Let Create handle wrench via IWrenchable
-            return ActionResult.PASS;
-        }
-
-        return ActionResult.PASS;
+        be.sync();
+        return ActionResult.SUCCESS;
     }
 
-    // ======================================
-    // Wrench (= MINUS) interactions via Create
-    // ======================================
     @Override
     public ActionResult onWrenched(BlockState state, ItemUsageContext ctx) {
         World world = ctx.getWorld();
         if (world.isClient) return ActionResult.SUCCESS;
+        if (!(world.getBlockEntity(ctx.getBlockPos()) instanceof KilometerMarkerBlockEntity be)) return ActionResult.PASS;
 
-        BlockPos pos = ctx.getBlockPos();
-        PlayerEntity player = ctx.getPlayer();
-        if (!(world.getBlockEntity(pos) instanceof KilometerMarkerBlockEntity marker) || player == null)
-            return ActionResult.PASS;
-
-        // Right-click with wrench => km -1 (clamp at 0)
-        int newKm = Math.max(0, marker.getKilometer() - 1);
-        marker.setKilometer(newKm);
-        player.sendMessage(Text.literal("Kilometer: " + newKm), true);
-        marker.sync();
+        int km = be.getKilometer();
+        be.setKilometer(Math.max(0, km - 1));
+        if (ctx.getPlayer() != null) {
+            ctx.getPlayer().sendMessage(Text.literal("Kilometer: " + be.getKilometer()));
+        }
+        be.sync();
         return ActionResult.SUCCESS;
     }
 
@@ -150,16 +170,19 @@ public class KilometerMarkerBlock extends BlockWithEntity implements IWrenchable
     public ActionResult onSneakWrenched(BlockState state, ItemUsageContext ctx) {
         World world = ctx.getWorld();
         if (world.isClient) return ActionResult.SUCCESS;
+        if (!(world.getBlockEntity(ctx.getBlockPos()) instanceof KilometerMarkerBlockEntity be)) return ActionResult.PASS;
 
-        BlockPos pos = ctx.getBlockPos();
-        PlayerEntity player = ctx.getPlayer();
-        if (!(world.getBlockEntity(pos) instanceof KilometerMarkerBlockEntity marker) || player == null)
-            return ActionResult.PASS;
+        int m = be.getMeters();
+        m -= 100;
+        while (m < 0) m += 1000;
+        m %= 1000;
+        m = (m / 100) * 100;
 
-        // Shift + right-click with wrench => m -100 (wrap)
-        marker.setMeters((marker.getMeters() + 900) % 1000);
-        player.sendMessage(Text.literal("Meters: " + marker.getMeters()), true);
-        marker.sync();
+        be.setMeters(m);
+        if (ctx.getPlayer() != null) {
+            ctx.getPlayer().sendMessage(Text.literal("Meters: " + String.format("%03d", be.getMeters())));
+        }
+        be.sync();
         return ActionResult.SUCCESS;
     }
 }

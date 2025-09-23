@@ -10,6 +10,7 @@ import de.jannik.createrailwaysignal.block.ModBlockEntityTypes;
 import de.jannik.createrailwaysignal.block.ModBlocks;
 import de.jannik.createrailwaysignal.block.kilometer.ModKilometerContent;
 import de.jannik.createrailwaysignal.commands.CreaterailwayCommands;
+//import de.jannik.createrailwaysignal.compat.create.TrainLightCompat;
 import de.jannik.createrailwaysignal.item.ModItemGroup;
 import de.jannik.createrailwaysignal.item.ModItems;
 import net.fabricmc.api.ModInitializer;
@@ -55,9 +56,11 @@ public class Createrailwaysignal implements ModInitializer {
         ModBlockEntityTypes.initialize();
         CreaterailwayCommands.register();
         ModItems.registerModItems();
-        ModKilometerContent.registerAll();
+        ModKilometerContent.register();
+//        TrainLightCompat.register();
         LOGGER.info("Initialized mod");
         REGISTRATE.register();
+
 
 
         Registry.register(Registries.SOUND_EVENT, Createrailwaysignal.TRADITIONAL_SOUND_ID, TRADITIONAL_SOUND_EVENT);
