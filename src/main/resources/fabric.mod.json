@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "id": "createrailwaysignal",
   "version": "${version}",
-  "name": "CreateRailwaySignal",
-  "description": "",
-  "authors": [],
+  "name": "Create: RailwaySignals",
+  "description": "adds Speedlimiter and SpeedSign blocks to control and display train speed limits",
+  "authors": ["Jannik_ca, NotStevy"],
   "contact": {},
   "license": "All-Rights-Reserved",
   "icon": "assets/createrailwaysignal/icon.png",
@@ -24,7 +24,7 @@
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
     "minecraft": "${minecraft_version}",
-    "create": "${create_fabric_version}"
+    "create": ">=${create_fabric_version}"
   },
   "accessWidener" : "create_railway_signal.accesswidener",
   "custom": {
