@@ -4,10 +4,11 @@
   "package": "de.jannik.createrailwaysignal.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "TravellingPointSafeMixin",
     "AbstractBoatMixin",
+    "CameraDistanceModifierMixin",
     "NavigationMixin",
-    "TrainMixin"
+    "TrainMixin",
+    "TravellingPointSafeMixin"
   ],
   "client": [
   ],

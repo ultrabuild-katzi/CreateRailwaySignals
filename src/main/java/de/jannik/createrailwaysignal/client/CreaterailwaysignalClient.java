@@ -3,9 +3,12 @@ package de.jannik.createrailwaysignal.client;
 import com.simibubi.create.content.logistics.depot.EjectorTargetHandler;
 import de.jannik.createrailwaysignal.block.ModBlocks;
 import de.jannik.createrailwaysignal.block.kilometer.ModKilometerContent;
+import de.jannik.createrailwaysignal.commands.CameraCommand;
+import de.jannik.createrailwaysignal.config.CameraConfig;
 import de.jannik.createrailwaysignal.item.LightSignalSpeedItem;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -16,6 +19,8 @@ public class CreaterailwaysignalClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ModKilometerContent.registerClient();
+        CameraConfig.load();
+        CameraCommand.register();
         registerClientEvents();
     }
 

@@ -3,7 +3,7 @@
   "id": "createrailwaysignal",
   "version": "${version}",
   "name": "Create: RailwaySignals",
-  "description": "adds Speedlimiter and SpeedSign blocks to control and display train speed limits",
+  "description": "Adds Speedlimiter and SpeedSign blocks to control and display train speed limits",
   "authors": ["Jannik_ca, NotStevy"],
   "contact": {},
   "license": "All-Rights-Reserved",

@@ -17,5 +17,12 @@
   "item.create_railway_signal.light_signal_speed.tooltip_2": "tip: you can dye that!",
   "item.create_railway_signal.track_limit.tooltip_1": "can set the train speed by right clicking",
 
-  "item.createrailwaysignal.incomplete_light_signal_speed": "Incomplete Speed Sign"
+  "item.createrailwaysignal.incomplete_light_signal_speed": "Incomplete Speed Sign",
+
+  "crs.camera.help": "Use /camera on | off | reset | state",
+  "crs.camera.on": "Train zoom-in disabled (zoom-out still allowed).",
+  "crs.camera.off": "Create's default zoom behavior restored.",
+  "crs.camera.reset": "Zoom normalized to default. Feature stays ON.",
+  "crs.camera.state.on": "Feature is ON (no zoom-in).",
+  "crs.camera.state.off": "Feature is OFF (Create default)."
 }

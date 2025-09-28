@@ -1,0 +1,8 @@
+{
+  "crs.camera.help": "Nutze /camera on | off | reset | state",
+  "crs.camera.on": "Zoom-In im Zug deaktiviert (Zoom-Out weiterhin erlaubt).",
+  "crs.camera.off": "Standard-Zoomverhalten von Create wiederhergestellt.",
+  "crs.camera.reset": "Zoom auf Standard normalisiert. Funktion bleibt EIN.",
+  "crs.camera.state.on": "Funktion ist EIN (kein Zoom-In).",
+  "crs.camera.state.off": "Funktion ist AUS (Create-Standard)."
+}
