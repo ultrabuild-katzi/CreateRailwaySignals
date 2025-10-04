@@ -71,7 +71,7 @@ public class LightSignalSpeedBlockEntity extends SmartBlockEntity {
             throw new IllegalArgumentException("Speed Limit out of bounds, must be between 0 and 99.");
         }
 
-        return String.format("%02d", speedLimit);
+        return String.valueOf(speedLimit);
     }
 
 }
