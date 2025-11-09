@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " # ",
+        "#P#",
+        " # "
+    ],
+    "key": {
+        "#": {
+            "tag": "minecraft:signs"
+        },
+        "P": {
+            "item": "minecraft:white_dye"
+        }
+    },
+    "result": {
+        "item": "createrailwaysignal:brsign",
+        "count": 1
+    }
+}

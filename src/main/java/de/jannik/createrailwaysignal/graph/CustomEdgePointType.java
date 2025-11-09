@@ -11,6 +11,7 @@ public class CustomEdgePointType {
     public static final EdgePointType<WhistleBlockBoundary> WHISTLE_BLOCK =
             EdgePointType.register(new Identifier(Createrailwaysignal.MOD_ID, "whistle_block"), WhistleBlockBoundary::new);
 
-
+    public static final EdgePointType<TrainLightBoundary> TRAIN_LIGHT =
+            EdgePointType.register(new Identifier(Createrailwaysignal.MOD_ID, "train_light"), TrainLightBoundary::new);
 
 }

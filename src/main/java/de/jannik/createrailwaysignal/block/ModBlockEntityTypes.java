@@ -10,8 +10,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
-import static de.jannik.createrailwaysignal.Createrailwaysignal.REGISTRATE;
-
 public class ModBlockEntityTypes {
 
     public static final BlockEntityEntry<TrackLimitBlockEntity> TRACK_LIMIT = Createrailwaysignal.REGISTRATE
@@ -30,6 +28,16 @@ public class ModBlockEntityTypes {
             .validBlocks(ModBlocks.WHISTLE_BLOCK)
             .register();
 
+    public static final BlockEntityEntry<TrainLightBlockEntity> TRAIN_LIGHT = Createrailwaysignal.REGISTRATE
+            .blockEntity("train_light", TrainLightBlockEntity::new)
+            .validBlocks(ModBlocks.TRAIN_LIGHT)
+            .register();
+
+    public static final BlockEntityEntry<BrSignBlockEntity> BR_SIGN = Createrailwaysignal.REGISTRATE
+            .blockEntity("brsign", BrSignBlockEntity::new)
+            .renderer(() -> BrSignBlockRenderer::new)
+            .validBlocks(ModBlocks.BR_SIGN)
+            .register();
 
     public static final BlockEntityType<FakeEngineEntity> FAKE_ENGINE_ENTITY = Registry.register(
             Registries.BLOCK_ENTITY_TYPE,

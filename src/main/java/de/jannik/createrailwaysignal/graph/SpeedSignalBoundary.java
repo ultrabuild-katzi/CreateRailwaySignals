@@ -57,13 +57,13 @@ public class SpeedSignalBoundary extends SingleBlockEntityEdgePoint {
         if (world == null || edgeLocation == null) {
             return;
         }
-        
+
         try {
             TrackGraph graph = Create.RAILWAYS.sided(world)
                     .getGraph(world, edgeLocation.getFirst());
             if (graph == null)
                 return;
-            
+
             TrackEdge edge = graph.getConnection(edgeLocation.map(graph::locateNode));
             if (edge == null)
                 return;

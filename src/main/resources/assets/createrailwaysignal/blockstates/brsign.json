@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "facing=north": { "model": "createrailwaysignal:block/brsign", "y": 180 },
+    "facing=south": { "model": "createrailwaysignal:block/brsign", "y": 0 },
+    "facing=west":  { "model": "createrailwaysignal:block/brsign", "y": 90  },
+    "facing=east":  { "model": "createrailwaysignal:block/brsign", "y": 270 }
+  }
+}
+

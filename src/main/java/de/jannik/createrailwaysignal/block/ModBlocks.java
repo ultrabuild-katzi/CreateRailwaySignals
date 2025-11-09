@@ -17,7 +17,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
-import static de.jannik.createrailwaysignal.Createrailwaysignal.REGISTRATE;
 
 
 import static com.simibubi.create.foundation.data.ModelGen.customItemModel;
@@ -46,11 +45,31 @@ public class ModBlocks {
             .transform(customItemModel())
             .register();
     public static BlockEntry<LightSignalSpeedBlock> LIGHT_SIGNAL_SPEED;
+    public static BlockEntry<TrainLightBlock> TRAIN_LIGHT;
+    public static BlockEntry<BrSignBlock> BR_SIGN;
 
     public static void registerModBlocks() {
         LIGHT_SIGNAL_SPEED = Createrailwaysignal.REGISTRATE.block("light_signal_speed", LightSignalSpeedBlock::new)
                 .initialProperties(SharedProperties::softMetal)
                 .item(LightSignalSpeedItem::new)
+                .transform(customItemModel())
+                .register();
+
+        TRAIN_LIGHT = Createrailwaysignal.REGISTRATE.block("train_light", TrainLightBlock::new)
+                .initialProperties(SharedProperties::softMetal)
+                .properties(p -> p.mapColor(MapColor.IRON_GRAY)
+                        .nonOpaque()
+                        .luminance(state -> 15)
+                        .sounds(BlockSoundGroup.LANTERN))
+                .item()
+                .transform(customItemModel())
+                .register();
+
+        BR_SIGN = Createrailwaysignal.REGISTRATE.block("brsign", BrSignBlock::new)
+                .initialProperties(SharedProperties::softMetal)
+                .defaultLoot()
+                .properties(p -> p.nonOpaque())
+                .item()
                 .transform(customItemModel())
                 .register();
     }
