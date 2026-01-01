@@ -1,10 +1,11 @@
 package de.jannik.createrailwaysignal.item;
 
 import com.simibubi.create.AllSoundEvents;
-import com.simibubi.create.foundation.utility.Lang;
+import com.simibubi.create.foundation.utility.CreateLang;
 import de.jannik.createrailwaysignal.block.LightSignalSpeedBlockEntity;
 import de.jannik.createrailwaysignal.block.ModBlockEntityTypes;
 import de.jannik.createrailwaysignal.block.TrackLimitBlock;
+import net.createmod.catnip.lang.Lang;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
@@ -85,7 +86,7 @@ public class LightSignalSpeedItem extends BlockItem {
 
 
         String key = "weighted_ejector.target_set";
-        player.sendMessage(Lang.translateDirect(key)
+        player.sendMessage(CreateLang.translateDirect(key)
                 .formatted(Formatting.GOLD), true);
         player.playSound(AllSoundEvents.CONFIRM.getMainEvent(), 1, 1);
 

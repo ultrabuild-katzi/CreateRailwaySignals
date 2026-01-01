@@ -1,12 +1,13 @@
 package de.jannik.createrailwaysignal.block;
 
-import com.jozufozu.flywheel.util.transform.TransformStack;
-import com.simibubi.create.content.redstone.nixieTube.DoubleFaceAttachedBlock.DoubleAttachFace;
-import com.simibubi.create.content.redstone.nixieTube.NixieTubeBlock;
+
 import com.simibubi.create.foundation.blockEntity.renderer.SafeBlockEntityRenderer;
 import com.simibubi.create.foundation.utility.*;
 
 import io.github.fabricators_of_create.porting_lib.util.FontRenderUtil;
+import net.createmod.catnip.data.Couple;
+import net.createmod.catnip.math.AngleHelper;
+import net.createmod.catnip.theme.Color;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.GlyphRenderer;
@@ -33,17 +34,13 @@ public class LightSignalSpeedBlockRenderer extends SafeBlockEntityRenderer<Light
                               int light, int overlay) {
         ms.push();
         BlockState blockState = be.getCachedState();
-        DoubleAttachFace face = DoubleAttachFace.FLOOR;
-        float yRot = AngleHelper.horizontalAngle(blockState.get(NixieTubeBlock.FACING));
-        float xRot = AngleHelper.verticalAngle(blockState.get(NixieTubeBlock.FACING));
 
-        TransformStack msr = TransformStack.cast(ms);
-        msr.centre()
-                .rotateY(yRot)
-                .rotateZ(xRot)
-                .unCentre();
-
-        msr.centre();
+        var msr = dev.engine_room.flywheel.lib.transform.TransformStack.of(ms);
+        float yRot = AngleHelper.horizontalAngle(blockState.get(BrSignBlock.FACING));
+        msr.center()
+                .rotateYDegrees(yRot)
+                .uncenter();
+        msr.center();
 
         float height = 7;
         float scale = 1 / 21f;
@@ -51,7 +48,7 @@ public class LightSignalSpeedBlockRenderer extends SafeBlockEntityRenderer<Light
         String s = be.getDisplayedStrings();
         Couple<Integer> colorCouple;
         if(!be.getCachedState().get(LightSignalSpeedBlock.JEB_MODE)) {
-             colorCouple = DyeHelper.DYE_TABLE.get(be.getCachedState().get(LightSignalSpeedBlock.DYE_COLOR));
+             colorCouple = DyeHelper.getDyeColors(be.getCachedState().get(LightSignalSpeedBlock.DYE_COLOR));
         } else {
             int ticks = (int) be.getWorld().getTime();
             int m = 25;
@@ -89,7 +86,7 @@ public class LightSignalSpeedBlockRenderer extends SafeBlockEntityRenderer<Light
         float flicker = r.nextFloat();
         int brightColor = color.getFirst();
         int darkColor = color.getSecond();
-        int flickeringBrightColor = com.simibubi.create.foundation.utility.Color.mixColors(brightColor, darkColor, flicker / 4);
+        int flickeringBrightColor = Color.mixColors(brightColor, darkColor, flicker / 4);
 
         ms.push();
         ms.translate((charWidth - shadowOffset) / -2f, -height, 1);

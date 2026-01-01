@@ -15,6 +15,7 @@ import de.jannik.createrailwaysignal.commands.CreaterailwayCommands;
 //import de.jannik.createrailwaysignal.compat.create.TrainLightCompat;
 import de.jannik.createrailwaysignal.item.ModItemGroup;
 import de.jannik.createrailwaysignal.item.ModItems;
+import net.createmod.catnip.lang.FontHelper;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
@@ -35,7 +36,7 @@ public class Createrailwaysignal implements ModInitializer {
     public static final CreateRegistrate REGISTRATE = CreateRegistrate.create(MOD_ID)
             .defaultCreativeTab(ModItemGroup.CREATE_RAILWAY_SIGNAL_GROUP_KEY)
             .setTooltipModifierFactory(item ->
-                    new ItemDescription.Modifier(item, TooltipHelper.Palette.STANDARD_CREATE)
+                    new ItemDescription.Modifier(item, FontHelper.Palette.STANDARD_CREATE)
                             .andThen(TooltipModifier.mapNull(KineticStats.create(item)))
             );
 

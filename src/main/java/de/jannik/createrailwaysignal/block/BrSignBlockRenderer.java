@@ -1,10 +1,13 @@
 package de.jannik.createrailwaysignal.block;
 
-import com.jozufozu.flywheel.util.transform.TransformStack;
+
 import com.simibubi.create.foundation.blockEntity.renderer.SafeBlockEntityRenderer;
-import com.simibubi.create.foundation.utility.Couple;
 import com.simibubi.create.foundation.utility.DyeHelper;
+import dev.engine_room.flywheel.lib.transform.TransformStack;
 import io.github.fabricators_of_create.porting_lib.util.FontRenderUtil;
+import net.createmod.catnip.data.Couple;
+import net.createmod.catnip.math.AngleHelper;
+import net.createmod.catnip.theme.Color;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.GlyphRenderer;
 import net.minecraft.client.font.TextRenderer;
@@ -26,25 +29,13 @@ public class BrSignBlockRenderer extends SafeBlockEntityRenderer<BrSignBlockEnti
         ms.push();
 
         var blockState = be.getCachedState();
-        var facing = blockState.get(BrSignBlock.FACING);
 
-        // use the horizontal angle helper (same approach as LightSignalSpeedBlockRenderer)
-        TransformStack msr = TransformStack.cast(ms);
-        // explicit yaw mapping per facing to avoid upside-down states
-        float yRotAngle = switch (facing) {
-            case SOUTH -> 0f;
-            case NORTH -> 180f;
-            case WEST -> 90f;
-            case EAST -> -90f;
-            default -> 0f;
-        };
-        // rotate the whole text plane by the horizontal facing (yaw)
-        msr.centre()
-                .rotateY(yRotAngle)
-                .unCentre();
-
-        msr.centre();
-
+        var msr = TransformStack.of(ms);
+        float yRot = AngleHelper.horizontalAngle(blockState.get(BrSignBlock.FACING));
+        msr.center()
+                .rotateYDegrees(yRot)
+                .uncenter();
+        msr.center();
         String s = be.getDisplayedString();
 
         // base scale converts font pixels to world units (kept similar to LightSignalSpeed)
@@ -67,9 +58,9 @@ public class BrSignBlockRenderer extends SafeBlockEntityRenderer<BrSignBlockEnti
         if (!blockState.get(BrSignBlock.JEB_MODE)) {
             var perSign = be.getTextColor();
             if (perSign != null) {
-                colorCouple = DyeHelper.DYE_TABLE.get(perSign);
+                colorCouple = DyeHelper.getDyeColors(perSign);
             } else {
-                colorCouple = DyeHelper.DYE_TABLE.get(blockState.get(BrSignBlock.DYE_COLOR));
+                colorCouple = DyeHelper.getDyeColors(blockState.get(BrSignBlock.DYE_COLOR));
             }
         } else {
             int ticks = (int) (be.getWorld() != null ? be.getWorld().getTime() : 0L);
@@ -119,7 +110,7 @@ public class BrSignBlockRenderer extends SafeBlockEntityRenderer<BrSignBlockEnti
         drawInWorldString(ms, buffer, c, darkColor);
         ms.push();
         ms.translate(-shadowOffset, shadowOffset, -1 / 16f);
-        drawInWorldString(ms, buffer, c, com.simibubi.create.foundation.utility.Color.mixColors(darkColor, 0, .35f));
+        drawInWorldString(ms, buffer, c, Color.mixColors(darkColor, 0, .35f));
         ms.pop();
         ms.pop();
     }

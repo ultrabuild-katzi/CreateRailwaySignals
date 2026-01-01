@@ -23,7 +23,6 @@ repositories {
         name= "createmod maven"
         url= uri("https://maven.createmod.net/")
     }
-
     maven { name = "Curseforge Maven"; description = "Forge Config API Port"; url = uri("https://cursemaven.com/")}
     maven {  // Flywheel, Registrate, Create
         url = uri("https://maven.tterrag.com/")
@@ -82,10 +81,11 @@ dependencies {
     mappings ("net.fabricmc:yarn:${project.property("yarn_mappings")}:v2")
     modImplementation ("net.fabricmc:fabric-loader:${project.property("loader_version")}")
 
-    modImplementation("com.simibubi.create:create-fabric-${project.property("minecraft_version")}:${project.property("create_fabric_version")}+mc${project.property("minecraft_version")}")
+//    modImplementation("com.simibubi.create:create-fabric-${project.property("minecraft_version")}:${project.property("create_fabric_version")}+mc${project.property("minecraft_version")}")
+    modImplementation("com.simibubi.create:create-fabric:6.0.8.0+build.1734-mc1.20.1")
 
 //    modCompileOnly("dev.engine-room.flywheel:flywheel-fabric-$minecraft_version:$flywheel_version")
-    modCompileOnly("com.jozufozu.flywheel:flywheel-fabric-${project.property("minecraft_version")}:${project.property("flywheel_version")}")
+//    modCompileOnly("com.jozufozu.flywheel:flywheel-fabric-${project.property("minecraft_version")}:${project.property("flywheel_version")}")
 
     modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.2.1")
 

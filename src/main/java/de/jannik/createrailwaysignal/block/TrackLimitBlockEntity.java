@@ -1,6 +1,6 @@
 package de.jannik.createrailwaysignal.block;
 
-import com.simibubi.create.content.contraptions.ITransformableBlockEntity;
+import com.simibubi.create.api.contraption.transformable.TransformableBlockEntity;
 import com.simibubi.create.content.contraptions.StructureTransform;
 import com.simibubi.create.content.trains.track.TrackTargetingBehaviour;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
@@ -9,6 +9,7 @@ import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour
 import de.jannik.createrailwaysignal.graph.CustomEdgePointType;
 import de.jannik.createrailwaysignal.graph.SpeedSignalBoundary;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
@@ -16,18 +17,19 @@ import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
 
-public class TrackLimitBlockEntity extends SmartBlockEntity implements ITransformableBlockEntity {
+public class TrackLimitBlockEntity extends SmartBlockEntity implements TransformableBlockEntity {
     public TrackTargetingBehaviour<SpeedSignalBoundary> edgePoint;
 
     public TrackLimitBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 
-    @Override
-    public void transform(StructureTransform transform) {
-        this.edgePoint.transform(transform);
-    }
 
+    @Override
+    public void transform(BlockEntity blockEntity, StructureTransform transform) {
+        this.edgePoint.transform(blockEntity, transform);
+
+    }
     @Override
     public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
         this.edgePoint = new TrackTargetingBehaviour<>(this, CustomEdgePointType.SPEED_SIGNAL);
@@ -48,10 +50,6 @@ public class TrackLimitBlockEntity extends SmartBlockEntity implements ITransfor
             boundary.setSpeedLimitKilometersPerHour(this.world, this.getCachedState().get(TrackLimitBlock.SPEED_LIMIT) * 10);
     }
 
-    @Override
-    protected void removeBehaviour(BehaviourType<?> type) {
-        super.removeBehaviour(type);
-    }
 
     public void updateSpeed(PlayerEntity player, int value) {
         if (this.edgePoint == null) {
@@ -65,4 +63,6 @@ public class TrackLimitBlockEntity extends SmartBlockEntity implements ITransfor
 
         this.edgePoint.getEdgePoint().setSpeedLimitKilometersPerHour(player.getWorld(), value);
     }
+
+
 }

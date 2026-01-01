@@ -1,6 +1,6 @@
 package de.jannik.createrailwaysignal.block;
 
-import com.simibubi.create.content.contraptions.ITransformableBlockEntity;
+import com.simibubi.create.api.contraption.transformable.TransformableBlockEntity;
 import com.simibubi.create.content.contraptions.StructureTransform;
 import com.simibubi.create.content.trains.entity.Carriage;
 import com.simibubi.create.content.trains.entity.CarriageContraption;
@@ -9,13 +9,14 @@ import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
 
-public class TrainLightBlockEntity extends SmartBlockEntity implements ITransformableBlockEntity {
+public class TrainLightBlockEntity extends SmartBlockEntity implements TransformableBlockEntity {
     private boolean isOnTrain = false;
     private boolean isAtFront = false;
     private Integer assignedCarriageId = null;
@@ -27,15 +28,15 @@ public class TrainLightBlockEntity extends SmartBlockEntity implements ITransfor
     }
 
     @Override
-    public void transform(StructureTransform transform) {
+    public void transform(BlockEntity blockEntity, StructureTransform transform) {
         isOnTrain = true;
 
         // Find and remember which carriage we're on
         if (world != null) {
             List<CarriageContraptionEntity> nearby = world.getEntitiesByClass(
-                CarriageContraptionEntity.class,
-                new net.minecraft.util.math.Box(pos).expand(10),
-                entity -> entity.getCarriage() != null
+                    CarriageContraptionEntity.class,
+                    new net.minecraft.util.math.Box(pos).expand(10),
+                    entity -> entity.getCarriage() != null
             );
 
             if (!nearby.isEmpty()) {
@@ -217,4 +218,6 @@ public class TrainLightBlockEntity extends SmartBlockEntity implements ITransfor
     public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
         // No special behaviours needed
     }
+
+
 }
