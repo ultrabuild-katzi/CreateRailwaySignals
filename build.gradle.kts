@@ -23,6 +23,7 @@ repositories {
         name= "createmod maven"
         url= uri("https://maven.createmod.net/")
     }
+    maven("https://modmaven.dev/") // flywheel fabric
 
     maven { name = "Curseforge Maven"; description = "Forge Config API Port"; url = uri("https://cursemaven.com/")}
     maven {  // Flywheel, Registrate, Create
