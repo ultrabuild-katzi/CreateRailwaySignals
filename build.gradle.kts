@@ -73,7 +73,7 @@ publishMods {
         requires("create-fabric")
         requires("flywheel")
         optional("grenzzeichen")
-    } 
+    }
 
 }
 

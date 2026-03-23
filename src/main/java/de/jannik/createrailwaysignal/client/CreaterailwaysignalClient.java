@@ -6,7 +6,6 @@ import de.jannik.createrailwaysignal.block.BrSignBlockRenderer;
 import de.jannik.createrailwaysignal.block.LightSignalSpeedBlockRenderer;
 import de.jannik.createrailwaysignal.block.ModBlocks;
 import de.jannik.createrailwaysignal.block.ModBlockEntityTypes;
-import de.jannik.createrailwaysignal.block.TrainLightBlockRenderer;
 import de.jannik.createrailwaysignal.block.kilometer.ModKilometerContent;
 import de.jannik.createrailwaysignal.commands.CameraCommand;
 import de.jannik.createrailwaysignal.config.CameraConfig;
@@ -32,8 +31,8 @@ public class CreaterailwaysignalClient implements ClientModInitializer {
 
         // Register block entity renderers
         BlockEntityRendererFactories.register(ModBlockEntityTypes.LIGHT_SIGNAL_SPEED.get(), LightSignalSpeedBlockRenderer::new);
-        BlockEntityRendererFactories.register(ModBlockEntityTypes.TRAIN_LIGHT.get(), TrainLightBlockRenderer::new);
         BlockEntityRendererFactories.register(ModBlockEntityTypes.BR_SIGN.get(), BrSignBlockRenderer::new);
+
 
         // Register client receiver to open sign editor
         ClientPlayNetworking.registerGlobalReceiver(Createrailwaysignal.BR_SIGN_OPEN, (client, handler, buf, responseSender) -> {

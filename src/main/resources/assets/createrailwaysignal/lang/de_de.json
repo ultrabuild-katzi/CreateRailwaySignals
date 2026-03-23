@@ -1,8 +1,4 @@
 {
-  "block.createrailwaysignal.train_light": "Zuglicht",
-
-  "item.create_railway_signal.train_light.tooltip_1": "Weißes Licht vorne, rotes Licht hinten am Zug",
-  "item.create_railway_signal.train_light.tooltip_2": "Schleichen + Rechtsklick zum manuellen Umschalten, wenn nicht am Zug",
 
   "crs.camera.help": "Nutze /camera on | off | reset | state",
   "crs.camera.on": "Zoom-In im Zug deaktiviert (Zoom-Out weiterhin erlaubt).",
