@@ -1,5 +1,6 @@
 {
   "block.createrailwaysignal.track_limit": "Speed limiter",
+  "createrailwaysignal.track_limit.speed_limit": "Speed Limit",
   "block.createrailwaysignal.light_signal_speed": "Speed sign",
   "block.createrailwaysignal.whistle_block": "Whistle Block",
   "block.createrailwaysignal.fake_engine": "Fake Engine",
