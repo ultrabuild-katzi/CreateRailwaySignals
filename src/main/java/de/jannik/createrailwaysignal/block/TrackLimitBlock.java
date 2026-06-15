@@ -30,27 +30,11 @@ public class TrackLimitBlock extends Block implements IBE<TrackLimitBlockEntity>
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if(player.getStackInHand(hand).getItem() instanceof LightSignalSpeedItem) {
+        if (player.getStackInHand(hand).getItem() instanceof LightSignalSpeedItem) {
             return ActionResult.PASS;
         }
 
-        if(world.isClient)
-            return ActionResult.SUCCESS;
-
-        int value = state.get(SPEED_LIMIT) + (player.isSneaking() ? -1 : 1);
-        if(value > MAX_SPEED)
-            value = MIN_SPEED;
-        if(value < MIN_SPEED)
-            value = MAX_SPEED;
-
-        player.sendMessage(Text.of("Speed Limit: " + (value * 10) + " km/h"), true);
-        world.setBlockState(pos, state.with(SPEED_LIMIT, value));
-        BlockEntity blockEntity = world.getBlockEntity(pos);
-        if(blockEntity instanceof TrackLimitBlockEntity trackLimitBlockEntity) {
-            trackLimitBlockEntity.updateSpeed(player, value * 10);
-        }
-
-        return ActionResult.SUCCESS;
+        return ActionResult.PASS;
     }
 
 
