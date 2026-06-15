@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 
 
 public class TrackLimitBlock extends Block implements IBE<TrackLimitBlockEntity>, IWrenchable {
-    public static final int MAX_SPEED = 20;
+    public static final int MAX_SPEED = 50;
     public static final int MIN_SPEED = 0; // 0 → Speed Limit aufgehoben
     public static final IntProperty SPEED_LIMIT = IntProperty.of("speed_limit", MIN_SPEED, MAX_SPEED);
 
