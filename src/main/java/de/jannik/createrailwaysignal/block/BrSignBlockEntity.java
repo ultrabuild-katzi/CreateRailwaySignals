@@ -22,15 +22,6 @@ public class BrSignBlockEntity extends SmartBlockEntity {
     private int verticalOffset = 0; // vertikale Verschiebung für den Text
     private int horizontalOffset = 0; // horizontale Verschiebung für den Text
 
-    private static final List<String> PRESETS = new ArrayList<>();
-    static {
-        PRESETS.add("");
-        PRESETS.add("STOP");
-        PRESETS.add("SLOW");
-        PRESETS.add("MAX 40");
-        PRESETS.add("MAX 80");
-    }
-
     public BrSignBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
@@ -132,23 +123,6 @@ public class BrSignBlockEntity extends SmartBlockEntity {
 
     public void adjustVerticalOffset(int delta) {
         setVerticalOffset(this.verticalOffset + delta);
-    }
-
-    public void adjustHorizontalOffset(int delta) {
-        setHorizontalOffset(this.horizontalOffset + delta);
-    }
-
-    public void cycleNextText() {
-        int idx = PRESETS.indexOf(getText());
-        idx = (idx + 1) % PRESETS.size();
-        setText(PRESETS.get(idx));
-    }
-
-    public void cyclePreviousText() {
-        int idx = PRESETS.indexOf(getText());
-        if (idx <= 0) idx = PRESETS.size();
-        idx = (idx - 1) % PRESETS.size();
-        setText(PRESETS.get(idx));
     }
 
     public String getDisplayedString() {
