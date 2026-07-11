@@ -11,6 +11,7 @@
     "TravellingPointSafeMixin"
   ],
   "client": [
+    "SmallBogeyRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

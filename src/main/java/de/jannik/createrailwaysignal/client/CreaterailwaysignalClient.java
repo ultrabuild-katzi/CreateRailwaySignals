@@ -3,6 +3,7 @@ package de.jannik.createrailwaysignal.client;
 import com.simibubi.create.content.logistics.depot.EjectorTargetHandler;
 import de.jannik.createrailwaysignal.Createrailwaysignal;
 import de.jannik.createrailwaysignal.block.BrSignBlockRenderer;
+//import de.jannik.createrailwaysignal.block.CopycatBogeyBlockRenderer;
 import de.jannik.createrailwaysignal.block.LightSignalSpeedBlockRenderer;
 import de.jannik.createrailwaysignal.block.ModBlocks;
 import de.jannik.createrailwaysignal.block.ModBlockEntityTypes;

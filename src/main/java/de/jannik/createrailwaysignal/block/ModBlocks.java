@@ -4,6 +4,7 @@ import com.simibubi.create.foundation.data.SharedProperties;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import de.jannik.createrailwaysignal.Createrailwaysignal;
 import de.jannik.createrailwaysignal.item.LightSignalSpeedItem;
+//import de.jannik.createrailwaysignal.item.CopycatBogeyItem;
 import de.jannik.createrailwaysignal.item.TrackLimitItem;
 import de.jannik.createrailwaysignal.item.WhistleBlockItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -28,6 +29,7 @@ public class ModBlocks {
             new FakeEngineBlock(FabricBlockSettings.copyOf(Blocks.STONE).sounds(BlockSoundGroup.ANVIL).nonOpaque()));
 
 
+
     public static final BlockEntry<WhistleBlock> WHISTLE_BLOCK = Createrailwaysignal.REGISTRATE.block("whistle_block", WhistleBlock::new)
             .initialProperties(SharedProperties::softMetal)
             .properties(p -> p.mapColor(MapColor.SPRUCE_BROWN)
@@ -47,6 +49,9 @@ public class ModBlocks {
     public static BlockEntry<LightSignalSpeedBlock> LIGHT_SIGNAL_SPEED;
     public static BlockEntry<TrainLightBlock> TRAIN_LIGHT;
     public static BlockEntry<BrSignBlock> BR_SIGN;
+    public static BlockEntry<BueSchrankBlock> BUE_SCHRANK_2M;
+    public static BlockEntry<BueSchrankBlock> BUE_SCHRANK_3M;
+    public static BlockEntry<BueSchrankBlock> BUE_SCHRANK_4M;
 
     public static void registerModBlocks() {
         LIGHT_SIGNAL_SPEED = Createrailwaysignal.REGISTRATE.block("light_signal_speed", LightSignalSpeedBlock::new)
@@ -68,6 +73,27 @@ public class ModBlocks {
         BR_SIGN = Createrailwaysignal.REGISTRATE.block("brsign", BrSignBlock::new)
                 .initialProperties(SharedProperties::softMetal)
                 .defaultLoot()
+                .properties(p -> p.nonOpaque())
+                .item()
+                .transform(customItemModel())
+                .register();
+
+        BUE_SCHRANK_2M = Createrailwaysignal.REGISTRATE.block("bue_schrank_2m", BueSchrankBlock::new)
+                .initialProperties(SharedProperties::softMetal)
+                .properties(p -> p.nonOpaque())
+                .item()
+                .transform(customItemModel())
+                .register();
+
+        BUE_SCHRANK_3M = Createrailwaysignal.REGISTRATE.block("bue_schrank_3m", BueSchrankBlock::new)
+                .initialProperties(SharedProperties::softMetal)
+                .properties(p -> p.nonOpaque())
+                .item()
+                .transform(customItemModel())
+                .register();
+
+        BUE_SCHRANK_4M = Createrailwaysignal.REGISTRATE.block("bue_schrank_4m", BueSchrankBlock::new)
+                .initialProperties(SharedProperties::softMetal)
                 .properties(p -> p.nonOpaque())
                 .item()
                 .transform(customItemModel())

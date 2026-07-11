@@ -22,6 +22,9 @@ import net.minecraft.world.WorldAccess;
 
 import java.util.List;
 
+import static de.jannik.createrailwaysignal.block.TrackLimitBlock.MAX_SPEED;
+import static de.jannik.createrailwaysignal.block.TrackLimitBlock.MIN_SPEED;
+
 public class TrackLimitBlockEntity extends SmartBlockEntity implements TransformableBlockEntity {
     public TrackTargetingBehaviour<SpeedSignalBoundary> edgePoint;
     public ScrollValueBehaviour speedLimit;
@@ -42,7 +45,8 @@ public class TrackLimitBlockEntity extends SmartBlockEntity implements Transform
         behaviours.add(this.edgePoint);
 
         speedLimit = new ScrollValueBehaviour(Text.translatable("createrailwaysignal.track_limit.speed_limit"), this, new TrackLimitValueBox());
-        speedLimit.between(0, 50);
+        speedLimit.between(MIN_SPEED, MAX_SPEED);
+        speedLimit.withFormatter(i -> (i * 10) + " km/h");
         speedLimit.withCallback(i -> {
             if (world != null && !world.isClient) {
                 world.setBlockState(pos, getCachedState().with(TrackLimitBlock.SPEED_LIMIT, i), 3);

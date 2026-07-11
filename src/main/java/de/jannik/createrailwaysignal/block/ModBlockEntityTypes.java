@@ -39,6 +39,12 @@ public class ModBlockEntityTypes {
             .validBlocks(ModBlocks.BR_SIGN)
             .register();
 
+    public static final BlockEntityEntry<BueSchrankBlockEntity> BUE_SCHRANK = Createrailwaysignal.REGISTRATE
+            .blockEntity("bue_schrank", BueSchrankBlockEntity::new)
+            .renderer(() -> BueSchrankBlockRenderer::new)
+            .validBlocks(ModBlocks.BUE_SCHRANK_2M, ModBlocks.BUE_SCHRANK_3M, ModBlocks.BUE_SCHRANK_4M)
+            .register();
+
     public static final BlockEntityType<FakeEngineEntity> FAKE_ENGINE_ENTITY = Registry.register(
             Registries.BLOCK_ENTITY_TYPE,
             new Identifier(Createrailwaysignal.MOD_ID, "fake_engine"),

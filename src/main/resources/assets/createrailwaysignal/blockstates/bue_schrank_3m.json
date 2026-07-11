@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "createrailwaysignal:item/bue_schrank_3m" },
+    "facing=south": { "model": "createrailwaysignal:item/bue_schrank_3m", "y": 180 },
+    "facing=east": { "model": "createrailwaysignal:item/bue_schrank_3m", "y": 90 },
+    "facing=west": { "model": "createrailwaysignal:item/bue_schrank_3m", "y": 270 }
+  }
+}

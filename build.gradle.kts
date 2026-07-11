@@ -32,6 +32,14 @@ repositories {
             includeGroup("com.jozufozu.flywheel")
         }
     }
+    maven {
+        name = "GeckoLib"
+        url = uri("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
+        content {
+            includeGroupByRegex("software\\.bernie.*")
+            includeGroup("com.eliotlash.mclib")
+        }
+    }
 
     maven {
         name = "TerraformersMC"
@@ -84,6 +92,9 @@ dependencies {
 //    modImplementation("com.simibubi.create:create-fabric-${project.property("minecraft_version")}:${project.property("create_fabric_version")}+mc${project.property("minecraft_version")}")
     modImplementation("com.simibubi.create:create-fabric:6.0.8.0+build.1734-mc1.20.1")
 
+    modImplementation("software.bernie.geckolib:geckolib-fabric-${project.property("minecraft_version")}:${project.property("gecko_version")}")
+
+
 //    modCompileOnly("dev.engine-room.flywheel:flywheel-fabric-$minecraft_version:$flywheel_version")
 //    modCompileOnly("com.jozufozu.flywheel:flywheel-fabric-${project.property("minecraft_version")}:${project.property("flywheel_version")}")
 
@@ -106,7 +117,6 @@ tasks.processResources {
             "version" to project.version,
             "minecraft_version" to project.property("minecraft_version"),
             "loader_version" to project.property("loader_version"),
-            "create_fabric_version" to "${project.property("create_fabric_version")}+${project.property("minecraft_version")}"
         ))
     }
 }
