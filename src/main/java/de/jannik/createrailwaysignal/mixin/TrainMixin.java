@@ -22,6 +22,11 @@ public abstract class TrainMixin implements SpeedSignalProvider {
     @Unique
     private SpeedSignalBoundary createRailwaySignal$$speedSignal;
 
+    /** A less restrictive (or reset) boundary the front of the train has already reached, but which
+     * should only actually take effect once the whole train (i.e. its last bogey) has cleared it. */
+    @Unique
+    private SpeedSignalBoundary createRailwaySignal$$pendingSpeedSignal;
+
     @Unique
     private boolean createRailwaySignal$$encounteredWhiteBlock = false;
 
@@ -43,21 +48,70 @@ public abstract class TrainMixin implements SpeedSignalProvider {
         var original = cir.getReturnValue();
         cir.setReturnValue((distance, couple) -> {
             if (couple.getFirst() instanceof SpeedSignalBoundary speedSignalBoundary) {
-                this.createRailwaySignal$$speedSignal = speedSignalBoundary;
+                Train train = (Train) (Object) this;
+                double maxSpeed = train.maxSpeed();
+                SpeedSignalBoundary active = this.createRailwaySignal$$speedSignal;
+                double currentLimit = (active != null && !active.resetsLimit())
+                        ? active.calculateSpeedLimit() * maxSpeed
+                        : Double.MAX_VALUE;
+                double newLimit = speedSignalBoundary.resetsLimit()
+                        ? Double.MAX_VALUE
+                        : speedSignalBoundary.calculateSpeedLimit() * maxSpeed;
 
                 World w = this.createRailwaySignal$$worldRef;
-                if (w != null && w.getGameRules().get(CreaterailwayCommands.SHOW_SPEED_BLOCK).get()) {
-                    var pos = speedSignalBoundary.getBlockEntityPos();
-                    System.out.println(
-                            "Change speed limit to " + speedSignalBoundary.getSpeedLimitKilometersPerHour() +
-                                    " km/h at: x= " + pos.getX() + " y= " + pos.getY() + " z= " + pos.getZ()
-                    );
+                boolean debug = w != null && w.getGameRules().get(CreaterailwayCommands.SHOW_SPEED_BLOCK).get();
+                var pos = speedSignalBoundary.getBlockEntityPos();
+
+                if (newLimit < currentLimit) {
+                    // Stricter limit: take effect immediately as the front of the train reaches it.
+                    this.createRailwaySignal$$speedSignal = speedSignalBoundary;
+                    if (debug)
+                        System.out.println(
+                                "Change speed limit to " + speedSignalBoundary.getSpeedLimitKilometersPerHour() +
+                                        " km/h at: x= " + pos.getX() + " y= " + pos.getY() + " z= " + pos.getZ()
+                        );
+                } else {
+                    // Looser limit (or reset): don't let the train speed up until it has fully cleared
+                    // this boundary, i.e. its last bogey has also driven over it.
+                    this.createRailwaySignal$$pendingSpeedSignal = speedSignalBoundary;
+                    if (debug)
+                        System.out.println(
+                                "Front reached speed limit " + speedSignalBoundary.getSpeedLimitKilometersPerHour() +
+                                        " km/h at: x= " + pos.getX() + " y= " + pos.getY() + " z= " + pos.getZ() +
+                                        " (deferred until whole train has passed)"
+                        );
                 }
                 return false;
             }
 
             if (couple.getFirst() instanceof de.jannik.createrailwaysignal.graph.WhistleBlockBoundary) {
                 this.createRailwaySignal$$encounteredWhiteBlock = true;
+                return false;
+            }
+
+            return original.test(distance, couple);
+        });
+    }
+
+    @Inject(method = "backSignalListener", at = @At("RETURN"), cancellable = true)
+    private void backSignalListener(CallbackInfoReturnable<TravellingPoint.IEdgePointListener> cir) {
+        var original = cir.getReturnValue();
+        cir.setReturnValue((distance, couple) -> {
+            if (couple.getFirst() instanceof SpeedSignalBoundary speedSignalBoundary) {
+                if (this.createRailwaySignal$$pendingSpeedSignal == speedSignalBoundary) {
+                    this.createRailwaySignal$$speedSignal = speedSignalBoundary;
+                    this.createRailwaySignal$$pendingSpeedSignal = null;
+
+                    World w = this.createRailwaySignal$$worldRef;
+                    if (w != null && w.getGameRules().get(CreaterailwayCommands.SHOW_SPEED_BLOCK).get()) {
+                        var pos = speedSignalBoundary.getBlockEntityPos();
+                        System.out.println(
+                                "Whole train cleared speed limit boundary, now allowing " +
+                                        speedSignalBoundary.getSpeedLimitKilometersPerHour() +
+                                        " km/h at: x= " + pos.getX() + " y= " + pos.getY() + " z= " + pos.getZ()
+                        );
+                    }
+                }
                 return false;
             }
 
@@ -74,5 +128,15 @@ public abstract class TrainMixin implements SpeedSignalProvider {
     @Override
     public SpeedSignalBoundary createRailwaySignal$$speedSignal() {
         return this.createRailwaySignal$$speedSignal;
+    }
+
+    @Override
+    public void createRailwaySignal$$setSpeedSignal(SpeedSignalBoundary boundary) {
+        this.createRailwaySignal$$speedSignal = boundary;
+    }
+
+    @Override
+    public World createRailwaySignal$$world() {
+        return this.createRailwaySignal$$worldRef;
     }
 }

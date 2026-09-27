@@ -11,10 +11,12 @@ import de.jannik.createrailwaysignal.block.TrainLightBlockRenderer;
 import de.jannik.createrailwaysignal.block.kilometer.ModKilometerContent;
 import de.jannik.createrailwaysignal.commands.CameraCommand;
 import de.jannik.createrailwaysignal.config.CameraConfig;
+import de.jannik.createrailwaysignal.config.RailwaySignalConfigs;
 import de.jannik.createrailwaysignal.item.LightSignalSpeedItem;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,8 +30,10 @@ public class CreaterailwaysignalClient implements ClientModInitializer {
     public void onInitializeClient() {
         ModKilometerContent.registerClient();
         CameraConfig.load();
+        RailwaySignalConfigs.register();
         CameraCommand.register();
         registerClientEvents();
+        HudRenderCallback.EVENT.register(TrainSpeedHud::render);
 
         // Register block entity renderers
         BlockEntityRendererFactories.register(ModBlockEntityTypes.LIGHT_SIGNAL_SPEED.get(), LightSignalSpeedBlockRenderer::new);
