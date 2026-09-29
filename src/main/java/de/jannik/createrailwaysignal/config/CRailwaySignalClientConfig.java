@@ -11,7 +11,7 @@ public class CRailwaySignalClientConfig extends ConfigBase {
 
     public final ConfigGroup speedometer = group(0, "speedometer", Comments.speedometer);
 
-    public final ConfigBool showTrainSpeedHud = b(true, "showTrainSpeedHud", Comments.showTrainSpeedHud);
+    public final ConfigBool showTrainSpeedHud = b(false, "showTrainSpeedHud", Comments.showTrainSpeedHud);
 
     public final ConfigEnum<SpeedUnit> speedUnit = e(SpeedUnit.KMH, "speedUnit", Comments.speedUnit);
 
