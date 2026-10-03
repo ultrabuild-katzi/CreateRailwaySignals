@@ -34,7 +34,9 @@ public abstract class SubMenuConfigScreenOrderMixin {
             at = @At(
                     value = "INVOKE",
                     target = "Ljava/util/List;sort(Ljava/util/Comparator;)V"
-            )
+            ),
+            require = 0,
+            expect = 0
     )
     private Comparator<ConfigScreenList.Entry> createrailwaysignal$useCustomOrder(Comparator<ConfigScreenList.Entry> original) {
         if (!Createrailwaysignal.MOD_ID.equals(ConfigScreen.modID))
