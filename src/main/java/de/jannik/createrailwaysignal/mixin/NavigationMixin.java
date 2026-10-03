@@ -5,6 +5,7 @@ import com.simibubi.create.content.trains.entity.Carriage;
 import com.simibubi.create.content.trains.entity.Navigation;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
+import com.simibubi.create.content.trains.graph.TrackNode;
 import com.simibubi.create.content.trains.station.GlobalStation;
 import de.jannik.createrailwaysignal.commands.CreaterailwayCommands;
 import de.jannik.createrailwaysignal.graph.SpeedSignalBoundary;
@@ -114,6 +115,12 @@ public abstract class NavigationMixin {
 
         speedScout.travel(train.graph, scanDistance * speedMod, trackSelector, (distance, couple) -> {
             if (couple.getFirst() instanceof SpeedSignalBoundary boundary && !boundary.resetsLimit()) {
+                // Match TrainMixin#frontSignalListener: the limiter is directional and must be
+                // ignored here too, otherwise the train still gets pre-braked for boundaries that
+                // don't actually apply to its direction of travel.
+                TrackNode fromNode = couple.getSecond().getFirst();
+                if (boundary.isPrimary(fromNode))
+                    return false;
                 found.setValue(boundary);
                 foundDistance.setValue(distance);
                 return true;

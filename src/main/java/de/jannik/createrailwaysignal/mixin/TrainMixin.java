@@ -3,6 +3,7 @@ package de.jannik.createrailwaysignal.mixin;
 import com.simibubi.create.content.trains.entity.Carriage;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
+import com.simibubi.create.content.trains.graph.TrackNode;
 import de.jannik.createrailwaysignal.commands.CreaterailwayCommands;
 import de.jannik.createrailwaysignal.graph.SpeedSignalBoundary;
 import de.jannik.createrailwaysignal.graph.SpeedSignalProvider;
@@ -48,6 +49,27 @@ public abstract class TrainMixin implements SpeedSignalProvider {
         var original = cir.getReturnValue();
         cir.setReturnValue((distance, couple) -> {
             if (couple.getFirst() instanceof SpeedSignalBoundary speedSignalBoundary) {
+                // The speed limiter is directional: it should only take effect when the train
+                // travels the same way the block was facing when placed, not when approaching
+                // it from the opposite direction.
+                TrackNode fromNode = couple.getSecond().getFirst();
+                TrackNode toNode = couple.getSecond().getSecond();
+                boolean primary = speedSignalBoundary.isPrimary(fromNode);
+
+                World debugWorld = this.createRailwaySignal$$worldRef;
+                if (debugWorld != null && debugWorld.getGameRules().get(CreaterailwayCommands.SHOW_SPEED_BLOCK).get()) {
+                    System.out.println(
+                            "[DirCheck] from=" + fromNode.getLocation().getLocation()
+                                    + " to=" + toNode.getLocation().getLocation()
+                                    + " edgeLoc.first=" + speedSignalBoundary.edgeLocation.getFirst().getLocation()
+                                    + " edgeLoc.second=" + speedSignalBoundary.edgeLocation.getSecond().getLocation()
+                                    + " isPrimary(from)=" + primary
+                    );
+                }
+
+                if (primary)
+                    return false;
+
                 Train train = (Train) (Object) this;
                 double maxSpeed = train.maxSpeed();
                 SpeedSignalBoundary active = this.createRailwaySignal$$speedSignal;
