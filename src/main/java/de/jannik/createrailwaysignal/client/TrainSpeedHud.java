@@ -4,6 +4,7 @@ import com.simibubi.create.content.trains.entity.Carriage;
 import com.simibubi.create.content.trains.entity.CarriageContraptionEntity;
 import com.simibubi.create.content.trains.entity.Train;
 
+import de.jannik.createrailwaysignal.config.HudPosition;
 import de.jannik.createrailwaysignal.config.RailwaySignalConfigs;
 import de.jannik.createrailwaysignal.config.SpeedUnit;
 import net.minecraft.client.MinecraftClient;
@@ -13,7 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 
 /**
- * Renders a small "(train name): (speed)" text in the bottom right of the screen
+ * Renders a small "(train name): (speed)" text in a configurable corner of the screen
  * while the local player is riding inside a train.
  */
 public final class TrainSpeedHud {
@@ -56,8 +57,25 @@ public final class TrainSpeedHud {
 
         TextRenderer textRenderer = mc.textRenderer;
         int textWidth = textRenderer.getWidth(text);
-        int x = context.getScaledWindowWidth() - textWidth - 4;
-        int y = context.getScaledWindowHeight() - 14;
+        int textHeight = textRenderer.fontHeight;
+
+        HudPosition position = config.hudPosition.get();
+        float horizontalOffset = config.horizontalOffset.getF();
+        float verticalOffset = config.verticalOffset.getF();
+
+        boolean left = position == HudPosition.TOP_LEFT || position == HudPosition.BOTTOM_LEFT;
+        boolean top = position == HudPosition.TOP_LEFT || position == HudPosition.TOP_RIGHT;
+
+        int marginX = 4;
+        // The bottom corners get a bigger base margin to clear the hotbar.
+        int marginY = top ? 4 : 14;
+
+        int x = left
+                ? marginX + (int) (horizontalOffset * textWidth)
+                : context.getScaledWindowWidth() - textWidth - marginX - (int) (horizontalOffset * textWidth);
+        int y = top
+                ? marginY + (int) (verticalOffset * textHeight)
+                : context.getScaledWindowHeight() - marginY - (int) (verticalOffset * textHeight);
 
         context.drawTextWithShadow(textRenderer, text, x, y, 0xFFFFFF);
     }

@@ -11,7 +11,8 @@
     "TravellingPointSafeMixin"
   ],
   "client": [
-
+    "ConfigScreenListEntryAccessor",
+    "SubMenuConfigScreenOrderMixin"
   ],
   "server": [
 

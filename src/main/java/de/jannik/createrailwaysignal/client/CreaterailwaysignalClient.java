@@ -10,6 +10,7 @@ import de.jannik.createrailwaysignal.block.ModBlockEntityTypes;
 import de.jannik.createrailwaysignal.block.TrainLightBlockRenderer;
 import de.jannik.createrailwaysignal.block.kilometer.ModKilometerContent;
 import de.jannik.createrailwaysignal.commands.CameraCommand;
+import de.jannik.createrailwaysignal.commands.TrainSpeedHudCommand;
 import de.jannik.createrailwaysignal.config.CameraConfig;
 import de.jannik.createrailwaysignal.config.RailwaySignalConfigs;
 import de.jannik.createrailwaysignal.item.LightSignalSpeedItem;
@@ -32,6 +33,7 @@ public class CreaterailwaysignalClient implements ClientModInitializer {
         CameraConfig.load();
         RailwaySignalConfigs.register();
         CameraCommand.register();
+        TrainSpeedHudCommand.register();
         registerClientEvents();
         HudRenderCallback.EVENT.register(TrainSpeedHud::render);
 
