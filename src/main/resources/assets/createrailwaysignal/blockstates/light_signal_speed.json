@@ -1,18 +1,48 @@
 {
   "variants": {
-    "facing=west": {
+    "facing=south,position=inner": {
+      "model": "createrailwaysignal:block/light_signal_speed_inner"
+    },
+    "facing=west,position=inner": {
+      "model": "createrailwaysignal:block/light_signal_speed_inner",
+      "y": 90
+    },
+    "facing=north,position=inner": {
+      "model": "createrailwaysignal:block/light_signal_speed_inner",
+      "y": 180
+    },
+    "facing=east,position=inner": {
+      "model": "createrailwaysignal:block/light_signal_speed_inner",
+      "y": 270
+    },
+    "facing=south,position=middle": {
+      "model": "createrailwaysignal:block/light_signal_speed"
+    },
+    "facing=west,position=middle": {
       "model": "createrailwaysignal:block/light_signal_speed",
       "y": 90
     },
-    "facing=south": {
-      "model": "createrailwaysignal:block/light_signal_speed"
-    },
-    "facing=north": {
+    "facing=north,position=middle": {
       "model": "createrailwaysignal:block/light_signal_speed",
       "y": 180
     },
-    "facing=east": {
+    "facing=east,position=middle": {
       "model": "createrailwaysignal:block/light_signal_speed",
+      "y": 270
+    },
+    "facing=south,position=outer": {
+      "model": "createrailwaysignal:block/light_signal_speed_outer"
+    },
+    "facing=west,position=outer": {
+      "model": "createrailwaysignal:block/light_signal_speed_outer",
+      "y": 90
+    },
+    "facing=north,position=outer": {
+      "model": "createrailwaysignal:block/light_signal_speed_outer",
+      "y": 180
+    },
+    "facing=east,position=outer": {
+      "model": "createrailwaysignal:block/light_signal_speed_outer",
       "y": 270
     }
   }

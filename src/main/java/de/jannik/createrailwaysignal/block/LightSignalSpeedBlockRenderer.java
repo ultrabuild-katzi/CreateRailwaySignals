@@ -40,6 +40,7 @@ public class LightSignalSpeedBlockRenderer extends SafeBlockEntityRenderer<Light
         msr.center()
                 .rotateYDegrees(yRot)
                 .uncenter();
+        ms.translate(0, 0, blockState.get(LightSignalSpeedBlock.POSITION).offset);
         msr.center();
 
         float height = 7;
