@@ -15,6 +15,7 @@ import de.jannik.createrailwaysignal.commands.CreaterailwayCommands;
 //import de.jannik.createrailwaysignal.compat.create.TrainLightCompat;
 import de.jannik.createrailwaysignal.item.ModItemGroup;
 import de.jannik.createrailwaysignal.item.ModItems;
+import de.jannik.createrailwaysignal.train.FindTrainNetwork;
 import net.createmod.catnip.lang.FontHelper;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
@@ -83,6 +84,8 @@ public class Createrailwaysignal implements ModInitializer {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             de.jannik.createrailwaysignal.commands.BoatFlyCommand.register(dispatcher);
         });
+
+        FindTrainNetwork.registerServer();
 
         // Register server-side receiver to accept sign text updates from client
         ServerPlayNetworking.registerGlobalReceiver(BR_SIGN_UPDATE, (server, player, handler, buf, responseSender) -> {

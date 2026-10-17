@@ -10,10 +10,12 @@ import de.jannik.createrailwaysignal.block.ModBlockEntityTypes;
 import de.jannik.createrailwaysignal.block.TrainLightBlockRenderer;
 import de.jannik.createrailwaysignal.block.kilometer.ModKilometerContent;
 import de.jannik.createrailwaysignal.commands.CameraCommand;
+import de.jannik.createrailwaysignal.commands.FindTrainCommand;
 import de.jannik.createrailwaysignal.commands.TrainSpeedHudCommand;
 import de.jannik.createrailwaysignal.config.CameraConfig;
 import de.jannik.createrailwaysignal.config.RailwaySignalConfigs;
 import de.jannik.createrailwaysignal.item.LightSignalSpeedItem;
+import de.jannik.createrailwaysignal.train.FindTrainNetwork;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -23,6 +25,10 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 
 public class CreaterailwaysignalClient implements ClientModInitializer {
@@ -34,6 +40,7 @@ public class CreaterailwaysignalClient implements ClientModInitializer {
         RailwaySignalConfigs.register();
         CameraCommand.register();
         TrainSpeedHudCommand.register();
+        FindTrainCommand.register();
         registerClientEvents();
         HudRenderCallback.EVENT.register(TrainSpeedHud::render);
 
@@ -49,6 +56,23 @@ public class CreaterailwaysignalClient implements ClientModInitializer {
             int width = buf.readInt();
             client.execute(() -> {
                 client.setScreen(new BrSignEditScreen(pos, text, width));
+            });
+        });
+
+        // Register client receiver for the /findtrain GUI's train list
+        ClientPlayNetworking.registerGlobalReceiver(FindTrainNetwork.RESPONSE, (client, handler, buf, responseSender) -> {
+            int count = buf.readInt();
+            List<FindTrainNetwork.TrainInfo> trains = new ArrayList<>(count);
+            for (int i = 0; i < count; i++) {
+                UUID id = buf.readUuid();
+                String name = buf.readString(32767);
+                int carriageCount = buf.readInt();
+                String destination = buf.readString(32767);
+                trains.add(new FindTrainNetwork.TrainInfo(id, name, carriageCount, destination));
+            }
+            client.execute(() -> {
+                if (client.currentScreen instanceof FindTrainScreen screen)
+                    screen.setTrains(trains);
             });
         });
     }

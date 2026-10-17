@@ -31,7 +31,13 @@ public class BrSignBlockRenderer extends SafeBlockEntityRenderer<BrSignBlockEnti
         var blockState = be.getCachedState();
 
         var msr = TransformStack.of(ms);
-        float yRot = AngleHelper.horizontalAngle(blockState.get(BrSignBlock.FACING));
+        net.minecraft.util.math.Direction facing = blockState.get(BrSignBlock.FACING);
+        float yRot = AngleHelper.horizontalAngle(facing);
+        // AngleHelper's horizontalAngle negates the rotation for the X axis (west/east), which ends
+        // up 180 degrees off from what we need here - correct it so the text actually faces the
+        // direction the block was rotated to, matching north/south which are already correct.
+        if (facing.getAxis() == net.minecraft.util.math.Direction.Axis.X)
+            yRot += 180;
         msr.center()
                 .rotateYDegrees(yRot)
                 .uncenter();
