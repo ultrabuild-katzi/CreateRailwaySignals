@@ -25,18 +25,21 @@ import static net.minecraft.server.command.CommandManager.literal;
  * Root command:
  *   /createrailwaysignal debugspeedblock [status|on|off|toggle]
  *   /createrailwaysignal debugwhistleblock [status|on|off|toggle]
+ *   /createrailwaysignal debugprelightsignal [status|on|off|toggle]
  *   /createrailwaysignal kmdebug [on|off|toggle]
  *   /createrailwaysignal kmdump
  *
  * Aliases:
  *   /debugspeedblock  [status|on|off|toggle]
  *   /debugwhistleblock[status|on|off|toggle]
+ *   /debugprelightsignal[status|on|off|toggle]
  *   /kmdebug [on|off|toggle]
  *   /kmdump
  *
  * Gamerules:
  *   /gamerule showSpeedBlock true|false
  *   /gamerule showWhistleBlock true|false
+ *   /gamerule showPreLightSignal true|false
  */
 public final class CreaterailwayCommands {
     private CreaterailwayCommands() {}
@@ -44,6 +47,7 @@ public final class CreaterailwayCommands {
     /** Public so other classes (mixins/util) can read the keys. */
     public static final GameRules.Key<GameRules.BooleanRule> SHOW_SPEED_BLOCK;
     public static final GameRules.Key<GameRules.BooleanRule> SHOW_WHISTLE_BLOCK;
+    public static final GameRules.Key<GameRules.BooleanRule> SHOW_PRE_LIGHT_SIGNAL;
 
     static {
         SHOW_SPEED_BLOCK = GameRuleRegistry.register(
@@ -52,6 +56,10 @@ public final class CreaterailwayCommands {
         );
         SHOW_WHISTLE_BLOCK = GameRuleRegistry.register(
                 "showWhistleBlock", GameRules.Category.MISC,
+                GameRuleFactory.createBooleanRule(false) // default OFF
+        );
+        SHOW_PRE_LIGHT_SIGNAL = GameRuleRegistry.register(
+                "showPreLightSignal", GameRules.Category.MISC,
                 GameRuleFactory.createBooleanRule(false) // default OFF
         );
     }
@@ -67,6 +75,7 @@ public final class CreaterailwayCommands {
                                         Use:
                                           /createrailwaysignal debugspeedblock [status|on|off|toggle]
                                           /createrailwaysignal debugwhistleblock [status|on|off|toggle]
+                                          /createrailwaysignal debugprelightsignal [status|on|off|toggle]
                                           /createrailwaysignal kmdebug [on|off|toggle]
                                           /createrailwaysignal kmdump
                                         """), false);
@@ -74,6 +83,7 @@ public final class CreaterailwayCommands {
                             })
                             .then(buildToggleBranch("debugspeedblock", SHOW_SPEED_BLOCK))
                             .then(buildToggleBranch("debugwhistleblock", SHOW_WHISTLE_BLOCK))
+                            .then(buildToggleBranch("debugprelightsignal", SHOW_PRE_LIGHT_SIGNAL))
                             .then(buildKmDebugNode())   // NEW
                             .then(buildKmDumpNode())    // NEW
             );
@@ -81,6 +91,7 @@ public final class CreaterailwayCommands {
             // Existing aliases
             dispatcher.register(buildToggleBranch("debugspeedblock", SHOW_SPEED_BLOCK));
             dispatcher.register(buildToggleBranch("debugwhistleblock", SHOW_WHISTLE_BLOCK));
+            dispatcher.register(buildToggleBranch("debugprelightsignal", SHOW_PRE_LIGHT_SIGNAL));
 
             // NEW aliases
             dispatcher.register(buildKmDebugNode());
@@ -143,6 +154,7 @@ public final class CreaterailwayCommands {
         return switch (literal) {
             case "debugspeedblock" -> "Speed block location display";
             case "debugwhistleblock" -> "Whistle block log display";
+            case "debugprelightsignal" -> "Pre light signal preview debug log";
             default -> literal;
         };
     }

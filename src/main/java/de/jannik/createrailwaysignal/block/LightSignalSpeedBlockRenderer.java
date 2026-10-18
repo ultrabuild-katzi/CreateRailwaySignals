@@ -33,6 +33,20 @@ public class LightSignalSpeedBlockRenderer extends SafeBlockEntityRenderer<Light
     protected void renderSafe(LightSignalSpeedBlockEntity be, float partialTicks, MatrixStack ms, VertexConsumerProvider buffer,
                               int light, int overlay) {
         ms.push();
+        try {
+            renderText(be, ms, buffer);
+        } catch (Exception e) {
+            // Never let a rendering error silently kill the text overlay for this instance forever;
+            // at least report it once so it can be diagnosed via /debugprelightsignal on.
+            if (be.getWorld() != null && be.getWorld().getGameRules().get(de.jannik.createrailwaysignal.commands.CreaterailwayCommands.SHOW_PRE_LIGHT_SIGNAL).get()) {
+                System.out.println("[LightSignalSpeedRenderer@" + be.getPos() + "] renderSafe threw: " + e);
+                e.printStackTrace();
+            }
+        }
+        ms.pop();
+    }
+
+    private void renderText(LightSignalSpeedBlockEntity be, MatrixStack ms, VertexConsumerProvider buffer) {
         BlockState blockState = be.getCachedState();
 
         var msr = dev.engine_room.flywheel.lib.transform.TransformStack.of(ms);
@@ -75,8 +89,6 @@ public class LightSignalSpeedBlockRenderer extends SafeBlockEntityRenderer<Light
         ms.translate(-0.03, 0, -0.1);
         ms.scale(scale, -scale, scale);
         drawShadowText(ms, buffer, s, height, colorCouple);
-        ms.pop();
-
         ms.pop();
     }
 

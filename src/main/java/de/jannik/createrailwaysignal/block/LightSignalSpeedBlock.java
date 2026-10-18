@@ -36,7 +36,12 @@ public class LightSignalSpeedBlock extends HorizontalFacingBlock implements IBE<
     public static final BooleanProperty JEB_MODE = BooleanProperty.of("jeb");
 
     public enum Position implements StringIdentifiable {
-        INNER(5 / 16f), MIDDLE(0), OUTER(-6 / 16f);
+        // Offsets must match the pre-built sign models exactly (see light_signal_speed_inner.json /
+        // light_signal_speed_outer.json): their boxes are centered at z=15/16 and z=1/16 respectively,
+        // i.e. +-7/16 from the block's center (z=8/16). Using the wrong offset here doesn't just look
+        // slightly off - for OUTER it used to place the rendered text *inside* the solid model, making
+        // the displayed number invisible (and also mis-centers the interaction hitbox below).
+        INNER(7 / 16f), MIDDLE(0), OUTER(-7 / 16f);
 
         // offset in blocks along the direction the sign faces
         public final float offset;

@@ -33,6 +33,11 @@ public class ModBlockEntityTypes {
             .validBlocks(ModBlocks.TRAIN_LIGHT)
             .register();
 
+    public static final BlockEntityEntry<PreLightSignalBlockEntity> PRE_LIGHT_SIGNAL = Createrailwaysignal.REGISTRATE
+            .blockEntity("pre_light_signal", PreLightSignalBlockEntity::new)
+            .validBlocks(ModBlocks.PRE_LIGHT_SIGNAL)
+            .register();
+
     public static final BlockEntityEntry<BrSignBlockEntity> BR_SIGN = Createrailwaysignal.REGISTRATE
             .blockEntity("brsign", BrSignBlockEntity::new)
             .renderer(() -> BrSignBlockRenderer::new)

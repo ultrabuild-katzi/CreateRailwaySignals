@@ -5,6 +5,8 @@ import com.tterrag.registrate.util.entry.BlockEntry;
 import de.jannik.createrailwaysignal.Createrailwaysignal;
 import de.jannik.createrailwaysignal.item.LightSignalSpeedItem;
 //import de.jannik.createrailwaysignal.item.CopycatBogeyItem;
+import de.jannik.createrailwaysignal.item.ModItemGroup;
+import de.jannik.createrailwaysignal.item.PreLightSignalItem;
 import de.jannik.createrailwaysignal.item.TrackLimitItem;
 import de.jannik.createrailwaysignal.item.WhistleBlockItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -30,33 +32,46 @@ public class ModBlocks {
 
 
 
-    public static final BlockEntry<WhistleBlock> WHISTLE_BLOCK = Createrailwaysignal.REGISTRATE.block("whistle_block", WhistleBlock::new)
-            .initialProperties(SharedProperties::softMetal)
-            .properties(p -> p.mapColor(MapColor.SPRUCE_BROWN)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.NETHERITE))
-            .item(WhistleBlockItem::new)
-            .transform(customItemModel())
-            .register();
-    public static final BlockEntry<TrackLimitBlock> TRACK_LIMIT = Createrailwaysignal.REGISTRATE.block("track_limit", TrackLimitBlock::new)
-            .initialProperties(SharedProperties::softMetal)
-            .properties(p -> p.mapColor(MapColor.SPRUCE_BROWN)
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.NETHERITE))
-            .item(TrackLimitItem::new)
-            .transform(customItemModel())
-            .register();
+    // --- Signals & speed control, grouped together in the creative tab ---
+    public static BlockEntry<TrackLimitBlock> TRACK_LIMIT;
     public static BlockEntry<LightSignalSpeedBlock> LIGHT_SIGNAL_SPEED;
+    public static BlockEntry<PreLightSignalBlock> PRE_LIGHT_SIGNAL;
     public static BlockEntry<TrainLightBlock> TRAIN_LIGHT;
+    public static BlockEntry<WhistleBlock> WHISTLE_BLOCK;
     public static BlockEntry<BrSignBlock> BR_SIGN;
+
+    // --- Level crossing barriers, grouped together ---
     public static BlockEntry<BueSchrankBlock> BUE_SCHRANK_2M;
     public static BlockEntry<BueSchrankBlock> BUE_SCHRANK_3M;
     public static BlockEntry<BueSchrankBlock> BUE_SCHRANK_4M;
 
     public static void registerModBlocks() {
+        // Note: .removeTab(...) disables Registrate's automatic (registration-order) placement into
+        // our creative tab - ModItemGroup explicitly adds every item itself in a curated order instead.
+        TRACK_LIMIT = Createrailwaysignal.REGISTRATE.block("track_limit", TrackLimitBlock::new)
+                .initialProperties(SharedProperties::softMetal)
+                .properties(p -> p.mapColor(MapColor.SPRUCE_BROWN)
+                        .nonOpaque()
+                        .sounds(BlockSoundGroup.NETHERITE))
+                .item(TrackLimitItem::new)
+                .removeTab(ModItemGroup.CREATE_RAILWAY_SIGNAL_GROUP_KEY)
+                .transform(customItemModel())
+                .register();
+
         LIGHT_SIGNAL_SPEED = Createrailwaysignal.REGISTRATE.block("light_signal_speed", LightSignalSpeedBlock::new)
                 .initialProperties(SharedProperties::softMetal)
                 .item(LightSignalSpeedItem::new)
+                .removeTab(ModItemGroup.CREATE_RAILWAY_SIGNAL_GROUP_KEY)
+                .transform(customItemModel())
+                .register();
+
+        PRE_LIGHT_SIGNAL = Createrailwaysignal.REGISTRATE.block("pre_light_signal", PreLightSignalBlock::new)
+                .initialProperties(SharedProperties::softMetal)
+                .properties(p -> p.mapColor(MapColor.IRON_GRAY)
+                        .nonOpaque()
+                        .sounds(BlockSoundGroup.NETHERITE))
+                .item(PreLightSignalItem::new)
+                .removeTab(ModItemGroup.CREATE_RAILWAY_SIGNAL_GROUP_KEY)
                 .transform(customItemModel())
                 .register();
 
@@ -67,6 +82,17 @@ public class ModBlocks {
                         .luminance(state -> 15)
                         .sounds(BlockSoundGroup.LANTERN))
                 .item()
+                .removeTab(ModItemGroup.CREATE_RAILWAY_SIGNAL_GROUP_KEY)
+                .transform(customItemModel())
+                .register();
+
+        WHISTLE_BLOCK = Createrailwaysignal.REGISTRATE.block("whistle_block", WhistleBlock::new)
+                .initialProperties(SharedProperties::softMetal)
+                .properties(p -> p.mapColor(MapColor.SPRUCE_BROWN)
+                        .nonOpaque()
+                        .sounds(BlockSoundGroup.NETHERITE))
+                .item(WhistleBlockItem::new)
+                .removeTab(ModItemGroup.CREATE_RAILWAY_SIGNAL_GROUP_KEY)
                 .transform(customItemModel())
                 .register();
 
@@ -75,6 +101,7 @@ public class ModBlocks {
                 .defaultLoot()
                 .properties(p -> p.nonOpaque())
                 .item()
+                .removeTab(ModItemGroup.CREATE_RAILWAY_SIGNAL_GROUP_KEY)
                 .transform(customItemModel())
                 .register();
 
@@ -82,6 +109,7 @@ public class ModBlocks {
                 .initialProperties(SharedProperties::softMetal)
                 .properties(p -> p.nonOpaque())
                 .item()
+                .removeTab(ModItemGroup.CREATE_RAILWAY_SIGNAL_GROUP_KEY)
                 .transform(customItemModel())
                 .register();
 
@@ -89,6 +117,7 @@ public class ModBlocks {
                 .initialProperties(SharedProperties::softMetal)
                 .properties(p -> p.nonOpaque())
                 .item()
+                .removeTab(ModItemGroup.CREATE_RAILWAY_SIGNAL_GROUP_KEY)
                 .transform(customItemModel())
                 .register();
 
@@ -96,6 +125,7 @@ public class ModBlocks {
                 .initialProperties(SharedProperties::softMetal)
                 .properties(p -> p.nonOpaque())
                 .item()
+                .removeTab(ModItemGroup.CREATE_RAILWAY_SIGNAL_GROUP_KEY)
                 .transform(customItemModel())
                 .register();
     }

@@ -23,12 +23,25 @@ public class ModItemGroup {
             FabricItemGroup.builder().displayName(Text.translatable("itemgroup.createrailwaysignal"))
                     .icon(() -> new ItemStack(ModBlocks.TRACK_LIMIT)).entries((displayContext, entries) -> {
 
+                        // Sign blocks
+                        entries.add(ModBlocks.TRACK_LIMIT.asItem());
+                        entries.add(ModBlocks.LIGHT_SIGNAL_SPEED.asItem());
                         entries.add(ModItems.INCOMPLETE_LIGHT_SIGNAL_SPEED);
+                        entries.add(ModBlocks.BR_SIGN.asItem());
+
+                        // Blocky blocks
+                        entries.add(ModBlocks.WHISTLE_BLOCK.asItem());
+                        entries.add(ModBlocks.PRE_LIGHT_SIGNAL.asItem());
+                        entries.add(ModKilometerContent.KILOMETER_MARKER.asItem());
+
+                        // The rest
+                        entries.add(ModBlocks.TRAIN_LIGHT.asItem());
+                        entries.add(ModBlocks.BUE_SCHRANK_2M.asItem());
+                        entries.add(ModBlocks.BUE_SCHRANK_3M.asItem());
+                        entries.add(ModBlocks.BUE_SCHRANK_4M.asItem());
                         entries.add(ModItems.VISITOR_ID);
                         entries.add(ModItems.WORKER_ID);
                         entries.add(ModItems.SUPERVISOR_ID);
-
-                        entries.add(ModKilometerContent.KILOMETER_MARKER.asItem());
 
                     }).build());
 

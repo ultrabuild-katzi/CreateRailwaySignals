@@ -4,6 +4,7 @@ import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.foundation.utility.CreateLang;
 import de.jannik.createrailwaysignal.block.LightSignalSpeedBlockEntity;
 import de.jannik.createrailwaysignal.block.ModBlockEntityTypes;
+import de.jannik.createrailwaysignal.block.PreLightSignalBlock;
 import de.jannik.createrailwaysignal.block.TrackLimitBlock;
 import net.createmod.catnip.lang.Lang;
 import net.minecraft.block.Block;
@@ -72,7 +73,9 @@ public class LightSignalSpeedItem extends BlockItem {
             return super.useOnBlock(context);
 
         BlockState state = context.getWorld().getBlockState(context.getBlockPos());
-        if (!(state.getBlock() instanceof TrackLimitBlock))
+        boolean isTrackLimit = state.getBlock() instanceof TrackLimitBlock;
+        boolean isPreLightSignal = state.getBlock() instanceof PreLightSignalBlock;
+        if (!isTrackLimit && !isPreLightSignal)
             return super.useOnBlock(context);
 
         ItemStack itemStack = context.getStack();
@@ -81,7 +84,7 @@ public class LightSignalSpeedItem extends BlockItem {
             nbtCompound = new NbtCompound();
 
         LightSignalSpeedBlockEntity.writeTargetBlock(nbtCompound, context.getBlockPos());
-        setBlockEntityNbt(itemStack, ModBlockEntityTypes.TRACK_LIMIT.get(), nbtCompound);
+        setBlockEntityNbt(itemStack, isPreLightSignal ? ModBlockEntityTypes.PRE_LIGHT_SIGNAL.get() : ModBlockEntityTypes.TRACK_LIMIT.get(), nbtCompound);
         currentSelection = context.getBlockPos();
 
 

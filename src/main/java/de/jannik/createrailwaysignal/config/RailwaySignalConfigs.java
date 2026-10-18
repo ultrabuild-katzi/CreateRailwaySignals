@@ -17,9 +17,14 @@ import net.minecraftforge.fml.config.ModConfig;
 public class RailwaySignalConfigs {
 
     private static CRailwaySignalClientConfig client;
+    private static CRailwaySignalCommonConfig common;
 
     public static CRailwaySignalClientConfig client() {
         return client;
+    }
+
+    public static CRailwaySignalCommonConfig common() {
+        return common;
     }
 
     private static <T extends ConfigBase> T register(Supplier<T> factory, ModConfig.Type side) {
@@ -36,6 +41,10 @@ public class RailwaySignalConfigs {
     }
 
     public static void register() {
+        common = register(CRailwaySignalCommonConfig::new, ModConfig.Type.COMMON);
+    }
+
+    public static void registerClient() {
         client = register(CRailwaySignalClientConfig::new, ModConfig.Type.CLIENT);
     }
 }

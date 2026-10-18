@@ -1,5 +1,6 @@
 {
   "block.createrailwaysignal.train_light": "Zuglicht",
+  "block.createrailwaysignal.pre_light_signal": "Vorsignal",
 
   "item.create_railway_signal.train_light.tooltip_1": "Weißes Licht vorne, rotes Licht hinten am Zug",
   "item.create_railway_signal.train_light.tooltip_2": "Schleichen + Rechtsklick zum manuellen Umschalten, wenn nicht am Zug",

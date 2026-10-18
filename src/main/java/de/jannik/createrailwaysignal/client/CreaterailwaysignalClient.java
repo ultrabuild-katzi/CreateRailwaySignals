@@ -37,7 +37,7 @@ public class CreaterailwaysignalClient implements ClientModInitializer {
     public void onInitializeClient() {
         ModKilometerContent.registerClient();
         CameraConfig.load();
-        RailwaySignalConfigs.register();
+        RailwaySignalConfigs.registerClient();
         CameraCommand.register();
         TrainSpeedHudCommand.register();
         FindTrainCommand.register();

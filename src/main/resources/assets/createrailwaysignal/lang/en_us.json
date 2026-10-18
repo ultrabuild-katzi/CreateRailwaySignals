@@ -6,6 +6,7 @@
   "block.createrailwaysignal.fake_engine": "Fake Engine",
   "block.createrailwaysignal.kilometer_marker": "Kilometer Marker",
   "block.createrailwaysignal.train_light": "Train Light",
+  "block.createrailwaysignal.pre_light_signal": "Pre Light Signal",
 
   "item.createrailwaysignal.visitor_id": "Visitor ID",
   "item.createrailwaysignal.worker_id": "Worker ID",
