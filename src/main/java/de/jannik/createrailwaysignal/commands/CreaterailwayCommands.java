@@ -5,6 +5,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import de.jannik.createrailwaysignal.block.kilometer.KilometerMarkerBlock;
 import de.jannik.createrailwaysignal.block.kilometer.KilometerMarkerHelper;
 import de.jannik.createrailwaysignal.debug.KMDbg;
+import de.jannik.createrailwaysignal.debug.RealismDbg;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
@@ -78,6 +79,7 @@ public final class CreaterailwayCommands {
                                           /createrailwaysignal debugprelightsignal [status|on|off|toggle]
                                           /createrailwaysignal kmdebug [on|off|toggle]
                                           /createrailwaysignal kmdump
+                                          /createrailwaysignal realismdebug [on|off|toggle]
                                         """), false);
                                 return 1;
                             })
@@ -86,6 +88,7 @@ public final class CreaterailwayCommands {
                             .then(buildToggleBranch("debugprelightsignal", SHOW_PRE_LIGHT_SIGNAL))
                             .then(buildKmDebugNode())   // NEW
                             .then(buildKmDumpNode())    // NEW
+                            .then(buildRealismDebugNode())
             );
 
             // Existing aliases
@@ -96,6 +99,9 @@ public final class CreaterailwayCommands {
             // NEW aliases
             dispatcher.register(buildKmDebugNode());
             dispatcher.register(buildKmDumpNode());
+            // NOTE: no top-level server-side "/realismdebug" alias here - that literal is used by
+            // RealismDebugClientCommand instead (a CLIENT command), because the Realism ETCS compat
+            // this toggles only ever runs on the logical client. Registering both would collide.
         });
     }
 
@@ -191,6 +197,44 @@ public final class CreaterailwayCommands {
                     // no-arg: toggle
                     KMDbg.set(!KMDbg.on());
                     ctx.getSource().sendFeedback(() -> Text.literal("KM debug: " + (KMDbg.on() ? "ON" : "OFF")), false);
+                    return 1;
+                });
+    }
+
+    /* ===================== NEW: Realism compat debug toggle =====================
+     * NOTE: this toggles RealismDbg only in whatever JVM runs this command (the dedicated server,
+     * if run there). It has NO effect on ETCS logging, since ETCSMixin/RealismSpeedLimitScanner
+     * only ever execute on the logical CLIENT. Use the client-side "/realismdebug" command
+     * (RealismDebugClientCommand) instead to actually see Realism compat logs. This server-side
+     * copy is kept only for parity/completeness.
+     */
+
+    private static LiteralArgumentBuilder<ServerCommandSource> buildRealismDebugNode() {
+        return literal("realismdebug")
+                .then(argument("mode", StringArgumentType.word())
+                        .suggests((c, b) -> {
+                            b.suggest("on"); b.suggest("off"); b.suggest("toggle");
+                            return b.buildFuture();
+                        })
+                        .executes(ctx -> {
+                            String mode = StringArgumentType.getString(ctx, "mode").toLowerCase();
+                            switch (mode) {
+                                case "on" -> RealismDbg.set(true);
+                                case "off" -> RealismDbg.set(false);
+                                case "toggle" -> RealismDbg.set(!RealismDbg.on());
+                                default -> {
+                                    ctx.getSource().sendError(Text.literal("Usage: /realismdebug <on|off|toggle>"));
+                                    return 0;
+                                }
+                            }
+                            ctx.getSource().sendFeedback(() -> Text.literal("Realism compat debug: " + (RealismDbg.on() ? "ON" : "OFF")), false);
+                            return 1;
+                        })
+                )
+                .executes(ctx -> {
+                    // no-arg: toggle
+                    RealismDbg.set(!RealismDbg.on());
+                    ctx.getSource().sendFeedback(() -> Text.literal("Realism compat debug: " + (RealismDbg.on() ? "ON" : "OFF")), false);
                     return 1;
                 });
     }

@@ -72,6 +72,14 @@ public class Createrailwaysignal implements ModInitializer {
         LOGGER.info("Initialized mod");
         REGISTRATE.register();
 
+        boolean realismLoaded = de.jannik.createrailwaysignal.compat.realism.RealismCompat.isLoaded();
+        LOGGER.info("Create Realism compat: Realism {} loaded{}", realismLoaded ? "is" : "is not",
+                realismLoaded
+                        ? net.fabricmc.loader.api.FabricLoader.getInstance().getModContainer("realism")
+                                .map(c -> " (version " + c.getMetadata().getVersion().getFriendlyString() + ")")
+                                .orElse("")
+                        : " - ETCS speed-limit integration disabled");
+
 
         Registry.register(Registries.SOUND_EVENT, Createrailwaysignal.TRADITIONAL_SOUND_ID, TRADITIONAL_SOUND_EVENT);
         Registry.register(Registries.SOUND_EVENT, Createrailwaysignal.ELECTRIC_SOUND_ID, ELECTRIC_SOUND_EVENT);

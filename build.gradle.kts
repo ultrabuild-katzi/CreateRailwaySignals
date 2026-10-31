@@ -18,6 +18,18 @@ loom {
 
 
 repositories {
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = uri("https://api.modrinth.com/maven")
+            }
+        }
+        filter {
+            includeGroup("maven.modrinth")
+        }
+    }
+
     maven { url = uri("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")}
     maven { // Ponder, Flywheel//
         name= "createmod maven"
@@ -79,6 +91,7 @@ publishMods {
         requires("create-fabric")
         requires("flywheel")
         optional("grenzzeichen")
+        optional("create-realism")
     } 
 
 }
@@ -90,7 +103,7 @@ dependencies {
     modImplementation ("net.fabricmc:fabric-loader:${project.property("loader_version")}")
 
 //    modImplementation("com.simibubi.create:create-fabric-${project.property("minecraft_version")}:${project.property("create_fabric_version")}+mc${project.property("minecraft_version")}")
-    modImplementation("com.simibubi.create:create-fabric:6.0.8.0+build.1734-mc1.20.1")
+    modImplementation("com.simibubi.create:create-fabric:6.0.8.1+build.1744-mc1.20.1")
 
     modImplementation("software.bernie.geckolib:geckolib-fabric-${project.property("minecraft_version")}:${project.property("gecko_version")}")
 
@@ -104,6 +117,11 @@ dependencies {
 
 //    modImplementation(files("lib/grenzzeichen-1.0.1.jar"))
     modImplementation ("net.fabricmc.fabric-api:fabric-api:${project.property("fabric_version")}")
+
+    // Optional soft-dependency: Create Realism (ETCS compat). Never required to run the mod -
+    // compileOnly so it isn't bundled/forced, localRuntime so it's present in dev/testing.
+    modCompileOnly("maven.modrinth:8YVMtzCO:${project.property("realism_version")}")
+    modLocalRuntime("maven.modrinth:8YVMtzCO:${project.property("realism_version")}")
 }
 
 tasks.processResources {

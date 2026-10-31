@@ -1,0 +1,13 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "de.jannik.createrailwaysignal.compat.realism.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "plugin": "de.jannik.createrailwaysignal.compat.realism.RealismMixinPlugin",
+  "mixins": [
+    "ETCSMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -18,12 +18,16 @@
     ]
   },
   "mixins": [
-    "createrailwaysignal.mixins.json"
+    "createrailwaysignal.mixins.json",
+    "createrailwaysignal-realism-compat.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
     "minecraft": "${minecraft_version}"
+  },
+  "recommends": {
+    "realism": "*"
   },
   "accessWidener" : "create_railway_signal.accesswidener",
   "custom": {
