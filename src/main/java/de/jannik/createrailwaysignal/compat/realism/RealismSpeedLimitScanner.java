@@ -5,6 +5,7 @@ import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
 import com.simibubi.create.content.trains.graph.TrackNode;
 import de.jannik.createrailwaysignal.Createrailwaysignal;
+import de.jannik.createrailwaysignal.compat.BetterTrainSwitchesCompat;
 import de.jannik.createrailwaysignal.debug.RealismDbg;
 import de.jannik.createrailwaysignal.graph.SpeedSignalBoundary;
 import net.Realism.trains.etcs.ETCS;
@@ -73,7 +74,10 @@ public final class RealismSpeedLimitScanner {
 
             double distance = backward ? -maxDistance : maxDistance;
 
-            scout.travel(train.graph, distance, scout.steer(steerDirection, new Vec3d(0, 1, 0)), (dist, couple) -> {
+            TravellingPoint.ITrackSelector selector = BetterTrainSwitchesCompat.scoutSelector(train, backward,
+                    scout.steer(steerDirection, new Vec3d(0, 1, 0)));
+
+            scout.travel(train.graph, distance, selector, (dist, couple) -> {
                 if (!(couple.getFirst() instanceof SpeedSignalBoundary boundary))
                     return false;
 

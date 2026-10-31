@@ -8,6 +8,7 @@ import com.simibubi.create.content.trains.entity.TravellingPoint;
 import com.simibubi.create.content.trains.graph.TrackNode;
 import com.simibubi.create.content.trains.station.GlobalStation;
 import de.jannik.createrailwaysignal.commands.CreaterailwayCommands;
+import de.jannik.createrailwaysignal.compat.BetterTrainSwitchesCompat;
 import de.jannik.createrailwaysignal.graph.SpeedSignalBoundary;
 import de.jannik.createrailwaysignal.graph.SpeedSignalProvider;
 import net.minecraft.util.math.Vec3d;
@@ -107,7 +108,8 @@ public abstract class NavigationMixin {
         // steer() evaluate the wrong TravellingPoint's edge. That branch is only safe to reuse when a
         // destination is set (it then only closes over a fresh copy of currentPath, not any instance state).
         TravellingPoint.ITrackSelector trackSelector = destination == null
-                ? speedScout.steer(train.manualSteer, new Vec3d(0, 1, 0))
+                ? BetterTrainSwitchesCompat.scoutSelector(train, speedMod < 0,
+                        speedScout.steer(train.manualSteer, new Vec3d(0, 1, 0)))
                 : controlSignalScout();
 
         MutableObject<SpeedSignalBoundary> found = new MutableObject<>(null);
