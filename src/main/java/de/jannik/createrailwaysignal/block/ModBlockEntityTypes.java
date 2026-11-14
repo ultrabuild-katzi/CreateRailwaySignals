@@ -14,6 +14,7 @@ public class ModBlockEntityTypes {
 
     public static final BlockEntityEntry<TrackLimitBlockEntity> TRACK_LIMIT = Createrailwaysignal.REGISTRATE
             .blockEntity("track_limit", TrackLimitBlockEntity::new)
+            .renderer(() -> TrackLimitBlockRenderer::new)
             .validBlocks(ModBlocks.TRACK_LIMIT)
             .register();
 
@@ -35,6 +36,7 @@ public class ModBlockEntityTypes {
 
     public static final BlockEntityEntry<PreLightSignalBlockEntity> PRE_LIGHT_SIGNAL = Createrailwaysignal.REGISTRATE
             .blockEntity("pre_light_signal", PreLightSignalBlockEntity::new)
+            .renderer(() -> PreLightSignalBlockRenderer::new)
             .validBlocks(ModBlocks.PRE_LIGHT_SIGNAL)
             .register();
 

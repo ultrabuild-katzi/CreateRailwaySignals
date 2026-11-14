@@ -4,6 +4,7 @@ import com.simibubi.create.content.trains.entity.Carriage;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
 import com.simibubi.create.content.trains.graph.TrackNode;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import de.jannik.createrailwaysignal.commands.CreaterailwayCommands;
 import de.jannik.createrailwaysignal.graph.SpeedSignalBoundary;
 import de.jannik.createrailwaysignal.graph.SpeedSignalProvider;
@@ -14,9 +15,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-/** Mixin into Create's Train class for speed-block logging + whistle trigger. */
+/** Tracks speed blocks and whistles using composable axle listeners so other mods still receive station passages. */
 @Mixin(value = Train.class, remap = false)
 public abstract class TrainMixin implements SpeedSignalProvider {
 
@@ -44,10 +44,9 @@ public abstract class TrainMixin implements SpeedSignalProvider {
         }
     }
 
-    @Inject(method = "frontSignalListener", at = @At("RETURN"), cancellable = true)
-    private void frontSignalListener(CallbackInfoReturnable<TravellingPoint.IEdgePointListener> cir) {
-        var original = cir.getReturnValue();
-        cir.setReturnValue((distance, couple) -> {
+    @ModifyReturnValue(method = "frontSignalListener", at = @At("RETURN"))
+    private TravellingPoint.IEdgePointListener frontSignalListener(TravellingPoint.IEdgePointListener original) {
+        return (distance, couple) -> {
             if (couple.getFirst() instanceof SpeedSignalBoundary speedSignalBoundary) {
                 // The speed limiter is directional: it should only take effect when the train
                 // travels the same way the block was facing when placed, not when approaching
@@ -112,13 +111,12 @@ public abstract class TrainMixin implements SpeedSignalProvider {
             }
 
             return original.test(distance, couple);
-        });
+        };
     }
 
-    @Inject(method = "backSignalListener", at = @At("RETURN"), cancellable = true)
-    private void backSignalListener(CallbackInfoReturnable<TravellingPoint.IEdgePointListener> cir) {
-        var original = cir.getReturnValue();
-        cir.setReturnValue((distance, couple) -> {
+    @ModifyReturnValue(method = "backSignalListener", at = @At("RETURN"))
+    private TravellingPoint.IEdgePointListener backSignalListener(TravellingPoint.IEdgePointListener original) {
+        return (distance, couple) -> {
             if (couple.getFirst() instanceof SpeedSignalBoundary speedSignalBoundary) {
                 if (this.createRailwaySignal$$pendingSpeedSignal == speedSignalBoundary) {
                     this.createRailwaySignal$$speedSignal = speedSignalBoundary;
@@ -138,7 +136,7 @@ public abstract class TrainMixin implements SpeedSignalProvider {
             }
 
             return original.test(distance, couple);
-        });
+        };
     }
 
     @Inject(method = "collideWithOtherTrains", at = @At("HEAD"), cancellable = true)
