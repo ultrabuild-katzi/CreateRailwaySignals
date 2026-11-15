@@ -26,6 +26,12 @@ public class CRailwaySignalClientConfig extends ConfigBase {
 
     public final ConfigBool tiltRiders = b(true, "tiltRiders", Comments.tiltRiders);
 
+    public final ConfigBool invertTrackBanking = b(false, "invertTrackBanking", Comments.invertTrackBanking);
+
+    public final ConfigBool invertBogeyBanking = b(false, "invertBogeyBanking", Comments.invertBogeyBanking);
+
+    public final ConfigBool invertBodyBanking = b(false, "invertBodyBanking", Comments.invertBodyBanking);
+
     @Override
     @NotNull
     public String getName() {
@@ -39,7 +45,10 @@ public class CRailwaySignalClientConfig extends ConfigBase {
         static String position = "The corner of the screen the train speedometer HUD is anchored to.";
         static String verticalOffset = "Moves the train speedometer HUD vertically, as a multiplier of its own text size. 0 = no offset.";
         static String horizontalOffset = "Moves the train speedometer HUD horizontally, as a multiplier of its own text size. 0 = no offset.";
-        static String banking = "Settings for how entities riding banked (canted) curves are visually tilted.";
+        static String banking = "Personal banking rendering settings. A server may temporarily override these while connected; your saved preferences are not changed.";
         static String tiltRiders = "Visually lean entities riding seats on a train to match the carriage's bank angle.";
+        static String invertTrackBanking = "Reverse only the rendered track and embankment banking. Does not change stored cant or train positioning. Cached track geometry refreshes automatically.";
+        static String invertBogeyBanking = "Reverse only the rendered bogey banking, with both Flywheel and the normal renderer.";
+        static String invertBodyBanking = "Reverse only the carriage body banking and its seated rider models. Does not change tracks or bogeys.";
     }
 }

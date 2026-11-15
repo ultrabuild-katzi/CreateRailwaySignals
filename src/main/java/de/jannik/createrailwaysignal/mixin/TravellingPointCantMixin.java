@@ -9,6 +9,7 @@ import net.createmod.catnip.math.VecHelper;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Desc;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 /** Keeps cant out of the position offset used for train anchors and yaw/pitch calculations. */
@@ -16,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public abstract class TravellingPointCantMixin {
 
     @Redirect(method = "getPositionWithOffset", at = @At(value = "INVOKE",
-            target = "Lcom/simibubi/create/content/trains/graph/TrackEdge;getNormal(Lcom/simibubi/create/content/trains/graph/TrackGraph;D)Lnet/minecraft/util/math/Vec3d;"))
+            desc = @Desc(owner = TrackEdge.class, value = "getNormal", args = {TrackGraph.class, double.class}, ret = Vec3d.class)))
     private Vec3d crs$positionNormal(TrackEdge edge, TrackGraph graph, double t) {
         Vec3d normal = edge.getNormal(graph, t);
         if (!edge.isTurn()) {

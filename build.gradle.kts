@@ -168,7 +168,9 @@ tasks.register<JavaExec>("testTrackCantMath") {
     mainClass.set("de.jannik.createrailwaysignal.util.TrackCantMathTest")
 }
 
-tasks.check {
+tasks.test {
+    // Regression checks use the standalone runner above rather than a test framework.
+    failOnNoDiscoveredTests.set(false)
     dependsOn("testTrackCantMath")
 }
 

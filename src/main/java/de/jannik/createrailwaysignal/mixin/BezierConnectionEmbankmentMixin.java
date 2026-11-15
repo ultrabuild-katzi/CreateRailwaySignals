@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Desc;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -37,25 +38,25 @@ public abstract class BezierConnectionEmbankmentMixin implements EmbankmentTrack
         ((EmbankmentTrack) cir.getReturnValue()).crs$setEmbankment(crs$embankment);
     }
 
-    @Inject(method = "<init>(Lnet/minecraft/nbt/NbtCompound;Lnet/minecraft/util/math/BlockPos;)V", at = @At("TAIL"))
+    @Inject(target = @Desc(value = "<init>", args = {NbtCompound.class, BlockPos.class}), at = @At("TAIL"))
     private void crs$readMaterial(NbtCompound tag, BlockPos localTo, CallbackInfo ci) {
         if (tag.contains(CRS_EMBANKMENT))
             crs$embankment = NbtHelper.toBlockState(Registries.BLOCK.getReadOnlyWrapper(), tag.getCompound(CRS_EMBANKMENT));
     }
 
-    @Inject(method = "write(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/nbt/NbtCompound;", at = @At("RETURN"))
+    @Inject(target = @Desc(value = "write", args = BlockPos.class, ret = NbtCompound.class), at = @At("RETURN"))
     private void crs$writeMaterial(BlockPos localTo, CallbackInfoReturnable<NbtCompound> cir) {
         if (crs$embankment != null)
             cir.getReturnValue().put(CRS_EMBANKMENT, NbtHelper.fromBlockState(crs$embankment));
     }
 
-    @Inject(method = "<init>(Lnet/minecraft/network/PacketByteBuf;)V", at = @At("TAIL"))
+    @Inject(target = @Desc(value = "<init>", args = PacketByteBuf.class), at = @At("TAIL"))
     private void crs$readPacketMaterial(PacketByteBuf buffer, CallbackInfo ci) {
         if (buffer.readBoolean())
             crs$embankment = Block.getStateFromRawId(buffer.readVarInt());
     }
 
-    @Inject(method = "write(Lnet/minecraft/network/PacketByteBuf;)V", at = @At("TAIL"))
+    @Inject(target = @Desc(value = "write", args = PacketByteBuf.class), at = @At("TAIL"))
     private void crs$writePacketMaterial(PacketByteBuf buffer, CallbackInfo ci) {
         buffer.writeBoolean(crs$embankment != null);
         if (crs$embankment != null)

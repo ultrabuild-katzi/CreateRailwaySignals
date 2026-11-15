@@ -2,10 +2,17 @@ package de.jannik.createrailwaysignal.util;
 
 import net.minecraft.util.math.Vec3d;
 import de.jannik.createrailwaysignal.track.TrackEmbankmentMesh;
+import de.jannik.createrailwaysignal.config.BankingSettings;
 
 public final class TrackCantMathTest {
 
     public static void main(String[] args) {
+        BankingSettings personal = new BankingSettings(false, false, true, false, true);
+        BankingSettings enforced = new BankingSettings(true, true, false, true, false);
+        BankingSettings optional = new BankingSettings(false, true, false, true, false);
+        if (!enforced.effective(personal).equals(enforced) || !optional.effective(personal).equals(personal)
+                || !personal.equals(new BankingSettings(false, false, true, false, true)))
+            throw new AssertionError("Server banking override changed personal preferences or failed precedence");
         for (double turn : new double[] {-135, -90, -30, 0, 30, 90, 135}) {
             for (double slope : new double[] {-0.3, 0, 0.3}) {
                 Vec3d axis1 = new Vec3d(1, slope, 0).normalize();
@@ -46,6 +53,15 @@ public final class TrackCantMathTest {
         Vec3d slopeNormal = TrackCantMath.WORLD_UP.subtract(tangent.multiply(tangent.y)).normalize();
         Vec3d banked = TrackCantMath.rotateAroundAxis(slopeNormal, tangent,
                 TrackCantMath.angleRadiansFromCantMm(cant));
+        assertVectorClose(banked, TrackCantMath.renderedNormal(banked, tangent, false),
+                "Default renderer changed banking");
+        Vec3d mirrored = TrackCantMath.renderedNormal(banked, tangent, true);
+        assertVectorClose(TrackCantMath.rotateAroundAxis(slopeNormal, tangent,
+                -TrackCantMath.angleRadiansFromCantMm(cant)), mirrored, "Renderer did not reverse bank");
+        assertVectorClose(banked, TrackCantMath.renderedNormal(mirrored, tangent, true),
+                "Double inversion changed banking");
+        assertVectorClose(mirrored, TrackCantMath.renderedNormal(banked, tangent.multiply(-1), true),
+                "Renderer inversion depends on travel direction");
         Vec3d positionNormal = TrackCantMath.positionNormal(banked, tangent);
         assertVectorClose(slopeNormal, positionNormal, "Cant displaced the train anchor");
         assertVectorClose(positionNormal, TrackCantMath.positionNormal(banked, tangent.multiply(-1)),

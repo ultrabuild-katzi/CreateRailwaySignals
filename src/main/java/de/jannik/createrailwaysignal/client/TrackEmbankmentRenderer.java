@@ -4,6 +4,7 @@ import com.simibubi.create.content.trains.track.BezierConnection;
 import com.simibubi.create.content.trains.track.TrackBlockEntity;
 import de.jannik.createrailwaysignal.track.EmbankmentTrack;
 import de.jannik.createrailwaysignal.track.TrackEmbankmentMesh;
+import de.jannik.createrailwaysignal.config.RailwaySignalConfigs;
 import net.createmod.catnip.math.VecHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
@@ -31,6 +32,10 @@ public final class TrackEmbankmentRenderer {
     private static final Map<BezierConnection, List<Vec3d[]>> SECTIONS = new WeakHashMap<>();
 
     private TrackEmbankmentRenderer() {}
+
+    public static void clearCache() {
+        SECTIONS.clear();
+    }
 
     public static void render(TrackBlockEntity be, MatrixStack matrices, VertexConsumerProvider buffers) {
         var world = be.getWorld();
@@ -94,7 +99,8 @@ public final class TrackEmbankmentRenderer {
         for (int i = 0; i <= curve.getSegmentCount(); i++) {
             float t = curve.getSegmentT(i);
             Vec3d tangent = VecHelper.bezierDerivative(start, end, handle1, handle2, t).normalize();
-            result.add(TrackEmbankmentMesh.section(curve.getPosition(t), tangent, curve.getNormal(t)));
+            Vec3d up = RailwaySignalConfigs.renderedTrackNormal(curve.getNormal(t), tangent);
+            result.add(TrackEmbankmentMesh.section(curve.getPosition(t), tangent, up));
         }
         return result;
     }

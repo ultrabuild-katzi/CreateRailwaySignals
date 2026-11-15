@@ -185,6 +185,14 @@ public final class TrackCantMath {
         return rotateAroundAxis(normal, tangent, -angle);
     }
 
+    /** Mirrors bank about the unbanked slope normal, without modifying the stored track data. */
+    public static Vec3d renderedNormal(Vec3d normal, Vec3d tangent, boolean invert) {
+        if (!invert)
+            return normal;
+        double angle = signedAngleAroundAxis(WORLD_UP, normal, tangent);
+        return rotateAroundAxis(normal, tangent, -2 * angle);
+    }
+
     /** Signed angle (radians) from {@code a} to {@code b}, measured around {@code axis}. */
     public static double signedAngleAroundAxis(Vec3d a, Vec3d b, Vec3d axis) {
         Vec3d k = axis.normalize();

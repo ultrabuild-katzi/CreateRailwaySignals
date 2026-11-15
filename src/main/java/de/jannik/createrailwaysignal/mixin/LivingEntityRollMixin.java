@@ -29,7 +29,7 @@ public abstract class LivingEntityRollMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;push()V", shift = At.Shift.AFTER))
     private void createRailwaySignal$$applyRiderRoll(LivingEntity entity, float yaw, float partialTicks,
             MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
-        if (RailwaySignalConfigs.client() != null && !RailwaySignalConfigs.client().tiltRiders.get())
+        if (!RailwaySignalConfigs.banking().tiltRiders())
             return;
 
         Entity vehicle = entity.getVehicle();
@@ -40,7 +40,7 @@ public abstract class LivingEntityRollMixin {
         if (carriage == null)
             return;
 
-        float roll = CarriageRoll.average(carriage, partialTicks);
+        float roll = RailwaySignalConfigs.renderedBodyRoll(CarriageRoll.average(carriage, partialTicks));
         if (roll == 0)
             return;
 

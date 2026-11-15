@@ -5,6 +5,8 @@ import de.jannik.createrailwaysignal.util.TrackCantMath;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Desc;
+import net.createmod.catnip.math.VecHelper;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 /**
@@ -22,12 +24,12 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(value = BezierConnection.class, remap = false)
 public class BezierConnectionNormalMixin {
 
-    @Redirect(method = "getNormal", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Vec3d;equals(Ljava/lang/Object;)Z"))
+    @Redirect(method = "getNormal", at = @At(value = "INVOKE", desc = @Desc(owner = Vec3d.class, value = "equals", args = Object.class, ret = boolean.class)))
     private boolean crs$neverShortcut(Vec3d fn1, Object fn2) {
         return false;
     }
 
-    @Redirect(method = "getNormal", at = @At(value = "INVOKE", target = "Lnet/createmod/catnip/math/VecHelper;slerp(FLnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/util/math/Vec3d;"))
+    @Redirect(method = "getNormal", at = @At(value = "INVOKE", desc = @Desc(owner = VecHelper.class, value = "slerp", args = {float.class, Vec3d.class, Vec3d.class}, ret = Vec3d.class)))
     private Vec3d crs$hump(float t, Vec3d fn1, Vec3d fn2) {
         BezierConnection self = (BezierConnection) (Object) this;
         double eps = 1.0e-3;

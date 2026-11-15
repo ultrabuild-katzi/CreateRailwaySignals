@@ -4,6 +4,7 @@ import com.simibubi.create.content.contraptions.OrientedContraptionEntity;
 import com.simibubi.create.content.trains.entity.Carriage;
 import com.simibubi.create.content.trains.entity.CarriageContraptionEntity;
 import de.jannik.createrailwaysignal.train.CarriageRoll;
+import de.jannik.createrailwaysignal.config.RailwaySignalConfigs;
 import dev.engine_room.flywheel.lib.transform.TransformStack;
 import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -34,7 +35,7 @@ public abstract class OrientedContraptionEntityRollMixin {
         if (carriage == null)
             return;
 
-        float roll = CarriageRoll.average(carriage, partialTicks);
+        float roll = RailwaySignalConfigs.renderedBodyRoll(CarriageRoll.average(carriage, partialTicks));
         if (roll == 0)
             return;
 

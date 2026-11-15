@@ -3,6 +3,7 @@ package de.jannik.createrailwaysignal.mixin;
 import com.simibubi.create.content.trains.entity.CarriageBogey;
 import com.simibubi.create.content.trains.entity.CarriageContraptionEntityRenderer;
 import de.jannik.createrailwaysignal.train.RollableBogey;
+import de.jannik.createrailwaysignal.config.RailwaySignalConfigs;
 import dev.engine_room.flywheel.lib.transform.TransformStack;
 import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,7 +23,7 @@ public abstract class CarriageContraptionEntityRendererMixin {
     private static void createRailwaySignal$$applyRoll(MatrixStack ms, CarriageBogey bogey, int bogeySpacing,
                                                          float viewYRot, float viewXRot, float partialTicks, CallbackInfo ci) {
         if (bogey instanceof RollableBogey rollable) {
-            float roll = rollable.createRailwaySignal$$roll().getValue(partialTicks);
+            float roll = RailwaySignalConfigs.renderedBogeyRoll(rollable.createRailwaySignal$$roll().getValue(partialTicks));
             // Negated: the bogey's local Z axis at this point in the transform chain rolls
             // opposite to the track-normal-derived sign TrackCantMath.rollDegrees produces.
             TransformStack.of(ms).rotateZDegrees(-roll);

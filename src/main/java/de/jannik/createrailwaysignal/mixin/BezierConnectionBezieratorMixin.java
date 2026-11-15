@@ -2,11 +2,14 @@ package de.jannik.createrailwaysignal.mixin;
 
 import com.simibubi.create.content.trains.track.BezierConnection;
 import de.jannik.createrailwaysignal.util.TrackCantMath;
+import de.jannik.createrailwaysignal.config.RailwaySignalConfigs;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Desc;
+import net.createmod.catnip.math.VecHelper;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -40,18 +43,19 @@ public class BezierConnectionBezieratorMixin {
         crs$primary = bc.isPrimary();
     }
 
-    @Redirect(method = "next", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Vec3d;equals(Ljava/lang/Object;)Z"))
+    @Redirect(method = "next", at = @At(value = "INVOKE", desc = @Desc(owner = Vec3d.class, value = "equals", args = Object.class, ret = boolean.class)))
     private boolean crs$neverShortcut(Vec3d fn1, Object fn2) {
         return false;
     }
 
-    @Redirect(method = "next", at = @At(value = "INVOKE", target = "Lnet/createmod/catnip/math/VecHelper;slerp(FLnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/util/math/Vec3d;"))
+    @Redirect(method = "next", at = @At(value = "INVOKE", desc = @Desc(owner = VecHelper.class, value = "slerp", args = {float.class, Vec3d.class, Vec3d.class}, ret = Vec3d.class)))
     private Vec3d crs$hump(float t, Vec3d fn1, Vec3d fn2) {
         // The connection's own start/end tangent directions are just the (normalized) direction
         // from each end's anchor point to its bezier handle - same vectors as BezierConnection's
         // public "axes" field, just not directly reachable from here.
         Vec3d tangentStart = finish1.subtract(end1).normalize();
         Vec3d tangentEnd = finish2.subtract(end2).normalize();
-        return TrackCantMath.hump(t, fn1, fn2, tangentStart, tangentEnd, segment.derivative, crs$primary);
+        Vec3d normal = TrackCantMath.hump(t, fn1, fn2, tangentStart, tangentEnd, segment.derivative, crs$primary);
+        return RailwaySignalConfigs.renderedTrackNormal(normal, segment.derivative);
     }
 }
