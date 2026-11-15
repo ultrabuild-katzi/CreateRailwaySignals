@@ -5,14 +5,25 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "AbstractBoatMixin",
+    "BezierConnectionBezieratorMixin",
+    "BezierConnectionEmbankmentMixin",
+    "BezierConnectionNormalMixin",
     "CameraDistanceModifierMixin",
+    "CarriageBogeyMixin",
     "NavigationMixin",
     "TrainMixin",
+    "TravellingPointCantMixin",
     "TravellingPointSafeMixin"
   ],
   "client": [
+    "CurvedTrackEmbankmentInteractionMixin",
+    "CarriageContraptionEntityRendererMixin",
     "ConfigScreenListEntryAccessor",
-    "SubMenuConfigScreenOrderMixin"
+    "LivingEntityRollMixin",
+    "OrientedContraptionEntityRollMixin",
+    "SubMenuConfigScreenOrderMixin",
+    "TrackEmbankmentRendererMixin",
+    "TrackVisualMixin"
   ],
   "server": [
 

@@ -20,6 +20,9 @@ public class ModItems {
     public static final Item WORKER_ID = registerItem(
             "worker_id", new IDItem(new Item.Settings()));
 
+    public static final Item TRACK_CANT = registerItem(
+            "track_cant", new TrackCantItem(new Item.Settings()));
+
 
 
     public static void register() {

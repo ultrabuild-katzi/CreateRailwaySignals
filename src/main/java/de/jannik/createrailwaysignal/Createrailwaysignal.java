@@ -56,6 +56,12 @@ public class Createrailwaysignal implements ModInitializer {
     public static final Identifier BR_SIGN_UPDATE = new Identifier(MOD_ID, "brsign_update");
     public static final Identifier BR_SIGN_ROTATE = new Identifier(MOD_ID, "brsign_rotate");
 
+    // Network identifiers for the track cant (banking) tool
+    public static final Identifier TRACK_CANT_OPEN = new Identifier(MOD_ID, "track_cant_open");
+    public static final Identifier TRACK_CANT_DATA = new Identifier(MOD_ID, "track_cant_data");
+    public static final Identifier TRACK_CANT_APPLY = new Identifier(MOD_ID, "track_cant_apply");
+    public static final Identifier TRACK_EMBANKMENT = new Identifier(MOD_ID, "track_embankment");
+
     public static MinecraftServer server;
 
     @Override
@@ -96,6 +102,7 @@ public class Createrailwaysignal implements ModInitializer {
         });
 
         FindTrainNetwork.registerServer();
+        de.jannik.createrailwaysignal.track.TrackEmbankmentNetworking.register();
 
         // Register server-side receiver to accept sign text updates from client
         ServerPlayNetworking.registerGlobalReceiver(BR_SIGN_UPDATE, (server, player, handler, buf, responseSender) -> {
@@ -128,6 +135,22 @@ public class Createrailwaysignal implements ModInitializer {
                     if (be instanceof BrSignBlockEntity brBe) brBe.sync();
                 }
             });
+        });
+
+        // Track cant tool: client asks which curve was targeted, we answer with current/auto values
+        ServerPlayNetworking.registerGlobalReceiver(TRACK_CANT_OPEN, (server, player, handler, buf, responseSender) -> {
+            var ownerPos = buf.readBlockPos();
+            var targetPos = buf.readBlockPos();
+            server.execute(() -> de.jannik.createrailwaysignal.util.TrackCantNetworking.handleOpen(player, ownerPos, targetPos));
+        });
+
+        // Track cant tool: client commits a chosen cant value (mm) to the targeted curve
+        ServerPlayNetworking.registerGlobalReceiver(TRACK_CANT_APPLY, (server, player, handler, buf, responseSender) -> {
+            var ownerPos = buf.readBlockPos();
+            var targetPos = buf.readBlockPos();
+            float cantMm = buf.readFloat();
+            boolean leanRight = buf.readBoolean();
+            server.execute(() -> de.jannik.createrailwaysignal.util.TrackCantNetworking.handleApply(player, ownerPos, targetPos, cantMm, leanRight));
         });
     }
 }

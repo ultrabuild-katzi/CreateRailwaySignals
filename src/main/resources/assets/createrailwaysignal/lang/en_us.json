@@ -24,6 +24,27 @@
 
   "item.createrailwaysignal.incomplete_light_signal_speed": "Incomplete Speed Sign",
 
+  "item.createrailwaysignal.track_cant": "Track Cant Tool",
+  "item.createrailwaysignal.track_cant.tooltip_1": "Right-click a curve to set its banking (cant)",
+  "item.createrailwaysignal.track_cant.tooltip_embankment": "Right-click a banked curve with a block to add a decorative embankment (no blocks consumed)",
+  "item.createrailwaysignal.track_cant.tooltip_embankment_remove": "Sneak-right-click with a block to remove the embankment",
+  "message.createrailwaysignal.embankment.applied": "Track embankment material applied",
+  "message.createrailwaysignal.embankment.removed": "Track embankment removed",
+  "message.createrailwaysignal.embankment.unavailable": "Cannot modify this curve: move closer and check that both ends are loaded and editable",
+  "message.createrailwaysignal.embankment.material_required": "Hold a block to choose the embankment material",
+  "message.createrailwaysignal.embankment.bank_required": "Bank this curve before adding an embankment",
+
+  "gui.createrailwaysignal.track_cant.title": "Set Track Banking",
+  "gui.createrailwaysignal.track_cant.radius": "Curve radius: ~%s m",
+  "gui.createrailwaysignal.track_cant.current_right": "Currently banked RIGHT: %s mm",
+  "gui.createrailwaysignal.track_cant.current_left": "Currently banked LEFT: %s mm",
+  "gui.createrailwaysignal.track_cant.current_flat": "Currently flat (no banking)",
+  "gui.createrailwaysignal.track_cant.use_auto": "Use suggested: %s mm (%s km/h)",
+  "gui.createrailwaysignal.track_cant.no_auto": "No speed sign nearby",
+  "gui.createrailwaysignal.track_cant.bank_left": "Bank Left",
+  "gui.createrailwaysignal.track_cant.bank_right": "Bank Right",
+  "gui.createrailwaysignal.track_cant.cancel": "Cancel",
+
   "crs.camera.help": "Use /camera on | off | reset | state",
   "crs.camera.on": "Train zoom-in disabled (zoom-out still allowed).",
   "crs.camera.off": "Create's default zoom behavior restored.",

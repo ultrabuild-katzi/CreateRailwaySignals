@@ -19,7 +19,8 @@
   },
   "mixins": [
     "createrailwaysignal.mixins.json",
-    "createrailwaysignal-realism-compat.mixins.json"
+    "createrailwaysignal-realism-compat.mixins.json",
+    "createrailwaysignal-simplemodconfig-compat.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",

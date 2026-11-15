@@ -1,6 +1,7 @@
 package de.jannik.createrailwaysignal.client;
 
 import com.simibubi.create.content.logistics.depot.EjectorTargetHandler;
+import com.simibubi.create.content.trains.track.TrackBlockOutline;
 import de.jannik.createrailwaysignal.Createrailwaysignal;
 import de.jannik.createrailwaysignal.block.BrSignBlockRenderer;
 //import de.jannik.createrailwaysignal.block.CopycatBogeyBlockRenderer;
@@ -16,15 +17,20 @@ import de.jannik.createrailwaysignal.commands.TrainSpeedHudCommand;
 import de.jannik.createrailwaysignal.config.CameraConfig;
 import de.jannik.createrailwaysignal.config.RailwaySignalConfigs;
 import de.jannik.createrailwaysignal.item.LightSignalSpeedItem;
+import de.jannik.createrailwaysignal.item.TrackCantItem;
 import de.jannik.createrailwaysignal.train.FindTrainNetwork;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.event.player.UseItemCallback;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
@@ -45,6 +51,7 @@ public class CreaterailwaysignalClient implements ClientModInitializer {
         RealismDebugClientCommand.register();
         registerClientEvents();
         HudRenderCallback.EVENT.register(TrainSpeedHud::render);
+        TrackVisualChunkListener.register();
 
         // Register block entity renderers
         BlockEntityRendererFactories.register(ModBlockEntityTypes.LIGHT_SIGNAL_SPEED.get(), LightSignalSpeedBlockRenderer::new);
@@ -76,6 +83,37 @@ public class CreaterailwaysignalClient implements ClientModInitializer {
                 if (client.currentScreen instanceof FindTrainScreen screen)
                     screen.setTrains(trains);
             });
+        });
+
+        // Register client receiver to open the track cant (banking) editor
+        ClientPlayNetworking.registerGlobalReceiver(Createrailwaysignal.TRACK_CANT_DATA, (client, handler, buf, responseSender) -> {
+            BlockPos ownerPos = buf.readBlockPos();
+            BlockPos targetPos = buf.readBlockPos();
+            float radius = buf.readFloat();
+            float currentCantMm = buf.readFloat();
+            int foundSpeedKmh = buf.readInt();
+            float autoCantMm = buf.readFloat();
+            client.execute(() -> client.setScreen(new TrackCantScreen(ownerPos, targetPos, radius, currentCantMm, foundSpeedKmh, autoCantMm)));
+        });
+
+        // Right-clicking a curve with the track cant tool asks the server for its current/auto cant values
+        UseItemCallback.EVENT.register((player, world, hand) -> {
+            if (!world.isClient)
+                return TypedActionResult.pass(player.getStackInHand(hand));
+            if (!(player.getStackInHand(hand).getItem() instanceof TrackCantItem))
+                return TypedActionResult.pass(player.getStackInHand(hand));
+
+            TrackBlockOutline.BezierPointSelection result = TrackBlockOutline.result;
+            if (result == null)
+                return TypedActionResult.pass(player.getStackInHand(hand));
+
+            BlockPos ownerPos = result.blockEntity().getPos();
+            BlockPos targetPos = result.loc().curveTarget();
+            var buf = PacketByteBufs.create();
+            buf.writeBlockPos(ownerPos);
+            buf.writeBlockPos(targetPos);
+            ClientPlayNetworking.send(Createrailwaysignal.TRACK_CANT_OPEN, buf);
+            return TypedActionResult.success(player.getStackInHand(hand), true);
         });
     }
 

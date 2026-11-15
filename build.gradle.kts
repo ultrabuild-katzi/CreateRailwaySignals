@@ -122,6 +122,11 @@ dependencies {
     // compileOnly so it isn't bundled/forced, localRuntime so it's present in dev/testing.
     modCompileOnly("maven.modrinth:8YVMtzCO:${project.property("realism_version")}")
     modLocalRuntime("maven.modrinth:8YVMtzCO:${project.property("realism_version")}")
+
+    // Optional soft-dependency: Simple Mod Config (dedicated-server crash workaround mixin, see
+    // de.jannik.createrailwaysignal.compat.simplemodconfig). compileOnly only - it's already
+    // present at runtime as a loose jar in run/mods, so it's not added as modLocalRuntime too.
+    modCompileOnly("maven.modrinth:xtPYrzCS:${project.property("simplemodconfig_version")}")
 }
 
 tasks.processResources {
@@ -154,6 +159,17 @@ tasks.withType<JavaCompile> {
 tasks.named<JavaExec>("runClient") {
     systemProperty ("mixin.env.remapRefMap", "true")
     systemProperty ("mixin.env.refMapRemappingFile", "${projectDir}/build/createSrgToMcp/output.srg")
+}
+
+tasks.register<JavaExec>("testTrackCantMath") {
+    group = "verification"
+    dependsOn(tasks.testClasses)
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("de.jannik.createrailwaysignal.util.TrackCantMathTest")
+}
+
+tasks.check {
+    dependsOn("testTrackCantMath")
 }
 
 java {

@@ -1,0 +1,13 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "de.jannik.createrailwaysignal.compat.simplemodconfig.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "plugin": "de.jannik.createrailwaysignal.compat.simplemodconfig.SimpleModConfigMixinPlugin",
+  "mixins": [
+    "SimpleModConfigInitMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

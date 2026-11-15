@@ -22,6 +22,10 @@ public class CRailwaySignalClientConfig extends ConfigBase {
 
     public final ConfigFloat horizontalOffset = f(0f, -Float.MAX_VALUE, Float.MAX_VALUE, "horizontalOffset", Comments.horizontalOffset);
 
+    public final ConfigGroup banking = group(0, "banking", Comments.banking);
+
+    public final ConfigBool tiltRiders = b(true, "tiltRiders", Comments.tiltRiders);
+
     @Override
     @NotNull
     public String getName() {
@@ -35,5 +39,7 @@ public class CRailwaySignalClientConfig extends ConfigBase {
         static String position = "The corner of the screen the train speedometer HUD is anchored to.";
         static String verticalOffset = "Moves the train speedometer HUD vertically, as a multiplier of its own text size. 0 = no offset.";
         static String horizontalOffset = "Moves the train speedometer HUD horizontally, as a multiplier of its own text size. 0 = no offset.";
+        static String banking = "Settings for how entities riding banked (canted) curves are visually tilted.";
+        static String tiltRiders = "Visually lean entities riding seats on a train to match the carriage's bank angle.";
     }
 }
