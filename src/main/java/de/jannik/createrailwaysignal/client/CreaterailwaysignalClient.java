@@ -21,8 +21,10 @@ import de.jannik.createrailwaysignal.item.TrackCantItem;
 import de.jannik.createrailwaysignal.train.FindTrainNetwork;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
@@ -53,6 +55,14 @@ public class CreaterailwaysignalClient implements ClientModInitializer {
         registerClientEvents();
         HudRenderCallback.EVENT.register(TrainSpeedHud::render);
         TrackVisualChunkListener.register();
+        WorldRenderEvents.AFTER_TRANSLUCENT.register(context ->
+                GhostTrackBlockEntities.renderEmbankments(context.matrixStack(), context.consumers()));
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> GhostTrackBlockEntities.clear());
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            // Throttled: ghosts only need occasional pruning, not every tick.
+            if (client.player != null && client.player.age % 200 == 0)
+                GhostTrackBlockEntities.pruneFarAway(client.player);
+        });
 
         // Register block entity renderers
         BlockEntityRendererFactories.register(ModBlockEntityTypes.LIGHT_SIGNAL_SPEED.get(), LightSignalSpeedBlockRenderer::new);
